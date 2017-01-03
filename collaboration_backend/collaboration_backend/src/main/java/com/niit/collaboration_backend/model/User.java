@@ -27,7 +27,7 @@ public class User extends BaseDomain implements Serializable {
 	private String status;
 	private String isOnline;
 	private String username;
-	private boolean enabled;
+	private String enabled;
 
 	public String getUsername() {
 		return username;
@@ -37,11 +37,11 @@ public class User extends BaseDomain implements Serializable {
 		this.username = username;
 	}
 
-	public boolean isEnabled() {
+	public String getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(boolean enabled) {
+	public void setEnabled(String enabled) {
 		this.enabled = enabled;
 	}
 

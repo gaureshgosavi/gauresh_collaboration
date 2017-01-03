@@ -21,7 +21,7 @@ import com.niit.collaboration_backend.model.User;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan("com.niit.collaboration_backend")
-//@EnableWebMvc
+@EnableWebMvc
 public class ApplicationConfig {
 
 	@Bean(name = "datasource")
@@ -54,8 +54,8 @@ public class ApplicationConfig {
 	public SessionFactory getSessionFactory(DataSource datasource) {
 		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(datasource);
 		sessionBuilder.addProperties(getHibernateProperties());
-		//sessionBuilder.scanPackages("com.niit.collaboration_backend");
-		sessionBuilder.addAnnotatedClass(Blog.class);
+		sessionBuilder.scanPackages("com.niit.collaboration_backend");
+		//sessionBuilder.addAnnotatedClass(Blog.class);
 		return sessionBuilder.buildSessionFactory();
 	}
 

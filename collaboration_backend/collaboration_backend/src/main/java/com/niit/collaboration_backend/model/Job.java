@@ -2,17 +2,21 @@ package com.niit.collaboration_backend.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 @Table
 @Entity
 @Component
-public class Job implements Serializable{
+public class Job extends BaseDomain implements Serializable{
 	
 	/**
 	 * 
@@ -26,11 +30,12 @@ public class Job implements Serializable{
 	
 	private String description;
 	
-	private String Qualification;
+	private String qualification;
 	
 	private String status;
-	
-	private Timestamp postDate;
+
+	@Temporal(TemporalType.DATE)
+	private Date postDate;
 
 	public int getJobId() {
 		return jobId;
@@ -57,11 +62,11 @@ public class Job implements Serializable{
 	}
 
 	public String getQualification() {
-		return Qualification;
+		return qualification;
 	}
 
 	public void setQualification(String qualification) {
-		Qualification = qualification;
+		this.qualification = qualification;
 	}
 
 	public String getStatus() {
@@ -72,11 +77,11 @@ public class Job implements Serializable{
 		this.status = status;
 	}
 
-	public Timestamp getPostDate() {
+	public Date getPostDate() {
 		return postDate;
 	}
 
-	public void setPostDate(Timestamp postDate) {
+	public void setPostDate(Date postDate) {
 		this.postDate = postDate;
 	}
 }

@@ -60,4 +60,15 @@ public class JobDAOImpl implements JobDAO{
 		String hql = "from Job";
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
+	
+	@Transactional
+	public Job getByJobProfile(String jobProfile){
+		String hql = "from Job where jobProfile = :jobProfile";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql).setParameter("jobProfile", jobProfile);
+		try {
+			return (Job) query.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

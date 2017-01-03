@@ -13,4 +13,6 @@ public interface JobDAO {
 	Job get(int jobId);
 
 	List<Job> list();
+	
+	Job getByJobProfile(String jobProfile);
 }

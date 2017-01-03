@@ -28,6 +28,7 @@ public class UserController {
 	public ResponseEntity<List<User>> listAllUsers() {
 		List<User> users = userDAO.list();
 		if (users.isEmpty()) {
+			user = new User();
 			user.setErrorCode("404");
 			user.setErrorMessage("No Users present.");
 			users.add(user);
@@ -35,11 +36,12 @@ public class UserController {
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/user/get/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/user/get/{userId}", method = RequestMethod.GET)
 	public ResponseEntity<User> getUser(@PathVariable("userId") int userId) {
 		System.out.println("Fetching User");
 		User user = userDAO.getById(userId);
 		if (user == null) {
+			user = new User();
 			user.setErrorCode("404");
 			user.setErrorMessage("User does not exist.");
 		}
@@ -52,6 +54,7 @@ public class UserController {
 		user = userDAO.getByUsername(user.getUsername());
 		if (user == null) {
 			if(userDAO.saveOrUpdate(user) == false){
+				user = new User();
 				user.setErrorCode("404");
 				user.setErrorMessage("Failed to register. Please try again.");
 			}
@@ -62,30 +65,44 @@ public class UserController {
 				
 			
 		} else {
+			user = new User();
 			user.setErrorCode("404");
 			user.setErrorMessage("User already present with this username.");
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/user/update/{userId}", method = RequestMethod.PUT)
-	public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
-		if(userDAO.saveOrUpdate(user) == false){
+	@RequestMapping(value = "/user/get/{userId}", method = RequestMethod.PUT)
+	public ResponseEntity<User> updateUser(@PathVariable("userId") int userId, @RequestBody User updatedUser) {
+		user = userDAO.getById(userId);
+		if(user == null){
+			user = new User();
 			user.setErrorCode("404");
-			user.setErrorMessage("Failed to update. Please try again.");
+			user.setErrorMessage("Invalid username");
 		}
 		else{
-			user.setErrorCode("200");
-			user.setErrorMessage("You are updated successfully.");
+			
+			user.setFirstName(updatedUser.getFirstName());
+			if(userDAO.saveOrUpdate(user) == false){
+				user = new User();
+				user.setErrorCode("404");
+				user.setErrorMessage("Failed to update profile.");
+			}else{
+				user.setErrorCode("200");
+				user.setErrorMessage("You are updated successfully.");
+			}
+			
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
-	public ResponseEntity<User> validateUser(@RequestBody User user) {
-
+	public ResponseEntity<User> validateUser(@RequestBody User currentUser) {
+		user.setUsername(currentUser.getUsername());
+		user.setPassword(currentUser.getPassword());
 		user = userDAO.validate(user);
 		if(user == null){
+			user = new User();
 			user.setErrorCode("404");
 			user.setErrorMessage("Incorrect username or password.");
 		}else{
