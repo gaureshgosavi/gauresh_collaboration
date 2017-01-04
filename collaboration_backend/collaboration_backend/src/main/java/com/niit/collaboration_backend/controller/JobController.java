@@ -1,6 +1,5 @@
 package com.niit.collaboration_backend.controller;
 
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -102,4 +101,26 @@ public class JobController {
 		}
 		return new ResponseEntity<Job>(job, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/job/delete/{jobId}", method = RequestMethod.DELETE)
+    public ResponseEntity<Job> deletejob(@PathVariable("jobId") int jobId) {
+	 job = jobDAO.get(jobId);
+		if(job == null){
+			job = new Job();
+			job.setErrorCode("404");
+			job.setErrorMessage("Invalid job");
+		}
+		else{
+			if(jobDAO.delete(job)){
+				job = new Job();
+				job.setErrorCode("200");
+				job.setErrorMessage("job deleted successfully.");
+			}else{
+				job = new Job();
+				job.setErrorCode("404");
+				job.setErrorMessage("Failed to delete job.");
+			}
+		}
+		return new ResponseEntity<Job>(job, HttpStatus.OK);
+    }
 }

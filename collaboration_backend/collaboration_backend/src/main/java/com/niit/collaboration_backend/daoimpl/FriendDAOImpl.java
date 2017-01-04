@@ -60,4 +60,13 @@ public class FriendDAOImpl implements FriendDAO{
 		String hql = "from Friend";
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
+
+	/*@Override
+	@Transactional
+	public List<Friend> friendList(int userId1, int userId2) {
+		String hql = "userId1, userId2 FROM Friend WHERE userId1 = "+userId1+" OR userId2 = "+userId2+" AND status = 'ACCEPTED'";
+		List<Friend> friends = sessionFactory.getCurrentSession().createQuery(hql).list();
+		friends.get(userId2);
+		
+	}*/
 }

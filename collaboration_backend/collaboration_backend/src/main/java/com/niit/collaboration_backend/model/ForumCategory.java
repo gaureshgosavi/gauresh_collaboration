@@ -3,8 +3,6 @@ package com.niit.collaboration_backend.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,25 +11,25 @@ import org.springframework.stereotype.Component;
 @Table
 @Entity
 @Component
-public class ForumCategory implements Serializable{
+public class ForumCategory extends BaseDomain implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int id;
+	private int categoryId;
 	
 	private String name;
 	
 	private String description;
 
-	public int getId() {
-		return id;
+	public int getCategoryId() {
+		return categoryId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getName() {

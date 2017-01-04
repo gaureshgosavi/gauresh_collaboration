@@ -1,22 +1,23 @@
 package com.niit.collaboration_backend.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.stereotype.Component;
 
 @Table
 @Entity
 @Component
-public class BlogComment implements Serializable{
+public class BlogComment extends BaseDomain implements Serializable{
 
 	/**
 	 * 
@@ -26,25 +27,25 @@ public class BlogComment implements Serializable{
 	@Id
 	private int id;
 	
-	/*@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "blogId", nullable = false)
-	private Blog blog;*/
-	private int blogId;
+	@ManyToOne
+	@JoinColumn(name = "blogId")
+	private Blog blog;
 	
 	private int userId;
 	
 	@Column(name="blogcomment")
 	private String comment;
 	
-	private Timestamp commentDate;
+	@Temporal(TemporalType.DATE)
+	private Date commentDate;
 
-	public int getBlogId() {
+	/*public int getBlogId() {
 		return blogId;
 	}
 
 	public void setBlogId(int blogId) {
 		this.blogId = blogId;
-	}
+	}*/
 
 	public int getId() {
 		return id;
@@ -54,13 +55,13 @@ public class BlogComment implements Serializable{
 		this.id = id;
 	}
 
-	/*public Blog getBlog() {
+	public Blog getBlog() {
 		return blog;
 	}
 
 	public void setBlog(Blog blog) {
 		this.blog = blog;
-	}*/
+	}
 
 	public int getUserId() {
 		return userId;
@@ -78,11 +79,11 @@ public class BlogComment implements Serializable{
 		this.comment = comment;
 	}
 
-	public Timestamp getCommentDate() {
+	public Date getCommentDate() {
 		return commentDate;
 	}
 
-	public void setCommentDate(Timestamp commentDate) {
+	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
 	}
 }

@@ -1,25 +1,24 @@
 package com.niit.collaboration_backend.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.stereotype.Component;
 
 @Table
 @Entity
 @Component
-public class Blog implements Serializable{
+public class Blog extends BaseDomain implements Serializable{
 	/**
 	 * 
 	 */
@@ -36,12 +35,21 @@ public class Blog implements Serializable{
 
 	private String description;
 
-	private Timestamp postDate;
+	@Temporal(TemporalType.DATE)
+	private Date postDate;
 
 	private int likes;
 
-	/*@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "blog")
-	private Set<BlogComment> blogComments = new HashSet<>();*/
+	@OneToMany(mappedBy="blog",fetch=FetchType.EAGER,cascade = CascadeType.ALL)
+	private List<BlogComment> blogComment;
+
+	public List<BlogComment> getBlogComment() {
+		return blogComment;
+	}
+
+	public void setBlogComment(List<BlogComment> blogComment) {
+		this.blogComment = blogComment;
+	}
 
 	public int getBlogId() {
 		return blogId;
@@ -83,11 +91,11 @@ public class Blog implements Serializable{
 		this.description = description;
 	}
 
-	public Timestamp getPostDate() {
+	public Date getPostDate() {
 		return postDate;
 	}
 
-	public void setPostDate(Timestamp postDate) {
+	public void setPostDate(Date postDate) {
 		this.postDate = postDate;
 	}
 
@@ -98,13 +106,5 @@ public class Blog implements Serializable{
 	public void setLikes(int likes) {
 		this.likes = likes;
 	}
-
-	/*public Set<BlogComment> getBlogComments() {
-		return blogComments;
-	}
-
-	public void setBlogComments(Set<BlogComment> blogComments) {
-		this.blogComments = blogComments;
-	}*/
 
 }

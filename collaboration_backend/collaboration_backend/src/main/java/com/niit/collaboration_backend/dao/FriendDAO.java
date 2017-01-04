@@ -13,4 +13,6 @@ public interface FriendDAO {
 	Friend get(int id);
 
 	List<Friend> list();
+	
+	//List<Friend> friendList(int userId1, int userId2);
 }

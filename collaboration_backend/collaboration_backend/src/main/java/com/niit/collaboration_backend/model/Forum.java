@@ -1,25 +1,24 @@
 package com.niit.collaboration_backend.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.stereotype.Component;
 
 @Table
 @Entity
 @Component
-public class Forum implements Serializable{
+public class Forum extends BaseDomain implements Serializable{
 	/**
 	 * 
 	 */
@@ -32,14 +31,23 @@ public class Forum implements Serializable{
 	
 	private String name;
 	
-	private Timestamp createdDate;
+	@Temporal(TemporalType.DATE)
+	private Date createdDate;
 	
 	private int categoryId;
 	
 	private String status;
 	
-	/*@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "forum")
-	private Set<ForumComment> forumComment = new HashSet<>();*/
+	@OneToMany(mappedBy="forum",fetch=FetchType.EAGER,cascade = CascadeType.ALL)
+	private List<ForumComment> forumComment;
+
+	public List<ForumComment> getForumComment() {
+		return forumComment;
+	}
+
+	public void setForumComment(List<ForumComment> forumComment) {
+		this.forumComment = forumComment;
+	}
 
 	public int getForumId() {
 		return forumId;
@@ -65,11 +73,11 @@ public class Forum implements Serializable{
 		this.name = name;
 	}
 
-	public Timestamp getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Timestamp createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -89,12 +97,4 @@ public class Forum implements Serializable{
 		this.status = status;
 	}
 
-	/*public Set<ForumComment> getForumComment() {
-		return forumComment;
-	}
-
-	public void setForumComment(Set<ForumComment> forumComment) {
-		this.forumComment = forumComment;
-	}
-*/
 }

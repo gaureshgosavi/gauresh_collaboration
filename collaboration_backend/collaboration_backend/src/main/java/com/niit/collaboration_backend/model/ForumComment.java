@@ -1,24 +1,23 @@
 package com.niit.collaboration_backend.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.stereotype.Component;
 
 @Table
 @Entity
 @Component
-public class ForumComment implements Serializable{
+public class ForumComment extends BaseDomain implements Serializable{
 	/**
 	 * 
 	 */
@@ -27,25 +26,25 @@ public class ForumComment implements Serializable{
 	@Id
 	private int id;
 	
-	/*@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="forumId",nullable=false)
-	private Forum forum;*/
-	private int forumId; 
+	@ManyToOne
+	@JoinColumn(name = "forumId")
+	private Forum forum;
 	
 	private int userId;
 	
 	@Column(name="forumcomment")
 	private String comment;
 	
-	private Timestamp commentDate;
+	@Temporal(TemporalType.DATE)
+	private Date commentDate;
 
-	public int getForumId() {
+	/*public int getForumId() {
 		return forumId;
 	}
 
 	public void setForumId(int forumId) {
 		this.forumId = forumId;
-	}
+	}*/
 
 	public int getId() {
 		return id;
@@ -55,13 +54,13 @@ public class ForumComment implements Serializable{
 		this.id = id;
 	}
 
-	/*public Forum getForum() {
+	public Forum getForum() {
 		return forum;
 	}
 
 	public void setForum(Forum forum) {
 		this.forum = forum;
-	}*/
+	}
 
 	public int getUserId() {
 		return userId;
@@ -79,11 +78,11 @@ public class ForumComment implements Serializable{
 		this.comment = comment;
 	}
 
-	public Timestamp getCommentDate() {
+	public Date getCommentDate() {
 		return commentDate;
 	}
 
-	public void setCommentDate(Timestamp commentDate) {
+	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
 	}
 }
