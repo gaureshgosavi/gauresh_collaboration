@@ -56,9 +56,11 @@ public class BlogCommentDAOImpl implements BlogCommentDAO{
 	}
 
 	@Transactional
-	public List<BlogComment> list() {
-		String hql = "from BlogComment";
-		return sessionFactory.getCurrentSession().createQuery(hql).list();
+	public List<BlogComment> list(int blogId) {
+		String hql = "from BlogComment where blogId = :blogId";
+		 Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		 query.setParameter("blogId",blogId);
+		return query.getResultList();
 	}
 
 }

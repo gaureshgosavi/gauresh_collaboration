@@ -6,11 +6,11 @@ import com.niit.collaboration_backend.model.BlogComment;
 
 public interface BlogCommentDAO {
 
-	boolean saveOrUpdate(BlogComment blogCommet);
+	boolean saveOrUpdate(BlogComment blogComment);
 
 	boolean delete(BlogComment blogComment);
 
 	BlogComment get(int id);
 
-	List<BlogComment> list();
+	List<BlogComment> list(int blogId);
 }

@@ -4,7 +4,7 @@ app.factory('userFactory', ['$http', '$q', function ($http, $q) {
     return {
         getAllUsers: getAllUsers,
         createUser: createUser,
-        updateUser: updateUser,
+        updateUser: updateUser
     };
 
     function getAllUsers() {
