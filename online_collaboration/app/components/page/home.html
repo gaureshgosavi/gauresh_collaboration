@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-controller="UserController">
     <div class="col s12 m5">
         <div class="card grey lighten-3 hoverable ">
             <div class="card-content grey-text text-darken-1">
@@ -9,8 +9,8 @@
                 </div>
                 <div class="row">
                     <div align="center">
-                        <span class="card-title coll blue-grey-text text-darken-2">COLLABORATION</span><br>
-                        <span class="coll blue-grey-text text-darken-2">Registration Form</span>
+                        <span class="card-title coll blue-grey-text text-darken-2">Communex</span><br>
+                        <span class="blue-grey-text text-darken-2">Registration Form</span>
                     </div>
                 </div>
                 <form name="userForm" class="col s12" ng-submit="submitForm(userForm.$valid)" novalidate>
@@ -18,48 +18,53 @@
                         <div class="input-field col s4">
                             <!--<input class="checkbox" type="checkbox" id="staff" />
                             <label for="staff">Staff</label>-->
-                            <input class="with-gap" name="group1" type="radio" id="staff" />
+                            <input class="with-gap" name="role" type="radio" id="staff" />
                             <label for="staff">Staff</label>
                         </div>
                         <div class="input-field col s4">
                             <!--<input class="checkbox" type="checkbox" id="student" />
                             <label for="student">Student</label>-->
-                            <input class="with-gap" name="group1" type="radio" id="student" />
+                            <input class="with-gap" name="role" type="radio" id="student" />
                             <label for="student">Student</label>
                         </div>
                         <div class="input-field col s4">
                             <!--<input class="checkbox" type="checkbox" id="admin" />
                             <label for="admin">Admin</label>-->
-                            <input class="with-gap" name="group1" type="radio" id="admin" />
+                            <input class="with-gap" name="role" type="radio" id="admin" />
                             <label for="admin">Admin</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">account_circle</i>
-                            <input id="firstName" type="text" class="validate" ng-model="firstName" required>
-                            <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">Name is required.</p>
+                            <input id="firstName" name="firstName" type="text" class="validate" ng-model="firstName" ng-minlength="2" ng-maxlength="8"
+                                required>
+                            <p ng-show="userForm.firstName.$error.minlength" class="help-block red-text text-accent-4">*First name is too short.</p>
+                            <p ng-show="userForm.firstName.$error.maxlength" class="help-block red-text text-accent-4">*First name is too long.</p>
+                            <p ng-show="userForm.firstName.$invalid && !userForm.firstName.$pristine" class="help-block red-text text-accent-4">*Name is required.</p>
                             <label for="firstName">First Name</label>
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">assignment_ind</i>
-                            <input id="lastName" type="text" class="validate" ng-model="firstName" required>
-                            <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">Name is required.</p>
+                            <input id="lastName" name="lastName" type="text" class="validate" ng-model="lastName" ng-minlength="2" ng-maxlength="8" required>
+                            <p ng-show="userForm.lastName.$error.minlength" class="help-block red-text text-accent-4">*Last name is too short.</p>
+                            <p ng-show="userForm.lastName.$error.maxlength" class="help-block red-text text-accent-4">*Last name is too long.</p>
+                            <p ng-show="userForm.lastName.$invalid && !userForm.lastName.$pristine" class="help-block red-text text-accent-4">*Name is required.</p>
                             <label for="lastName">Last Name</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">perm_identity</i>
-                            <input id="username" type="text" class="validate" ng-model="username" ng-minlength="3" ng-maxlength="6">
-                            <p ng-show="userForm.username.$error.minlength" class="help-block">Username is too short.</p>
-                            <p ng-show="userForm.username.$error.maxlength" class="help-block">Username is too long.</p>
+                            <input id="username" name="username" type="text" class="validate" ng-model="username" ng-minlength="3" required>
+                            <p ng-show="userForm.username.$error.minlength" class="help-block red-text text-accent-4">*Username is too short.</p>
+                            <p ng-show="userForm.username.$invalid && !userForm.username.$pristine" class="help-block red-text text-accent-4">*Username is required.</p>
                             <label for="username">Username</label>
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">email</i>
-                            <input id="email" type="text" class="validate" ng-model="email">
-                            <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
+                            <input id="email" name="email" type="email" class="validate" ng-model="email" name="email">
+                            <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block red-text text-accent-4">*Enter a valid email.</p>
                             <label for="email">Email</label>
                         </div>
                     </div>
@@ -79,15 +84,19 @@
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">lock_outline</i>
-                            <input id="password" type="text" class="validate" ng-minlength="3" ng-maxlength="8">
-                            <p ng-show="userForm.username.$error.minlength" class="help-block">Password is too short.</p>
-                            <p ng-show="userForm.username.$error.maxlength" class="help-block">Password is too long.</p>
+                            <input id="password" type="password" class="validate" ng-model="password" ng-minlength="3" ng-maxlength="8" ng-required name="password">
+                            <p ng-show="userForm.password.$error.minlength" class="help-block red-text text-accent-4">*Password is too short.</p>
+                            <p ng-show="userForm.password.$error.maxlength" class="help-block red-text text-accent-4">*Password is too long.</p>
+                            <p ng-show="userForm.password.$invalid && !userForm.password.$pristine" class="help-block red-text text-accent-4">*Password is required.</p>
                             <label for="password">Password</label>
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">lock_outline</i>
-                            <input id="re-Password" type="text" class="validate">
-                            <label for="re-Password">Re-Password</label>
+                            <input id="confirmPassword" type="password" class="validate" name="confirmPassword" ng-model="confirmPassword" ng-required
+                                pw-check='password'>
+                            <p ng-show="userForm.confirmPassword.$error.pwmatch" class="help-block red-text text-accent-4">*Re-Password does not match.</p>
+                            <p ng-show="userForm.confirmPassword.$invalid && !userForm.confirmPassword.$pristine" class="help-block red-text text-accent-4">*Re-Password is required.</p>
+                            <label for="confirmPassword">Re-Password</label>
                         </div>
                     </div>
                 </form>

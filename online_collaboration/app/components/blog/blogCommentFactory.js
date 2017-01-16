@@ -24,9 +24,9 @@ app.factory('blogCommentFactory', ['$http', '$q', function ($http, $q) {
     }
 
     //create blog comment
-    function createBlogComment(blogId) {
+    function createBlogComment(blogComment) {
         var deferred = $q.defer();
-        $http.post(url + 'create' + blogId).
+        $http.post(url + 'create', blogComment).
             then(function (response) {
                 deferred.resolve(response.data);
                 console.log('created blog comment');

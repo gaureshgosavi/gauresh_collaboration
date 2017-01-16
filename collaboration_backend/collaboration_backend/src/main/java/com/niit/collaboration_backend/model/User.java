@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,16 @@ public class User extends BaseDomain implements Serializable {
 	private String isOnline;
 	private String username;
 	private String enabled;
+	@Transient
+	private String confirmPassword;
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
 
 	public String getUsername() {
 		return username;

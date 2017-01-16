@@ -1,42 +1,12 @@
-body {
-	padding-top: 60px;
+.help-block{
+	padding-left: 3rem;
+	color: red-text text-accent-4;
 }
 
-.wrapper {
-	min-height: 500px;
+.coll{
+	font-family: 'Freckle Face', cursive;
 }
 
-.footer {
-	font-size: 0.75em;
-	width: 90%;
-	position: fixed;
-	bottom: 0px;
-}
-
-.product {
-	min-height: 350px;
-}
-
-.account {
-	color: green;
-}
-/* .ship{
-	color : blue;
-} */
-.web {
-	font-size: 0.75em;
-}
-
-.glyph {
-	font-size: 25px;
-	position: absolute;
-	margin-top: 10px;
-	margin-left: auto;
-	margin-right: auto;
-}
-.contact{
-	font-size: 0.75em;
-	margin-top: 10px;
-	margin-left: auto;
-	margin-right: auto;
+.menu{
+	color: cyan darken-4;
 }

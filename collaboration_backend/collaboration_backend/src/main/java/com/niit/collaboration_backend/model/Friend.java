@@ -21,9 +21,9 @@ public class Friend implements Serializable{
 	@Id
 	private int id;
 	
-	private int userId1;
+	private int userId;
 	
-	private int userId2;
+	private int friendId;
 	
 	private String status;
 
@@ -35,20 +35,20 @@ public class Friend implements Serializable{
 		this.id = id;
 	}
 
-	public int getUserId1() {
-		return userId1;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUserId1(int userId1) {
-		this.userId1 = userId1;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public int getUserId2() {
-		return userId2;
+	public int getFriendId() {
+		return friendId;
 	}
 
-	public void setUserId2(int userId2) {
-		this.userId2 = userId2;
+	public void setFriendId(int friendId) {
+		this.friendId = friendId;
 	}
 
 	public String getStatus() {

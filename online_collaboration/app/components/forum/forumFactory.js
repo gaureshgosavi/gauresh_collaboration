@@ -102,8 +102,8 @@ app.factory('forumFactory', ['$http', '$q', function ($http, $q) {
         return deferred.promise;
     }
 
-    //all blog comments by forum id
-	function getBlogComments(forumId) {
+    //all forum comments by forum id
+	function getforumComments(forumId) {
 		var deferred = $q.defer();
 		$http.get(forumCommentUrl + 'get/' + forumId).
 			then(function (response) {

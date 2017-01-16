@@ -1,13 +1,13 @@
-app.factory('userFactory', ['$http', '$q', function ($http, $q) {
+myApp.factory('userFactory', ['$http', '$q', function ($http, $q) {
     var url = 'http://localhost:8090/collaboration_backend/user/';
 
     return {
-        getAllUsers: getAllUsers,
+         fetchAllUsers: fetchAllUsers,
         createUser: createUser,
         updateUser: updateUser
     };
 
-    function getAllUsers() {
+    function fetchAllUsers() {
         debugger;
         var deferred = $q.defer();
         $http.get(url + 'list').
@@ -49,4 +49,4 @@ app.factory('userFactory', ['$http', '$q', function ($http, $q) {
         );
         return deferred.promise;
     }
-}])
+}]);

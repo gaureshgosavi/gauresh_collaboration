@@ -1,17 +1,17 @@
-angular.module('myApp').controller('UserController', ['$scope', 'userFactory', function ($scope, userFactory) {
+myApp.controller('UserController', ['$scope', 'userFactory', function ($scope, userFactory) {
     var self = this;
-    self.user = { id: null, username: '', address: '', email: '' };
+    self.user = { id: null, firstName: '', lastName: '', username: '', email: '', password: '', confirmPassword: '', role:'', status:'', isOnline:'' };
     self.users = [];
 
     self.submit = submit;
     self.edit = edit;
-    self.remove = remove;
+    //self.remove = remove;
     self.reset = reset;
 
     fetchAllUsers();
 
     function fetchAllUsers() {
-        UserService.fetchAllUsers()
+        userFactory.fetchAllUsers()
             .then(
             function (d) {
                 self.users = d;
@@ -24,7 +24,7 @@ angular.module('myApp').controller('UserController', ['$scope', 'userFactory', f
 
 
     function createUser(user) {
-        UserService.createUser(user)
+        userFactory.createUser(user)
             .then(
             fetchAllUsers,
             function (d) {
@@ -37,7 +37,7 @@ angular.module('myApp').controller('UserController', ['$scope', 'userFactory', f
     }
 
     function updateUser(user, id) {
-        UserService.updateUser(user, id)
+        userFactory.updateUser(user, id)
             .then(
             fetchAllUsers,
             function (d) {
@@ -49,7 +49,7 @@ angular.module('myApp').controller('UserController', ['$scope', 'userFactory', f
             );
     }
     function submit() {
-        if (self.user.id === null) {
+        if (self.user.id == '' || self.user.id == undefined) {
             console.log('Saving New User', self.user);
             createUser(self.user);
         } else {
@@ -70,8 +70,9 @@ angular.module('myApp').controller('UserController', ['$scope', 'userFactory', f
     }
 
     function reset() {
-        self.user = { id: null, username: '', address: '', email: '' };
-        $scope.myForm.$setPristine(); //reset Form
+        self.user = { id: null, firstName: '', lastName: '', username: '', email: '', password: '', confirmPassword: '', role:'', status:'', isOnline:'' };
+        $scope.userForm.$setPristine(); //reset Form
     }
 
 }]);
+

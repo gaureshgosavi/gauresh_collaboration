@@ -37,7 +37,7 @@ app.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 	function getBlog(blogId) {
 
 		var deferred = $q.defer();
-		debugger;
+		
 		$log.info($q);
 		$http.get(address + 'get/' + blogId)
 			.then(function (response) {
@@ -56,7 +56,6 @@ app.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 	function createBlog(blog) {
 
 		var deferred = $q.defer();
-		debugger;
 
 		$http.post(address + 'create', blog)
 			.then(
