@@ -96,7 +96,7 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<User> validateUser(@RequestBody User currentUser) {
 		user.setUsername(currentUser.getUsername());
 		user.setPassword(currentUser.getPassword());

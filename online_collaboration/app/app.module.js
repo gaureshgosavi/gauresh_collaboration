@@ -1,3 +1,7 @@
 var myApp = angular.module('myApp',
- ['ngRoute', 'pageModule']
+ [
+     'ngRoute',
+  'pageModule',
+  'AuthenticationModule',
+  ]
  );
