@@ -88,4 +88,11 @@ public class UserDAOImpl implements UserDAO{
 			return null;
 		}
 	}
+
+	@Override
+	@Transactional
+	public List<User> getUsersByStatus(String status) {
+		String hql = "from User where status = '"+status+"'";
+		return sessionFactory.getCurrentSession().createQuery(hql).list();
+	}
 }

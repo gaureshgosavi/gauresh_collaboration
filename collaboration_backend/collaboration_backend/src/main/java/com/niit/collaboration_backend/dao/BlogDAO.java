@@ -13,4 +13,6 @@ public interface BlogDAO {
 	Blog get(int blogId);
 
 	List<Blog> list();
+	
+	public List<Blog> getblogsByStatus(String status);
 }

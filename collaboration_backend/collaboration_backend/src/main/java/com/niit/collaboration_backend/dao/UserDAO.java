@@ -15,5 +15,7 @@ public interface UserDAO {
 	
 	public List<User> list();
 	
+	public List<User> getUsersByStatus(String status);
+	
 	public User validate(User user);
 }

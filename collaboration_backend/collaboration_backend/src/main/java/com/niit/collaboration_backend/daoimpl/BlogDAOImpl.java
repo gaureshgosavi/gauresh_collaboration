@@ -60,5 +60,13 @@ public class BlogDAOImpl implements BlogDAO {
 		String hql = "from Blog";
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
+	
+	@Override
+	@Transactional
+	public List<Blog> getblogsByStatus(String status) {
+		String hql = "from Blog where status = '"+status+"'";
+		return sessionFactory.getCurrentSession().createQuery(hql).list();
+	}
+	
 
 }
