@@ -1,6 +1,6 @@
 myApp.controller('UserController', ['$scope', 'userFactory', function ($scope, userFactory) {
     var self = this;
-    self.user = { id: null, firstName: '', lastName: '', username: '', email: '', password: '', confirmPassword: '', role:'', status:'', isOnline:'' };
+    self.user = { id: undefined, firstName: '', lastName: '', username: '', email: '', password: '', confirmPassword: '', role:'', gender: ''};
     self.users = [];
 
     self.submit = submit;

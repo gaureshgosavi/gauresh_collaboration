@@ -1,4 +1,4 @@
-app.controller('adminController', ['adminFactory', '$rootScope', function (adminFactory, $rootScope) {
+AdminModule.controller('AdminController', ['adminFactory', '$rootScope', function (adminFactory, $rootScope) {
 
     var self = this;
     self.blogs = [];

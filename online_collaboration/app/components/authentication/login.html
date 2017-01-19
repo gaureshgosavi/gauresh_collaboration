@@ -16,6 +16,9 @@
                 <div class="card-panel red center" ng-show="authCtrl.error">
                     <span class="white-text">Invalid Credentials. Please try again!</span>
                 </div>
+                <div class="card-panel red center" ng-show="authCtrl.authError">
+                    <span class="white-text">{{message}}</span>
+                </div>
                 <div class="row">
                     <form ng-submit="authCtrl.login()">
                         <div class="row">
@@ -42,7 +45,7 @@
             </div>
             <div class="card-action">
 
-                <a class="link pull-right"><span class="blue-grey-text text-darken-2">Register now!</span></a>
+                <a href="#!/register" class="link pull-right"><span class="blue-grey-text text-darken-2">Register now!</span></a>
                 <br>
             </div>
         </div>

@@ -48,22 +48,24 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/user/register", method = RequestMethod.POST)
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public ResponseEntity<User> createUser(@RequestBody User currentUser) {
 
-		user = userDAO.getByUsername(user.getUsername());
+		user = userDAO.getByUsername(currentUser.getUsername());
 		if (user == null) {
-			if(userDAO.saveOrUpdate(user) == false){
+			currentUser.setStatus("PENDING");
+			currentUser.setEnabled("TRUE");
+			currentUser.setIsOnline("NO");
+			if (userDAO.saveOrUpdate(currentUser) == false) {
 				user = new User();
 				user.setErrorCode("404");
 				user.setErrorMessage("Failed to register. Please try again.");
-			}
-			else{
+			} else {
+				user = userDAO.getByUsername(currentUser.getUsername());
 				user.setErrorCode("200");
 				user.setErrorMessage("You are registered successfully.");
 			}
-				
-			
+
 		} else {
 			user = new User();
 			user.setErrorCode("404");
@@ -75,40 +77,67 @@ public class UserController {
 	@RequestMapping(value = "/user/get/{userId}", method = RequestMethod.PUT)
 	public ResponseEntity<User> updateUser(@PathVariable("userId") int userId, @RequestBody User updatedUser) {
 		user = userDAO.getById(userId);
-		if(user == null){
+		if (user == null) {
 			user = new User();
 			user.setErrorCode("404");
 			user.setErrorMessage("Invalid username");
-		}
-		else{
-			
+		} else {
+
 			user.setFirstName(updatedUser.getFirstName());
-			if(userDAO.saveOrUpdate(user) == false){
+			if (userDAO.saveOrUpdate(user) == false) {
 				user = new User();
 				user.setErrorCode("404");
 				user.setErrorMessage("Failed to update profile.");
-			}else{
+			} else {
 				user.setErrorCode("200");
 				user.setErrorMessage("You are updated successfully.");
 			}
-			
+
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<User> validateUser(@RequestBody User currentUser) {
 		user.setUsername(currentUser.getUsername());
 		user.setPassword(currentUser.getPassword());
 		user = userDAO.validate(user);
-		if(user == null){
+		if (user == null) {
 			user = new User();
 			user.setErrorCode("404");
 			user.setErrorMessage("Incorrect username or password.");
-		}else{
+		} else {
+			user = userDAO.getByUsername(currentUser.getUsername());
+			user.setIsOnline("YES");
+			user.setEnabled("TRUE");
+			userDAO.saveOrUpdate(user);
+			user = userDAO.getByUsername(currentUser.getUsername());
 			user.setErrorCode("200");
 			user.setErrorMessage("WELCOME!");
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/logout/{userId}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> logout(@PathVariable("userId") int userId) {
+		user = userDAO.getById(userId);
+		if (user == null) {
+			user = new User();
+			user.setErrorCode("404");
+			user.setErrorMessage("Invalid userId");
+		} else {
+
+			user.setIsOnline("NO");
+			if (userDAO.saveOrUpdate(user) == false) {
+				user = new User();
+				user.setErrorCode("404");
+				user.setErrorMessage("Failed to logout.");
+			} else {
+				user.setErrorCode("200");
+				user.setErrorMessage("You are logout successfully.");
+			}
+
+		}
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }

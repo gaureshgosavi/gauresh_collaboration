@@ -37,6 +37,10 @@
 <script src="app/components/authentication/AuthenticationFactory.js"></script>
 <script src="app/components/authentication/authenticationController.js"></script>
 
+<!-- Loading the authentication module -->
+<script src="app/components/admin/adminFactory.js"></script>
+<script src="app/components/admin/AdminController.js"></script>
+
 
 <script type="text/javascript" src="app/components/user/userFactory.js"></script>
 <script type="text/javascript" src="app/components/page/pageController.js"></script>
@@ -51,20 +55,20 @@
             <nav>
                 <div class="nav-wrapper teal darken-4">
                     <a href="#!" class="brand-logo coll"> <i class="material-icons">business</i>Communex</a>
-                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse" ng-show="islogin"><i class="material-icons">menu</i></a>
                     <div class="row">
                         <ul class="right hide-on-med-and-down">
                             <li>
-                                <a href="sass.html"> <i class="material-icons">supervisor_account</i></a>
+                                <a href="sass.html" ng-show="islogin"> <i class="material-icons">supervisor_account</i></a>
                             </li>
                             <li>
-                                <a href="sass.html"> <i class="material-icons">work</i></a>
+                                <a href="sass.html" ng-show="islogin"> <i class="material-icons">work</i></a>
                             </li>
-                            <li><a href="badges.html"><i class="material-icons">speaker_notes</i></a></li>
-                            <li><a href="collapsible.html"><i class="material-icons">add_alert</i></a></li>
-                            <li><a href="mobile.html"><i class="material-icons">settings</i></a></li>
+                            <li><a href="badges.html" ng-show="islogin"><i class="material-icons">speaker_notes</i></a></li>
+                            <li><a href="collapsible.html" ng-show="islogin"><i class="material-icons">add_alert</i></a></li>
+                            <li><a href="mobile.html" ng-show="islogin"><i class="material-icons">settings</i></a></li>
                         </ul>
-                        <ul class="right"><a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">low_priority</i></a></ul>
+                        <ul class="right"><a href="#" data-activates="slide-out" class="button-collapse" ng-show="islogin"><i class="material-icons">low_priority</i></a></ul>
                         <ul class="side-nav cyan darken-4" id="mobile-demo">
                             <li>
                                 <div class="userView">
@@ -88,7 +92,7 @@
             </nav>
         </div>
         <div class="pull-right">
-            <a href="#" data-activates="slide-out" class="button-collapse hide-on-med-and-down menu"><i class="material-icons">menu</i></a>
+            <a href="#" data-activates="slide-out" class="button-collapse hide-on-med-and-down menu" ng-show="islogin"><i class="material-icons">menu</i></a>
         </div>
     </header>
 
@@ -103,12 +107,47 @@
                 <a href="#!email"><span class="white-text email">gauresh.gosavi@gmail.com</span></a>
             </div>
         </li>
-        <li><a href="#!"><i class="material-icons">perm_identity</i>Profile</a></li>
-        <li><a href="#!"><i class="material-icons">forum</i>Forum</a></li>
-        <li><a href="#!"><i class="material-icons">subject</i>Blog</a></li>
-        <li><a href="#!"><i class="material-icons">redeem</i>Events</a></li>
-        <li><a href="#!"><i class="material-icons">work</i>Jobs</a></li>
-        <li><a href="#!"><i class="material-icons">chat</i>Chat</a></li>
+        <li>
+            <ul class="collapsible" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">perm_identity</i>Profile</div>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="#!">View Profile</a></li>
+                            <li><a href="#!">Update Profile</a></li>
+                            <li><a href="#!">Logout</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">subject</i>Blog</div>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="#!" ng-show="isAdmin">Pending Blogs</a></li>
+                            <li><a href="#!" ng-show="isAdmin">Approved Blogs</a></li>
+                            <li><a href="#!" ng-show="isAdmin">Rejected Blogs</a></li>
+                            <li><a href="#!" ng-show="isUser">View Blogs</a></li>
+                            <li><a href="#!" ng-show="isUser">My Blogs</a></li>
+                            <li><a href="#!" ng-show="isUser">Create Blog</a></li>
+                        </ul>
+                    </div>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">forum</i>Forum</div>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="#!">View Forums</a></li>
+                            <li><a href="#!" ng-show="isAdmin">Create Forum</a></li>
+                            <li><a href="#!" ng-show="isUser">My Forums</a></li>
+                            <li><a href="#!">View Forum Messages</a></li>
+                        </ul>
+                    </div>
+                <li>
+                    <a href="#!"><i class="material-icons">redeem</i>Events</a></li>
+                <li><a href="#!"><i class="material-icons">work</i>Jobs</a></li>
+                <li><a href="#!"><i class="material-icons">chat</i>Chat</a></li>
+                <li><a href="#!" ng-show="islogin" ng-click="logout()"><i class="material-icons">power_settings_new</i>Logout</a></li>
+            </ul>
+        </li>
     </ul>
     <!-- sidebar  ends here -->
 
@@ -123,9 +162,9 @@
                     <a href="#!/about">
                         <h5 class="white-text">About Us</h5>
                     </a>
-                    <p class="grey-text text-lighten-4"><i class="material-icons">location_on</i> NIIT, Near Ghatkopar Stn., Ghatkopar(E), Mumbai.</p>
-                    <p class="grey-text text-lighten-4"><i class="material-icons">email</i> Gauresh@niit.com</p>
-                    <p class="grey-text text-lighten-4"><i class="material-icons">phone</i> +1 555 123456</p>
+                    <p class="grey-text text-lighten-4"><i class="material-icons">beenhere</i> Quality service.</p>
+                    <p class="grey-text text-lighten-4"><i class="material-icons">compare_arrows</i> Great communication.</p>
+                    <p class="grey-text text-lighten-4"><i class="material-icons">computer</i> Online business.</p>
                 </div>
                 <div class="col l6 s6">
                     <a href="#!/contact">
@@ -150,59 +189,59 @@
     <script type="text/javascript" src="assets/libs/bootstrap/bootstrap.js"></script>
 
     <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-            document.getElementById("main").style.marginLeft = "250px";
-        }
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "250px";
+                document.getElementById("main").style.marginLeft = "250px";
+            }
 
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("main").style.marginLeft = "0";
-        }
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+                document.getElementById("main").style.marginLeft = "0";
+            }
 
-        // Show sideNav
-        $('.button-collapse').sideNav('show');
-        // Hide sideNav
-        $('.button-collapse').sideNav('hide');
-        // Destroy sideNav
-        $('.button-collapse').sideNav('destroy');
+            // Show sideNav
+            $('.button-collapse').sideNav('show');
+            // Hide sideNav
+            $('.button-collapse').sideNav('hide');
+            // Destroy sideNav
+            $('.button-collapse').sideNav('destroy');
 
-        $('.button-collapse').sideNav({
-            menuWidth: 300, // Default is 240
-            edge: 'right', // Choose the horizontal origin
-            closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-            draggable: true // Choose whether you can drag to open on touch screens
-        }
-        );
+            $('.button-collapse').sideNav({
+                menuWidth: 300, // Default is 240
+                edge: 'right', // Choose the horizontal origin
+                closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+                draggable: true // Choose whether you can drag to open on touch screens
+            }
+            );
 
-        $('.dropdown-button').dropdown({
-            inDuration: 300,
-            outDuration: 225,
-            constrain_width: false, // Does not change width of dropdown to that of the activator
-            hover: true, // Activate on hover
-            gutter: 0, // Spacing from edge
-            belowOrigin: false, // Displays dropdown below the button
-            alignment: 'left' // Displays dropdown with edge aligned to the left of button
-        }
-        );
+            $('.dropdown-button').dropdown({
+                inDuration: 300,
+                outDuration: 225,
+                constrain_width: false, // Does not change width of dropdown to that of the activator
+                hover: true, // Activate on hover
+                gutter: 0, // Spacing from edge
+                belowOrigin: false, // Displays dropdown below the button
+                alignment: 'left' // Displays dropdown with edge aligned to the left of button
+            }
+            );
 
-        $('.dropdown-button').dropdown('open');
+            $('.dropdown-button').dropdown('open');
 
-        $('.dropdown-button').dropdown('close');
+            $('.dropdown-button').dropdown('close');
 
-        $('.datepicker').pickadate({
-            selectMonths: true, // Creates a dropdown to control month
-            selectYears: 15 // Creates a dropdown of 15 years to control year
-        });
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15 // Creates a dropdown of 15 years to control year
+            });
 
-        $('.checkbox').change(function () {
-            $(this).is(':checked') ? $(this).siblings('.checkbox').prop('disabled', true) : "";
-        });
+            $('.checkbox').change(function () {
+                $(this).is(':checked') ? $(this).siblings('.checkbox').prop('disabled', true) : "";
+            });
 
-        $(document).ready(function () {
-            $('.collapsible').collapsible();
-        });
-    </script>
+            $(document).ready(function () {
+                $('.collapsible').collapsible();
+            });
+        </script>
 
 </body>
 

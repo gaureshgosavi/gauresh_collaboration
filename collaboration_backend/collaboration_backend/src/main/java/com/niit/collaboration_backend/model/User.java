@@ -29,8 +29,17 @@ public class User extends BaseDomain implements Serializable {
 	private String isOnline;
 	private String username;
 	private String enabled;
+	private String gender;
 	@Transient
 	private String confirmPassword;
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 	public String getConfirmPassword() {
 		return confirmPassword;

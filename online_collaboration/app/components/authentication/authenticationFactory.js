@@ -1,17 +1,17 @@
-var AuthenticationModule = angular.module('AuthenticationModule',[]);
+var AuthenticationModule = angular.module('AuthenticationModule', []);
 
-AuthenticationModule.factory('AuthenticationFactory',['$http','$q', '$rootScope',function($http,$q,$rootScope){
+AuthenticationModule.factory('AuthenticationFactory', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
     var url = 'http://localhost:8090/collaboration_backend/';
     var userIsAuthenticated = false;
     var role = 'GUEST';
-    var user = {};
 
-    return{
+    return {
         setUserIsAuthenticated: setUserIsAuthenticated,
         getUserIsAuthenticated: getUserIsAuthenticated,
         setRole: setRole,
         getRole: getRole,
-        login: login
+        login: login,
+        register: register
     };
 
     function setUserIsAuthenticated(value) {
@@ -32,20 +32,55 @@ AuthenticationModule.factory('AuthenticationFactory',['$http','$q', '$rootScope'
 
     function login(credentials) {
         console.log(credentials);
-        
-    var deferred = $q.defer();
-    $http.post(url+'login', credentials)
+
+        var deferred = $q.defer();
+        $http.post(url + 'login', credentials)
             .then(
             function (response) {
                 deferred.resolve(response.data);
             },
-            function(errResponse){
+            function (errResponse) {
                 console.error('Error while logging in');
                 $rootScope.errorMessage = "Invalid credentials."
                 deferred.reject(errResponse);
             }
-        );
+            );
         return deferred.promise;
 
     }
+
+    function register(user) {
+        console.log(user);
+
+        var deferred = $q.defer();
+        $http.post(url + '/register', user)
+            .then(
+            function (response) {
+                deferred.resolve(response.data);
+                $rootScope.successMessage = "Registration successful! You will get an email after approval.";
+            },
+            function (errResponse) {
+                console.error('Error while registering');
+                deferred.reject(errResponse);
+            }
+            );
+        return deferred.promise;
+
+    }
+
+    function logout(userId) {
+        debugger;
+        var deferred = $q.defer();
+        $http.put('/logout' + userId)
+            .then(function (response) {
+                deferred.resolve(response);
+                console.log(response);
+            },
+            function (errResponse) {
+                deferred.reject(errResponse);
+                console.log(errResponse);
+            });
+        return deferred.promise;
+    }
+
 }]);

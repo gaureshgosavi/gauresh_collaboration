@@ -94,7 +94,6 @@ myApp.run(function ($rootScope, $location, AuthenticationFactory) {
             if (next.indexOf(i) != -1) {
                 // if trying to access page which requires login and is not logged in                                
                 if (window.routes[i].requireLogin && !AuthenticationFactory.getUserIsAuthenticated()) {
-                    event.preventDefault();
                     $location.path('/login');
                 }
                 else if ((AuthenticationFactory.getUserIsAuthenticated())
@@ -105,4 +104,25 @@ myApp.run(function ($rootScope, $location, AuthenticationFactory) {
             }
         }
     });
+
+    $rootScope.logout = function () {
+        AuthenticationFactory.logout(userId)
+            .then(
+            function (user) {
+                AuthenticationFactory.setUserIsAuthenticated(false);
+                AuthenticationFactory.setRole('GUEST');
+                $rootScope.authenticated = false;
+                $rootScope.isAdmin = false;
+                $rootScope.isUser = false;
+                $rootScope.islogin = false;
+                $location.path('/login');
+                console.log(user);
+            },
+            function (errorResponse) {
+
+                console.log(errorResponse);
+            }
+            )
+    }
+
 });
