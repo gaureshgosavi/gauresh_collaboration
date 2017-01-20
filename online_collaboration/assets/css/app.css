@@ -10,3 +10,7 @@
 .menu{
 	color: cyan darken-4;
 }
+
+.body {
+    background-image: url("collaboration3.png");
+}

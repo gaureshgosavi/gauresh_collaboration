@@ -33,6 +33,22 @@ window.routes =
             roles: ['ADMIN']
         },
 
+        "/admin/pendingBlogs": {
+            templateUrl: 'app/components/blog/acceptBlog.html',
+            controller: 'AdminController',
+            controllerAs: 'adminCtrl',
+            requireLogin: true,
+            roles: ['ADMIN']
+        },
+
+        "/admin/pendingUsers": {
+            templateUrl: 'app/components/user/acceptUser.html',
+            controller: 'AdminController',
+            controllerAs: 'adminCtrl',
+            requireLogin: true,
+            roles: ['ADMIN']
+        },
+
         "/login": {
             templateUrl: 'app/components/authentication/login.html',
             controller: 'AuthenticationController',
@@ -106,7 +122,8 @@ myApp.run(function ($rootScope, $location, AuthenticationFactory) {
     });
 
     $rootScope.logout = function () {
-        AuthenticationFactory.logout(userId)
+        console.log($rootScope.userId);
+        AuthenticationFactory.logout($rootScope.userId)
             .then(
             function (user) {
                 AuthenticationFactory.setUserIsAuthenticated(false);

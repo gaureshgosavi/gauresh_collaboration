@@ -1,5 +1,6 @@
 package com.niit.collaboration_backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.niit.collaboration_backend.dao.BlogDAO;
 import com.niit.collaboration_backend.dao.UserDAO;
 import com.niit.collaboration_backend.model.Blog;
 import com.niit.collaboration_backend.model.User;
+import com.niit.collaboration_backend.model.blogListModel;
 
 @RestController
 public class adminController {
@@ -31,15 +33,78 @@ public class adminController {
 	UserDAO userDAO;
 	
 	@RequestMapping(value = "/admin/blogs", method = RequestMethod.GET)
-	public ResponseEntity<List<Blog>> listAllblogs() {
+	public ResponseEntity<List<blogListModel>> listAllblogs() {
 		List<Blog> blogs = blogDAO.getblogsByStatus("PENDING");
-		if (blogs.isEmpty()) {
+		List<blogListModel> bloglist = new ArrayList<>();
+
+		blogListModel blogModel = null;
+		
+		for (Blog b : blogs) {
+			blogModel = new blogListModel();
+			blogModel.setBlog(b);
+			blogModel.setFirstName(userDAO.getById(b.getUserId()).getFirstName());
+			blogModel.setLastname(userDAO.getById(b.getUserId()).getLastName());
+			bloglist.add(blogModel);
+
+		}
+		
+		if (bloglist.isEmpty()) {
 			blog = new Blog();
 			blog.setErrorCode("404");
 			blog.setErrorMessage("No blogs present.");
 			blogs.add(blog);
 		}
-		return new ResponseEntity<List<Blog>>(blogs, HttpStatus.OK);
+		return new ResponseEntity<List<blogListModel>>(bloglist, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/admin/approvedBlogs", method = RequestMethod.GET)
+	public ResponseEntity<List<blogListModel>> listApprovedblogs() {
+		List<Blog> blogs = blogDAO.getblogsByStatus("APPROVE");
+		List<blogListModel> bloglist = new ArrayList<>();
+
+		blogListModel blogModel = null;
+		
+		for (Blog b : blogs) {
+			blogModel = new blogListModel();
+			blogModel.setBlog(b);
+			blogModel.setFirstName(userDAO.getById(b.getUserId()).getFirstName());
+			blogModel.setLastname(userDAO.getById(b.getUserId()).getLastName());
+			bloglist.add(blogModel);
+
+		}
+		
+		if (bloglist.isEmpty()) {
+			blog = new Blog();
+			blog.setErrorCode("404");
+			blog.setErrorMessage("No blogs present.");
+			blogs.add(blog);
+		}
+		return new ResponseEntity<List<blogListModel>>(bloglist, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/admin/rejectedBlogs", method = RequestMethod.GET)
+	public ResponseEntity<List<blogListModel>> listRejectedblogs() {
+		List<Blog> blogs = blogDAO.getblogsByStatus("REJECT");
+		List<blogListModel> bloglist = new ArrayList<>();
+
+		blogListModel blogModel = null;
+		
+		for (Blog b : blogs) {
+			blogModel = new blogListModel();
+			blogModel.setBlog(b);
+			blogModel.setFirstName(userDAO.getById(b.getUserId()).getFirstName());
+			blogModel.setLastname(userDAO.getById(b.getUserId()).getLastName());
+			bloglist.add(blogModel);
+
+		}
+		
+		if (bloglist.isEmpty()) {
+			blog = new Blog();
+			blog.setErrorCode("404");
+			blog.setErrorMessage("No blogs present.");
+			blogs.add(blog);
+		}
+		return new ResponseEntity<List<blogListModel>>(bloglist, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/admin/approveBlog/{blogId}", method = RequestMethod.PUT)

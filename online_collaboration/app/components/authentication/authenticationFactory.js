@@ -11,7 +11,8 @@ AuthenticationModule.factory('AuthenticationFactory', ['$http', '$q', '$rootScop
         setRole: setRole,
         getRole: getRole,
         login: login,
-        register: register
+        register: register,
+        logout: logout
     };
 
     function setUserIsAuthenticated(value) {
@@ -71,7 +72,7 @@ AuthenticationModule.factory('AuthenticationFactory', ['$http', '$q', '$rootScop
     function logout(userId) {
         debugger;
         var deferred = $q.defer();
-        $http.put('/logout' + userId)
+        $http.put(url+'/logout/' + userId)
             .then(function (response) {
                 deferred.resolve(response);
                 console.log(response);

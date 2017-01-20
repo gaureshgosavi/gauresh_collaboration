@@ -19,6 +19,11 @@ AuthenticationModule.controller('AuthenticationController', ['AuthenticationFact
                     AuthenticationFactory.setRole(user.role);
                     $rootScope.authenticated = true;
                     $rootScope.message = 'Welcome ' + user.firstName;
+                    $rootScope.firstName = user.firstName;
+                    $rootScope.lastName = user.lastName;
+                    $rootScope.emailId = user.emailId;
+                    $rootScope.gender = user.gender;
+                    $rootScope.userId = user.userId;
 
                     switch (user.role) {
                         case 'ADMIN':
@@ -33,7 +38,6 @@ AuthenticationModule.controller('AuthenticationController', ['AuthenticationFact
                             $location.path('/error/403');
                     }
                     $rootScope.islogin = true;
-                    $rootScope.userId = user.userId;
                 }
                 console.log(user);
             },

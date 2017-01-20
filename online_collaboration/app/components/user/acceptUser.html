@@ -1,0 +1,22 @@
+<div class="row" ng-repeat="user in adminCtrl.users |orderBy : 'userId'">
+    <div class="col s9 m6 offset-m3 offset-s2">
+        <div class="card horizontal indigo lighten-2 hoverable">
+            <div class="card-image">
+                <img src="assets/img/male.png" width="150" height="150">
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                   <p><b>{{user.firstName}} {{user.lastName}}</b></p>
+                    <p>Registered As: {{user.role}}</p>
+                    <p>Email: {{user.emailId}}</p>
+                    <p>Gender: {{user.gender}}</p>
+                </div>
+                <div class="card-action">
+                        <a class="waves-effect waves-light btn col s5 offset-m1 offset-s1 green darken-4 hoverable" ng-click="adminCtrl.approveUser(user.userId)">Approve</a>
+                        <a class="waves-effect waves-light btn col s5 offset-m1 offset-s1 red accent-4 hoverable" ng-click="adminCtrl.disapproveUser(user.userId)">Reject</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Accept user -->

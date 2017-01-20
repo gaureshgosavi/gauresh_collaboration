@@ -49,7 +49,7 @@
 
 </head>
 
-<body ng-app="myApp">
+<body ng-app="myApp" class="body">
     <header>
         <div class="navbar-fixed">
             <nav>
@@ -59,7 +59,7 @@
                     <div class="row">
                         <ul class="right hide-on-med-and-down">
                             <li>
-                                <a href="sass.html" ng-show="islogin"> <i class="material-icons">supervisor_account</i></a>
+                                <a href="#!/admin/pendingUsers" ng-show="islogin"> <i class="material-icons">supervisor_account</i></a>
                             </li>
                             <li>
                                 <a href="sass.html" ng-show="islogin"> <i class="material-icons">work</i></a>
@@ -102,52 +102,52 @@
                 <div class="background">
                     <img src="assets/img/navback4.jpg">
                 </div>
-                <a href="#!user"><img class="circle" src=""></a>
-                <a href="#!name"><span class="white-text name">Gauresh Gosavi</span><i class="mdi-navigation-arrow-drop-down right"></i></a>
-                <a href="#!email"><span class="white-text email">gauresh.gosavi@gmail.com</span></a>
+                <a href="#!user"><img class="circle" src="assets/img/male.png"></a>
+                <a href="#!name"><span class="white-text name">{{firstName}} {{lastName}}</span><i class="mdi-navigation-arrow-drop-down right"></i></a>
+                <a href="#!email"><span class="white-text email">{{emailId}}</span></a>
             </div>
         </li>
         <li>
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">perm_identity</i>Profile</div>
-                    <div class="collapsible-body">
+                    <div class="collapsible-header cyan darken-4"><i class="material-icons">perm_identity</i>Profile</div>
+                    <div class="collapsible-body cyan darken-4">
                         <ul>
-                            <li><a href="#!">View Profile</a></li>
-                            <li><a href="#!">Update Profile</a></li>
-                            <li><a href="#!">Logout</a></li>
+                            <li><a href="#!"><i class="material-icons">send</i>View Profile</a></li>
+                            <li><a href="#!"><i class="material-icons">send</i>Update Profile</a></li>
+                            <li><a href="#!"><i class="material-icons">send</i>Logout</a></li>
                         </ul>
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header"><i class="material-icons">subject</i>Blog</div>
-                    <div class="collapsible-body">
+                    <div class="collapsible-header cyan darken-4"><i class="material-icons">subject</i>Blog</div>
+                    <div class="collapsible-body cyan darken-4">
                         <ul>
-                            <li><a href="#!" ng-show="isAdmin">Pending Blogs</a></li>
-                            <li><a href="#!" ng-show="isAdmin">Approved Blogs</a></li>
-                            <li><a href="#!" ng-show="isAdmin">Rejected Blogs</a></li>
-                            <li><a href="#!" ng-show="isUser">View Blogs</a></li>
-                            <li><a href="#!" ng-show="isUser">My Blogs</a></li>
-                            <li><a href="#!" ng-show="isUser">Create Blog</a></li>
+                            <li><a href="#!/admin/pendingBlogs" ng-show="isAdmin"><i class="material-icons">send</i>Pending Blogs</a></li>
+                            <li><a href="#!" ng-show="isAdmin"><i class="material-icons">send</i>Approved Blogs</a></li>
+                            <li><a href="#!" ng-show="isAdmin"><i class="material-icons">send</i>Rejected Blogs</a></li>
+                            <li><a href="#!" ng-show="isUser"><i class="material-icons">send</i>View Blogs</a></li>
+                            <li><a href="#!" ng-show="isUser"><i class="material-icons">send</i>My Blogs</a></li>
+                            <li><a href="#!" ng-show="isUser"><i class="material-icons">send</i>Create Blog</a></li>
                         </ul>
                     </div>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">forum</i>Forum</div>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li><a href="#!">View Forums</a></li>
-                            <li><a href="#!" ng-show="isAdmin">Create Forum</a></li>
-                            <li><a href="#!" ng-show="isUser">My Forums</a></li>
-                            <li><a href="#!">View Forum Messages</a></li>
-                        </ul>
-                    </div>
-                <li>
-                    <a href="#!"><i class="material-icons">redeem</i>Events</a></li>
-                <li><a href="#!"><i class="material-icons">work</i>Jobs</a></li>
-                <li><a href="#!"><i class="material-icons">chat</i>Chat</a></li>
-                <li><a href="#!" ng-show="islogin" ng-click="logout()"><i class="material-icons">power_settings_new</i>Logout</a></li>
+                    <li>
+                        <div class="collapsible-header cyan darken-4"><i class="material-icons">forum</i>Forum</div>
+                        <div class="collapsible-body cyan darken-4">
+                            <ul>
+                                <li><a href="#!"><i class="material-icons">send</i>View Forums</a></li>
+                                <li><a href="#!" ng-show="isAdmin"><i class="material-icons">send</i>Create Forum</a></li>
+                                <li><a href="#!" ng-show="isUser"><i class="material-icons">send</i>My Forums</a></li>
+                                <li><a href="#!"><i class="material-icons">send</i>View Forum Messages</a></li>
+                            </ul>
+                        </div>
+                        <li>
+                            <a href="#!"><i class="material-icons">redeem</i>Events</a></li>
+                        <li><a href="#!"><i class="material-icons">work</i>Jobs</a></li>
+                        <li><a href="#!"><i class="material-icons">chat</i>Chat</a></li>
+                        <li><a href="#!" ng-show="islogin" ng-click="logout()"><i class="material-icons">power_settings_new</i>Logout</a></li>
             </ul>
-        </li>
+            </li>
     </ul>
     <!-- sidebar  ends here -->
 
@@ -189,59 +189,59 @@
     <script type="text/javascript" src="assets/libs/bootstrap/bootstrap.js"></script>
 
     <script>
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "250px";
-                document.getElementById("main").style.marginLeft = "250px";
-            }
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
 
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
-                document.getElementById("main").style.marginLeft = "0";
-            }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
 
-            // Show sideNav
-            $('.button-collapse').sideNav('show');
-            // Hide sideNav
-            $('.button-collapse').sideNav('hide');
-            // Destroy sideNav
-            $('.button-collapse').sideNav('destroy');
+        // Show sideNav
+        $('.button-collapse').sideNav('show');
+        // Hide sideNav
+        $('.button-collapse').sideNav('hide');
+        // Destroy sideNav
+        $('.button-collapse').sideNav('destroy');
 
-            $('.button-collapse').sideNav({
-                menuWidth: 300, // Default is 240
-                edge: 'right', // Choose the horizontal origin
-                closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-                draggable: true // Choose whether you can drag to open on touch screens
-            }
-            );
+        $('.button-collapse').sideNav({
+            menuWidth: 300, // Default is 240
+            edge: 'right', // Choose the horizontal origin
+            closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+            draggable: true // Choose whether you can drag to open on touch screens
+        }
+        );
 
-            $('.dropdown-button').dropdown({
-                inDuration: 300,
-                outDuration: 225,
-                constrain_width: false, // Does not change width of dropdown to that of the activator
-                hover: true, // Activate on hover
-                gutter: 0, // Spacing from edge
-                belowOrigin: false, // Displays dropdown below the button
-                alignment: 'left' // Displays dropdown with edge aligned to the left of button
-            }
-            );
+        $('.dropdown-button').dropdown({
+            inDuration: 300,
+            outDuration: 225,
+            constrain_width: false, // Does not change width of dropdown to that of the activator
+            hover: true, // Activate on hover
+            gutter: 0, // Spacing from edge
+            belowOrigin: false, // Displays dropdown below the button
+            alignment: 'left' // Displays dropdown with edge aligned to the left of button
+        }
+        );
 
-            $('.dropdown-button').dropdown('open');
+        $('.dropdown-button').dropdown('open');
 
-            $('.dropdown-button').dropdown('close');
+        $('.dropdown-button').dropdown('close');
 
-            $('.datepicker').pickadate({
-                selectMonths: true, // Creates a dropdown to control month
-                selectYears: 15 // Creates a dropdown of 15 years to control year
-            });
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15 // Creates a dropdown of 15 years to control year
+        });
 
-            $('.checkbox').change(function () {
-                $(this).is(':checked') ? $(this).siblings('.checkbox').prop('disabled', true) : "";
-            });
+        $('.checkbox').change(function () {
+            $(this).is(':checked') ? $(this).siblings('.checkbox').prop('disabled', true) : "";
+        });
 
-            $(document).ready(function () {
-                $('.collapsible').collapsible();
-            });
-        </script>
+        $(document).ready(function () {
+            $('.collapsible').collapsible();
+        });
+    </script>
 
 </body>
 

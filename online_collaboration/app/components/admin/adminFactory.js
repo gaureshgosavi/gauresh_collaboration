@@ -34,7 +34,7 @@ AdminModule.factory('adminFactory', ['$http', '$q', function ($http, $q) {
 
     function disapproveBlog(blogId) {
         var deferred = $q.defer();
-        $http.put(blogAddress + 'disapproveBlog/' + blogId).then(function (response) {
+        $http.put(url + 'disapproveBlog/' + blogId).then(function (response) {
             deferred.resolve(response.data);
         }, function (errResponse) {
             deferred.reject(errResponse);
