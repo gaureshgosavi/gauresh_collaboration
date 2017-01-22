@@ -1,4 +1,6 @@
-app.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
+var BlogModule = angular.module('BlogModule', []);
+
+BlogModule.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 
 	var blogUrl = "http://localhost:8090/collaboration_backend//blog/";
 
@@ -23,7 +25,7 @@ app.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 
 		$http.get(blogUrl + 'list')
 			.then(function (response) {
-				$log.info(response);
+				console.log(response);
 				deferred.resolve(response.data);
 			}, function (errResponse) {
 				console.error('Error while fetching blogs!');
@@ -38,10 +40,10 @@ app.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 
 		var deferred = $q.defer();
 		
-		$log.info($q);
-		$http.get(address + 'get/' + blogId)
+		console.log(blogId);
+		$http.get(blogUrl + 'get/' + blogId)
 			.then(function (response) {
-				$log.info(response);
+				console.log(response);
 				deferred.resolve(response.data);
 			},
 			function (errResponse) {
@@ -57,7 +59,7 @@ app.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 
 		var deferred = $q.defer();
 
-		$http.post(address + 'create', blog)
+		$http.post(blogUrl + 'create', blog)
 			.then(
 			function (response) {
 				$log.info(response);
@@ -74,7 +76,7 @@ app.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 	//update blog
 	function updateBlog(blog, blogId) {
 		var deferred = $q.defer();
-		$http.put(address + 'get/' + blogId, blog)
+		$http.put(blogUrl + 'get/' + blogId, blog)
 			.then(function (response) {
 				$log.info(response);
 				deferred.resolve(response.data);
@@ -90,7 +92,7 @@ app.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 	// delete blog
 	function deleteBlog(blogId) {
 		var deferred = $q.defer();
-		$http.delete(address + 'delete/' + blogId)
+		$http.delete(blogUrl + 'delete/' + blogId)
 			.then(function (response) {
 				$log.info(response);
 				deferred.resolve(response.data);

@@ -1,8 +1,8 @@
-app.controller('BlogController', ['BlogFactory', '$http', '$scope', function (BlogFactory, $http, $scope) {
+BlogModule.controller('BlogController', ['BlogFactory', '$http', '$scope','$rootScope', '$location', function (BlogFactory, $http, $scope, $rootScope, $location) {
 
 	var self = this;
 	self.blogs = [];
-	self.blog = { blogId: null, title: '', description: '', likes: '', status: '' };
+	self.blog = { blogId: undefined, title: '', description: '', likes: '', status: '', userId: '' };
 
 	self.submit = submit;
 	self.edit = edit;
@@ -13,7 +13,7 @@ app.controller('BlogController', ['BlogFactory', '$http', '$scope', function (Bl
 
 
 	function fetchAllBlogs() {
-		blogFactory
+		BlogFactory
 			.fetchAllBlogs()
 			.then(function (d) {
 				self.blogs = d;
@@ -22,12 +22,12 @@ app.controller('BlogController', ['BlogFactory', '$http', '$scope', function (Bl
 			})
 	}
 
-	function getBlog(blogId) {
-		blogFactory.getBlog(blogId)
+	self.getBlog = function(blogId) {
+		BlogFactory.getBlog(blogId)
 			.then(
-			fetchAllBlogs,
 			function (d) {
 				self.blog = d;
+				$location.path('/user/singleBlog');				
 			},
 			function (errResponse) {
 				console.error('error while fetching blog.')
@@ -38,7 +38,9 @@ app.controller('BlogController', ['BlogFactory', '$http', '$scope', function (Bl
 
 
 	function createBlog(blog) {
-		blogFactory.createBlog(blog)
+		console.log($rootScope.userId);
+		self.blog.userId = $rootScope.userId;
+		BlogFactory.createBlog(blog)
 			.then(
 			fetchAllBlogs,
 			function (d) {
@@ -51,7 +53,7 @@ app.controller('BlogController', ['BlogFactory', '$http', '$scope', function (Bl
 	}
 
 	function updateBlog(blog, blogId) {
-		blogFactory.updateBlog(blog, blogId)
+		BlogFactory.updateBlog(blog, blogId)
 			.then(
 			fetchAllBlogs,
 			function (d) {
@@ -64,7 +66,7 @@ app.controller('BlogController', ['BlogFactory', '$http', '$scope', function (Bl
 	}
 
 	function deleteBlog(blogId) {
-		blogFactory.deleteBlog(blogId)
+		BlogFactory.deleteBlog(blogId)
 			.then(
 			fetchAllUsers,
 			function (d) {
@@ -84,7 +86,6 @@ app.controller('BlogController', ['BlogFactory', '$http', '$scope', function (Bl
 			updateBlog(self.Blog, self.Blog.blogId);
 			console.log('Blog updated with id ', self.Blog.blogId);
 		}
-		reset();
 	}
 
 	function edit(blogId) {

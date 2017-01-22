@@ -1,5 +1,5 @@
 
-app.controller('forumController', ['forumFactory', '$http', '$scope', function (forumFactory, $http, $scope) {
+ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', function (ForumFactory, $http, $scope) {
 
 	var self = this;
 	self.forums = [];
@@ -9,13 +9,16 @@ app.controller('forumController', ['forumFactory', '$http', '$scope', function (
 	self.edit = edit;
 	self.remove = remove;
 	self.reset = reset;
+	self.getForum = getForum;
+	self.createForum = createForum;
+	self.updateForum = updateForum;
+	self.deleteForum = deleteForum;
 
-	fetchAllForums();
+	FetchAllForums();
 
 
-	function fetchAllForums() {
-		forumFactory
-			.fetchAllForums()
+	function FetchAllForums() {
+		ForumFactory
 			.then(function (d) {
 				self.forums = d;
 			}, function (errResponse) {
@@ -24,9 +27,8 @@ app.controller('forumController', ['forumFactory', '$http', '$scope', function (
 	}
 
 	function getForum(forumId) {
-		forumFactory.getForum(forumId)
+		ForumFactory.getForum(forumId)
 			.then(
-			fetchAllForums,
 			function (d) {
 				self.forum = d;
 			},
@@ -38,9 +40,10 @@ app.controller('forumController', ['forumFactory', '$http', '$scope', function (
 	}
 
 	function createForum(forum) {
-		forumFactory.createForum(forum)
+		console.log($rootScope.userId);
+		self.forum.userId = $rootScope.userId;
+		ForumFactory.createForum(forum)
 			.then(
-			fetchAllForums,
 			function (d) {
 				self.forum = d;
 			},
@@ -51,9 +54,8 @@ app.controller('forumController', ['forumFactory', '$http', '$scope', function (
 	}
 
 	function updateForum(forum, forumId) {
-		forumFactory.updateForum(forum, forumId)
+		ForumFactory.updateForum(forum, forumId)
 			.then(
-			fetchAllForums,
 			function (d) {
 				self.forum = d;
 			},
@@ -64,9 +66,8 @@ app.controller('forumController', ['forumFactory', '$http', '$scope', function (
 	}
 
 	function deleteForum(forumId) {
-		forumFactory.deleteForum(forumId)
+		ForumFactory.deleteForum(forumId)
 			.then(
-			fetchAllForums,
 			function (d) {
 				self.forum = d;
 			},
@@ -84,7 +85,6 @@ app.controller('forumController', ['forumFactory', '$http', '$scope', function (
 			updateforum(self.forum, self.forum.forumId);
 			console.log('forum updated with id ', self.forum.forumId);
 		}
-		reset();
 	}
 
 	function edit(forumId) {

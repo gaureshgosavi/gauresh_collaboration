@@ -54,7 +54,8 @@ public class ForumController {
 			forum = new Forum();
 			//DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss a");
 			Date date = new Date();
-			currentForum.setCreatedDate(date);;
+			currentForum.setCreatedDate(date);
+			currentForum.setCategoryId(1);
 			if(forumDAO.saveOrUpdate(currentForum) == false){
 				forum = new Forum();
 				forum.setErrorCode("404");

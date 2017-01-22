@@ -3,6 +3,8 @@ var myApp = angular.module('myApp',
         'ngRoute',
         'pageModule',
         'AuthenticationModule',
-        'AdminModule'
+        'AdminModule',
+        'BlogModule',
+        'ForurmModule'
     ]
 );

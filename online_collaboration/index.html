@@ -37,9 +37,17 @@
 <script src="app/components/authentication/AuthenticationFactory.js"></script>
 <script src="app/components/authentication/authenticationController.js"></script>
 
-<!-- Loading the authentication module -->
+<!-- Loading the admin module -->
 <script src="app/components/admin/adminFactory.js"></script>
 <script src="app/components/admin/AdminController.js"></script>
+
+<!-- Loading the blog module -->
+<script src="app/components/blog/BlogFactory.js"></script>
+<script src="app/components/blog/BlogController.js"></script>
+
+<!-- Loading the forum module -->
+<script src="app/components/forum/ForumFactory.js"></script>
+<script src="app/components/forum/ForumController.js"></script>
 
 
 <script type="text/javascript" src="app/components/user/userFactory.js"></script>
@@ -126,9 +134,9 @@
                             <li><a href="#!/admin/pendingBlogs" ng-show="isAdmin"><i class="material-icons">send</i>Pending Blogs</a></li>
                             <li><a href="#!" ng-show="isAdmin"><i class="material-icons">send</i>Approved Blogs</a></li>
                             <li><a href="#!" ng-show="isAdmin"><i class="material-icons">send</i>Rejected Blogs</a></li>
-                            <li><a href="#!" ng-show="isUser"><i class="material-icons">send</i>View Blogs</a></li>
+                            <li><a href="#!/user/viewBlog" ng-show="isUser"><i class="material-icons">send</i>View Blogs</a></li>
                             <li><a href="#!" ng-show="isUser"><i class="material-icons">send</i>My Blogs</a></li>
-                            <li><a href="#!" ng-show="isUser"><i class="material-icons">send</i>Create Blog</a></li>
+                            <li><a href="#!/user/createBlog" ng-show="isUser"><i class="material-icons">send</i>Create Blog</a></li>
                         </ul>
                     </div>
                     <li>

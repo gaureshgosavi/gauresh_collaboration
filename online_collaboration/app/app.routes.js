@@ -49,6 +49,38 @@ window.routes =
             roles: ['ADMIN']
         },
 
+        "/user/createBlog": {
+            templateUrl: 'app/components/blog/createBlog.html',
+            controller: 'BlogController',
+            controllerAs: 'blogCtrl',
+            requireLogin: true,
+            roles: ['USER']
+        },
+
+        "/user/viewBlog": {
+            templateUrl: 'app/components/blog/viewBlog.html',
+            controller: 'BlogController',
+            controllerAs: 'blogCtrl',
+            requireLogin: true,
+            roles: ['USER']
+        },
+
+        "/user/singleBlog": {
+            templateUrl: 'app/components/blog/singleBlog.html',
+            controller: 'BlogController',
+            controllerAs: 'blogCtrl',
+            requireLogin: true,
+            roles: ['USER']
+        },
+
+        "/user/createForum": {
+            templateUrl: 'app/components/forum/createForum.html',
+            controller: 'ForumController',
+            controllerAs: 'forumCtrl',
+            requireLogin: true,
+            roles: ['USER']
+        },
+
         "/login": {
             templateUrl: 'app/components/authentication/login.html',
             controller: 'AuthenticationController',

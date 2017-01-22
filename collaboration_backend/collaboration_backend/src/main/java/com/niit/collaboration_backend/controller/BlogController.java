@@ -1,5 +1,6 @@
 package com.niit.collaboration_backend.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.collaboration_backend.dao.BlogDAO;
+import com.niit.collaboration_backend.dao.UserDAO;
 import com.niit.collaboration_backend.model.Blog;
+import com.niit.collaboration_backend.model.User;
+import com.niit.collaboration_backend.model.blogListModel;
 
 @RestController
 public class BlogController {
@@ -24,28 +28,53 @@ public class BlogController {
 	@Autowired
 	BlogDAO blogDAO;
 	
+	@Autowired
+	User user;
+	
+	@Autowired
+	UserDAO userDAO;
+	
 	@RequestMapping(value = "/blog/list", method = RequestMethod.GET)
-	public ResponseEntity<List<Blog>> listAllblogs() {
-		List<Blog> blogs = blogDAO.list();
-		if (blogs.isEmpty()) {
+	public ResponseEntity<List<blogListModel>> listApprovedblogs() {
+		List<Blog> blogs = blogDAO.getblogsByStatus("APPROVE");
+		List<blogListModel> bloglist = new ArrayList<>();
+
+		blogListModel blogModel = null;
+		
+		for (Blog b : blogs) {
+			blogModel = new blogListModel();
+			blogModel.setBlog(b);
+			blogModel.setFirstName(userDAO.getById(b.getUserId()).getFirstName());
+			blogModel.setLastname(userDAO.getById(b.getUserId()).getLastName());
+			bloglist.add(blogModel);
+
+		}
+		
+		if (bloglist.isEmpty()) {
 			blog = new Blog();
 			blog.setErrorCode("404");
 			blog.setErrorMessage("No blogs present.");
 			blogs.add(blog);
 		}
-		return new ResponseEntity<List<Blog>>(blogs, HttpStatus.OK);
+		return new ResponseEntity<List<blogListModel>>(bloglist, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/blog/get/{blogId}", method = RequestMethod.GET)
-	public ResponseEntity<Blog> getblog(@PathVariable("blogId") int blogId) {
+	public ResponseEntity<blogListModel> getblog(@PathVariable("blogId") int blogId) {
 		System.out.println("Fetching blog");
-		Blog blog = blogDAO.get(blogId);
+		
+		blogListModel blogModel = new blogListModel();
+		blog = blogDAO.get(blogId);
+		blogModel.setBlog(blog);
+		blogModel.setFirstName(userDAO.getById(blog.getUserId()).getFirstName());
+		blogModel.setLastname(userDAO.getById(blog.getUserId()).getLastName());
+
 		if (blog == null) {
 			blog = new Blog();
 			blog.setErrorCode("404");
 			blog.setErrorMessage("blog does not exist.");
 		}
-		return new ResponseEntity<Blog>(blog, HttpStatus.OK);
+		return new ResponseEntity<blogListModel>(blogModel, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/blog/create", method = RequestMethod.POST)
@@ -55,6 +84,8 @@ public class BlogController {
 			//DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss a");
 			Date date = new Date();
 			currentBlog.setPostDate(date);
+			currentBlog.setStatus("PENDING");
+			currentBlog.setLikes(0);
 			if(blogDAO.saveOrUpdate(currentBlog) == false){
 				blog = new Blog();
 				blog.setErrorCode("404");
