@@ -1,5 +1,6 @@
 package com.niit.collaboration_backend.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.collaboration_backend.dao.ForumDAO;
+import com.niit.collaboration_backend.dao.UserDAO;
 import com.niit.collaboration_backend.model.Forum;
+import com.niit.collaboration_backend.model.ForumListModel;
 
 @RestController
 public class ForumController {
@@ -23,17 +26,33 @@ public class ForumController {
 	
 	@Autowired
 	ForumDAO forumDAO;
+	
+	@Autowired
+	UserDAO userDAO;
 
 	@RequestMapping(value = "/forum/list", method = RequestMethod.GET)
-	public ResponseEntity<List<Forum>> listAllforums() {
-		List<Forum> forums = forumDAO.list();
-		if (forums.isEmpty()) {
+	public ResponseEntity<List<ForumListModel>> listApprovedblogs() {
+		List<Forum> forums = forumDAO.getForumsByStatus("APPROVE");
+		List<ForumListModel> forumlist = new ArrayList<>();
+
+		ForumListModel forumModel = null;
+		
+		for (Forum f : forums) {
+			forumModel = new ForumListModel();
+			forumModel.setForum(f);
+			forumModel.setFirstName(userDAO.getById(f.getUserId()).getFirstName());
+			forumModel.setLastname(userDAO.getById(f.getUserId()).getLastName());
+			forumlist.add(forumModel);
+
+		}
+		
+		if (forumlist.isEmpty()) {
 			forum = new Forum();
 			forum.setErrorCode("404");
-			forum.setErrorMessage("No forums present.");
+			forum.setErrorMessage("No blogs present.");
 			forums.add(forum);
 		}
-		return new ResponseEntity<List<Forum>>(forums, HttpStatus.OK);
+		return new ResponseEntity<List<ForumListModel>>(forumlist, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/forum/get/{forumId}", method = RequestMethod.GET)
@@ -56,6 +75,7 @@ public class ForumController {
 			Date date = new Date();
 			currentForum.setCreatedDate(date);
 			currentForum.setCategoryId(1);
+			currentForum.setStatus("APPROVE");
 			if(forumDAO.saveOrUpdate(currentForum) == false){
 				forum = new Forum();
 				forum.setErrorCode("404");
@@ -63,7 +83,7 @@ public class ForumController {
 			}
 			else{
 				forum.setErrorCode("200");
-				forum.setErrorMessage("Forum created successfully successfully.");
+				forum.setErrorMessage("Forum created successfully .");
 			}
 				
 		return new ResponseEntity<Forum>(forum, HttpStatus.OK);

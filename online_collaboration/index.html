@@ -45,6 +45,10 @@
 <script src="app/components/blog/BlogFactory.js"></script>
 <script src="app/components/blog/BlogController.js"></script>
 
+<!-- Loading the Blog Comment module -->
+<script src="app/components/blog/BlogCommentFactory.js"></script>
+<script src="app/components/blog/BlogCommentController.js"></script>
+
 <!-- Loading the forum module -->
 <script src="app/components/forum/ForumFactory.js"></script>
 <script src="app/components/forum/ForumController.js"></script>
@@ -143,8 +147,8 @@
                         <div class="collapsible-header cyan darken-4"><i class="material-icons">forum</i>Forum</div>
                         <div class="collapsible-body cyan darken-4">
                             <ul>
-                                <li><a href="#!"><i class="material-icons">send</i>View Forums</a></li>
-                                <li><a href="#!" ng-show="isAdmin"><i class="material-icons">send</i>Create Forum</a></li>
+                                <li><a href="#!/viewForums"><i class="material-icons">send</i>View Forums</a></li>
+                                <li><a href="#!/admin/createForum" ng-show="isAdmin"><i class="material-icons">send</i>Create Forum</a></li>
                                 <li><a href="#!" ng-show="isUser"><i class="material-icons">send</i>My Forums</a></li>
                                 <li><a href="#!"><i class="material-icons">send</i>View Forum Messages</a></li>
                             </ul>

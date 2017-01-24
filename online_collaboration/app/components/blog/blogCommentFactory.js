@@ -1,4 +1,6 @@
-app.factory('blogCommentFactory', ['$http', '$q', function ($http, $q) {
+var BlogCommentModule = angular.module('BlogCommentModule', []);
+
+BlogCommentModule.factory('BlogCommentFactory', ['$http', '$q', function ($http, $q) {
 
     var url = "http://localhost:8090/collaboration_backend//blogComment/"
 
@@ -24,9 +26,9 @@ app.factory('blogCommentFactory', ['$http', '$q', function ($http, $q) {
     }
 
     //create blog comment
-    function createBlogComment(blogComment) {
+    function createBlogComment(blogComment, blogId) {
         var deferred = $q.defer();
-        $http.post(url + 'create', blogComment).
+        $http.post(url + 'create/' +blogId, blogComment).
             then(function (response) {
                 deferred.resolve(response.data);
                 console.log('created blog comment');

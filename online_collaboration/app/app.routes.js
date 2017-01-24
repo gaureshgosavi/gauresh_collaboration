@@ -65,20 +65,28 @@ window.routes =
             roles: ['USER']
         },
 
-        "/user/singleBlog": {
+        "/user/viewBlog/:blogId": {
             templateUrl: 'app/components/blog/singleBlog.html',
-            controller: 'BlogController',
-            controllerAs: 'blogCtrl',
+            controller: 'BlogCommentController',
+            controllerAs: 'blogCommentCtrl',
             requireLogin: true,
             roles: ['USER']
         },
 
-        "/user/createForum": {
+        "/viewForums": {
+            templateUrl: 'app/components/forum/viewForum.html',
+            controller: 'ForumController',
+            controllerAs: 'forumCtrl',
+            requireLogin: true,
+            roles: ['USER', 'ADMIN']
+        },
+
+        "/admin/createForum": {
             templateUrl: 'app/components/forum/createForum.html',
             controller: 'ForumController',
             controllerAs: 'forumCtrl',
             requireLogin: true,
-            roles: ['USER']
+            roles: ['ADMIN']
         },
 
         "/login": {

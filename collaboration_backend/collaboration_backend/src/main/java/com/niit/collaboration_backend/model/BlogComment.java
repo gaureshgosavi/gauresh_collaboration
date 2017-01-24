@@ -14,9 +14,14 @@ import javax.persistence.TemporalType;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Table
 @Entity
 @Component
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class BlogComment extends BaseDomain implements Serializable{
 
 	/**
@@ -29,6 +34,7 @@ public class BlogComment extends BaseDomain implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "blogId")
+	//@JsonManagedReference
 	private Blog blog;
 	
 	private int userId;
@@ -38,6 +44,8 @@ public class BlogComment extends BaseDomain implements Serializable{
 	
 	@Temporal(TemporalType.DATE)
 	private Date commentDate;
+	
+	private String username;
 
 	/*public int getBlogId() {
 		return blogId;
@@ -46,6 +54,14 @@ public class BlogComment extends BaseDomain implements Serializable{
 	public void setBlogId(int blogId) {
 		this.blogId = blogId;
 	}*/
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	public int getId() {
 		return id;

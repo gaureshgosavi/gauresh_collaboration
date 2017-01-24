@@ -12,7 +12,7 @@ ForurmModule.factory('ForumFactory', ['$http', '$q', function ($http, $q) {
         deleteForum: deleteForum,
         getForum: getForum,
         createForumComment: createForumComment,
-        getForumComments: getForumComments
+        getforumComments: getforumComments
     };
 
     return factory;

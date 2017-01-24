@@ -7,8 +7,11 @@
                 <span class="orange-text text-accent-2">Created At:</span> {{blog.blog.postDate | date : 'h:mm a, MMM d, y '}}</p>
             </div>
             <div class="card-action">
-                <a href="#!/user/singleBlog" class="pull-right" ng-click="blogCtrl.getBlog(blog.blog.blogId)">View in detail</a>
+                <a ng-href="#!/user/viewBlog/{{blog.blog.blogId}}" class="pull-right" >View in detail</a>
             </div>
         </div>
     </div>
 </div>
+
+
+<!-- ng-click="blogCtrl.getBlog(blog.blog.blogId)" -->

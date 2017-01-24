@@ -2,7 +2,8 @@ BlogModule.controller('BlogController', ['BlogFactory', '$http', '$scope','$root
 
 	var self = this;
 	self.blogs = [];
-	self.blog = { blogId: undefined, title: '', description: '', likes: '', status: '', userId: '' };
+	self.blog = { blogId: undefined, title: '', description: '', userId: '' };
+	self.singleBlog = {};
 
 	self.submit = submit;
 	self.edit = edit;
@@ -26,7 +27,7 @@ BlogModule.controller('BlogController', ['BlogFactory', '$http', '$scope','$root
 		BlogFactory.getBlog(blogId)
 			.then(
 			function (d) {
-				self.blog = d;
+				self.singleBlog = d;
 				$location.path('/user/singleBlog');				
 			},
 			function (errResponse) {
@@ -38,13 +39,12 @@ BlogModule.controller('BlogController', ['BlogFactory', '$http', '$scope','$root
 
 
 	function createBlog(blog) {
-		console.log($rootScope.userId);
-		self.blog.userId = $rootScope.userId;
+		console.log(blog);
 		BlogFactory.createBlog(blog)
 			.then(
-			fetchAllBlogs,
 			function (d) {
 				self.blog = d;
+				console.log(d);
 			},
 			function (errResponse) {
 				console.error('Error while creating Blog');
@@ -81,10 +81,12 @@ BlogModule.controller('BlogController', ['BlogFactory', '$http', '$scope','$root
 	function submit() {
 		if (self.blog.blogId == '' || self.blog.blogId == undefined) {
 			console.log('Saving New Blog', self.blog);
-			createBlog(self.Blog);
+			self.blog.userId = $rootScope.userId;
+			console.log($rootScope.userId);
+			createBlog(self.blog);
 		} else {
-			updateBlog(self.Blog, self.Blog.blogId);
-			console.log('Blog updated with id ', self.Blog.blogId);
+			updateBlog(self.blog, self.blog.blogId);
+			console.log('Blog updated with id ', self.blog.blogId);
 		}
 	}
 

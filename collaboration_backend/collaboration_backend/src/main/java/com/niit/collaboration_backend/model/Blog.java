@@ -15,10 +15,15 @@ import javax.persistence.TemporalType;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Table
 @Entity
 @Component
-public class Blog extends BaseDomain implements Serializable{
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "blogId")
+public class Blog extends BaseDomain implements Serializable {
 	/**
 	 * 
 	 */
@@ -40,7 +45,8 @@ public class Blog extends BaseDomain implements Serializable{
 
 	private int likes;
 
-	@OneToMany(mappedBy="blog",fetch=FetchType.EAGER,cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "blog", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	//@JsonBackReference
 	private List<BlogComment> blogComment;
 
 	public List<BlogComment> getBlogComment() {

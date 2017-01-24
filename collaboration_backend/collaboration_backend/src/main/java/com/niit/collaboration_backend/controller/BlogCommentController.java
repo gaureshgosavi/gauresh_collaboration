@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.collaboration_backend.dao.BlogCommentDAO;
 import com.niit.collaboration_backend.dao.BlogDAO;
+import com.niit.collaboration_backend.dao.UserDAO;
 import com.niit.collaboration_backend.model.Blog;
 import com.niit.collaboration_backend.model.BlogComment;
+import com.niit.collaboration_backend.model.User;
 
 
 
@@ -32,6 +34,12 @@ public class BlogCommentController {
 	
 	@Autowired
 	BlogDAO blogDAO;
+	
+	@Autowired
+	User user;
+	
+	@Autowired
+	UserDAO userDAO;
 
 	@RequestMapping(value = "/blogComment/get/{id}", method = RequestMethod.GET)
 	public ResponseEntity<BlogComment> getblogComment(@PathVariable("id") int id) {
@@ -45,13 +53,18 @@ public class BlogCommentController {
 		return new ResponseEntity<BlogComment>(blogComment, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/blogComment/create", method = RequestMethod.POST)
-	public ResponseEntity<BlogComment> createblogComment(@RequestBody BlogComment currentblogComment) {
+	@RequestMapping(value = "/blogComment/create/{blogId}", method = RequestMethod.POST)
+	public ResponseEntity<BlogComment> createblogComment(@RequestBody BlogComment currentblogComment, @PathVariable("blogId") int blogId) {
 
 			blogComment = new BlogComment();
 			//DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss a");
 			Date date = new Date();
-			blog = blogDAO.get(4);
+			
+			user = userDAO.getById(currentblogComment.getUserId());
+			currentblogComment.setUsername(user.getUsername());
+			
+			blog = blogDAO.get(blogId);
+			
 			currentblogComment.setBlog(blog);
 			currentblogComment.setCommentDate(date);
 			if(blogCommentDAO.saveOrUpdate(currentblogComment) == false){

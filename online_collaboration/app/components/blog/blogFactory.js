@@ -62,7 +62,7 @@ BlogModule.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 		$http.post(blogUrl + 'create', blog)
 			.then(
 			function (response) {
-				$log.info(response);
+				console.log(response);
 				deferred.resolve(response.data);
 			},
 			function (errResponse) {

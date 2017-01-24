@@ -1,0 +1,16 @@
+<div class="row" ng-repeat="forum in forumCtrl.forums |orderBy : 'createdDate': reverse">
+    <div class="col s7 m6 offset-m3 offset-s3">
+        <div class="card blue lighten-2">
+            <div class="card-content orange-text text-accent-2">
+                <div class="col s12 m8">
+                    <p><span class="card-title orange-text text-accent-2">{{forum.forum.name}}</span><br>
+                    <span class="orange-text text-accent-2">Created By:</span> <b>{{forum.firstName}} {{forum.lastname}}</b>
+                    <span class="orange-text text-accent-2">Created At:</span> {{forum.forum.createdDate | date : 'h:mm a, MMM d, y '}}</p>
+                </div>
+                <div class="col s12 m4">
+                    <button class="waves-effect blue darken-3 waves-light pull-right" ng-click="forumCtrl."><i class="material-icons">touch_app</i> Join</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

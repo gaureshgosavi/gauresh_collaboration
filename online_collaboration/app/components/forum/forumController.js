@@ -1,9 +1,9 @@
 
-ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', function (ForumFactory, $http, $scope) {
+ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '$rootScope', function (ForumFactory, $http, $scope, $rootScope) {
 
 	var self = this;
 	self.forums = [];
-	self.forum = { forumId: '', userId: '', name: '', categoryId: '', status: '' };
+	self.forum = { forumId: undefined, userId: '', name: '' };
 
 	self.submit = submit;
 	self.edit = edit;
@@ -14,17 +14,17 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', f
 	self.updateForum = updateForum;
 	self.deleteForum = deleteForum;
 
-	FetchAllForums();
-
-
 	function FetchAllForums() {
-		ForumFactory
+		ForumFactory.fetchAllForums()
 			.then(function (d) {
 				self.forums = d;
+				console.log(self.forums)
 			}, function (errResponse) {
 				console.error('Error while fetching the forums');
-			})
+			});
 	}
+
+	FetchAllForums();
 
 	function getForum(forumId) {
 		ForumFactory.getForum(forumId)
@@ -40,12 +40,11 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', f
 	}
 
 	function createForum(forum) {
-		console.log($rootScope.userId);
-		self.forum.userId = $rootScope.userId;
 		ForumFactory.createForum(forum)
 			.then(
 			function (d) {
 				self.forum = d;
+				console.log(self.forum)
 			},
 			function (errResponse) {
 				console.error('Error while creating forum');
@@ -79,8 +78,10 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', f
 
 	function submit() {
 		if (self.forum.forumId == '' || self.forum.forumId == undefined) {
+			console.log($rootScope.userId);
+			self.forum.userId = $rootScope.userId;
 			console.log('Saving New forum', self.forum);
-			createforum(self.forum);
+			createForum(self.forum);
 		} else {
 			updateforum(self.forum, self.forum.forumId);
 			console.log('forum updated with id ', self.forum.forumId);

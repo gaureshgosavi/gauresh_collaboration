@@ -5,6 +5,7 @@ var myApp = angular.module('myApp',
         'AuthenticationModule',
         'AdminModule',
         'BlogModule',
-        'ForurmModule'
+        'ForurmModule',
+        'BlogCommentModule'
     ]
 );
