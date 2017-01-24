@@ -23,6 +23,7 @@ BlogCommentModule.factory('BlogCommentFactory', ['$http', '$q', function ($http,
                 deferred.reject(errResponse);
                 console.error('error fetching blogcomments');
             });
+            return deferred.promise;
     }
 
     //create blog comment
@@ -36,6 +37,7 @@ BlogCommentModule.factory('BlogCommentFactory', ['$http', '$q', function ($http,
                 deferred.reject(errResponse);
                 console.error('error creating blogcomments');
             });
+            return deferred.promise;
     }
 
     //delete blog comment

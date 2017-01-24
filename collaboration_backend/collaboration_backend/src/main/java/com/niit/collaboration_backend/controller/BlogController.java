@@ -46,6 +46,7 @@ public class BlogController {
 			blogModel.setBlog(b);
 			blogModel.setFirstName(userDAO.getById(b.getUserId()).getFirstName());
 			blogModel.setLastname(userDAO.getById(b.getUserId()).getLastName());
+			blogModel.setNoOfComments(b.getBlogComment().size());
 			bloglist.add(blogModel);
 
 		}
@@ -68,6 +69,7 @@ public class BlogController {
 		blogModel.setBlog(blog);
 		blogModel.setFirstName(userDAO.getById(blog.getUserId()).getFirstName());
 		blogModel.setLastname(userDAO.getById(blog.getUserId()).getLastName());
+		blogModel.setNoOfComments(blog.getBlogComment().size());
 
 		if (blog == null) {
 			blog = new Blog();
@@ -96,6 +98,30 @@ public class BlogController {
 				blog.setErrorMessage("Blog created successfully.");
 			}
 				
+		return new ResponseEntity<Blog>(blog, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/blog/like/{blogId}", method = RequestMethod.PUT)
+	public ResponseEntity<Blog> approveBlog(@PathVariable("blogId") int blogId) {
+		blog = blogDAO.get(blogId);
+		if(blog == null){
+			blog = new Blog();
+			blog.setErrorCode("404");
+			blog.setErrorMessage("Invalid blog");
+		}
+		else{
+			
+			blog.setLikes(blog.getLikes()+1);
+			if(blogDAO.saveOrUpdate(blog) == false){
+				blog = new Blog();
+				blog.setErrorCode("404");
+				blog.setErrorMessage("Failed to update blog.");
+			}else{
+				blog.setErrorCode("200");
+				blog.setErrorMessage("blog updated successfully.");
+			}
+			
+		}
 		return new ResponseEntity<Blog>(blog, HttpStatus.OK);
 	}
 

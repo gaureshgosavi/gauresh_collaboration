@@ -11,6 +11,7 @@ BlogModule.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 		createBlog: createBlog,
 		updateBlog: updateBlog,
 		deleteBlog: deleteBlog,
+		likeBlog: likeBlog,
 		getBlogComments: getBlogComments,
 		createBlogComment: createBlogComment,
 		getBlog: getBlog,
@@ -69,6 +70,21 @@ BlogModule.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 				console.error('Error adding blog');
 				deferred.reject(errResponse);
 			});
+		return deferred.promise;
+	}
+
+	//like blog
+	function likeBlog(blogId) {
+		var deferred = $q.defer();
+		$http.put(blogUrl + 'like/' + blogId)
+			.then(function (response) {
+				console.log(response);
+				deferred.resolve(response.data);
+			}, function (errResponse) {
+				console.error('Error liking blog');
+				deferred.reject(errResponse);
+			});
+
 		return deferred.promise;
 	}
 

@@ -8,6 +8,16 @@ public class blogListModel {
 	String firstName;
 	
 	String lastname;
+	
+	int noOfComments;
+
+	public int getNoOfComments() {
+		return noOfComments;
+	}
+
+	public void setNoOfComments(int noOfComments) {
+		this.noOfComments = noOfComments;
+	}
 
 	public Blog getBlog() {
 		return blog;

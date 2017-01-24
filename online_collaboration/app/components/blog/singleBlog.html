@@ -13,6 +13,17 @@
     <p>{{blogCommentCtrl.singleBlog.blog.description}}</p>
     <div class="pull-right">
         <p>-{{blogCommentCtrl.singleBlog.firstName}} {{blogCommentCtrl.singleBlog.lastname}}</p>
+        <p>({{blogCommentCtrl.singleBlog.blog.likes}} Likes, {{blogCommentCtrl.singleBlog.noOfComments}} Comments)</p>
+        <button class="waves-effect waves-light blue-grey darken-1 orange-text text-accent-2 hoverable" ng-click="blogCommentCtrl.likeBlog()">Hit a like</button>
+    </div>
+</div>
+<div class="container">
+    <p><b><span class="blue-grey-text text-darken-1">Comments</span></b></p>
+    <hr>
+    <div class="row" ng-repeat="c in blogCommentCtrl.singleBlog.blog.blogComment |orderBy : 'commentDate': reverse">
+        <p><b><span class="orange-text text-accent-2">{{c.username}}</span></b></p>
+        <p>{{c.comment}}</p><br>
+        <hr>
     </div>
 </div>
 <div class="container">
@@ -26,10 +37,4 @@
             </div>
         </div>
     </form>
-</div>
-<div class="container">
-    <div class="row" ng-repeat="c in blogCommentCtrl.singleBlog.blogComment |orderBy : 'commentDate': reverse">
-        <p><b>{{c.username}}</b></p>
-        <p>{{c.comment}}</p><br>
-    </div>
 </div>

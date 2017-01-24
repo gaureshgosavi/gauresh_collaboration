@@ -2,10 +2,10 @@ BlogCommentModule.controller('BlogCommentController', ['BlogCommentFactory','Blo
 
 	var self = this;
 	self.blogComment = { id: null, userId: '', blogComment: '' };
-	self.singleBlog = {}
+	self.singleBlog = {};
 
 	self.submit = submit;
-	//self.edit = edit;
+	self.likeBlog = likeBlog;
 	self.remove = remove;
 	self.reset = reset;
 
@@ -23,6 +23,23 @@ BlogCommentModule.controller('BlogCommentController', ['BlogCommentFactory','Blo
 			},
 			function (errResponse) {
 				console.error('error while fetching blog.')
+			}
+			);
+	}
+
+	function likeBlog(blogId) {
+		var getBlogId=$routeParams.blogId;
+		console.log(getBlogId);
+
+		BlogFactory.likeBlog(getBlogId)
+			.then(
+			function (d) {
+				self.singleBlog = d;
+				console.log(d);
+				getBlog();
+			},
+			function (errResponse) {
+				console.error('Error while liking Blog');
 			}
 			);
 	}
@@ -62,7 +79,7 @@ BlogCommentModule.controller('BlogCommentController', ['BlogCommentFactory','Blo
 			self.blogComment.userId = $rootScope.userId;
 			console.log($rootScope.userId);
 			console.log(self.singleBlog.blogId);
-			createBlogComment(self.blogComment, self.singleBlog.blogId);
+			createBlogComment(self.blogComment, self.singleBlog.blog.blogId);
 		} 
 	}
 
