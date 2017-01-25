@@ -1,4 +1,6 @@
-app.factory('forumCommentFactory', ['$http', '$q', function ($http, $q) {
+var ForumCommentModule = angular.module('ForumCommentModule', []);
+
+ForumCommentModule.factory('ForumCommentFactory', ['$http', '$q', function ($http, $q) {
 
     var url = "http://localhost:8090/collaboration_backend//forumComment/"
 

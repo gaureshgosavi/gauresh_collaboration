@@ -11,6 +11,7 @@ ForurmModule.factory('ForumFactory', ['$http', '$q', function ($http, $q) {
         updateForum: updateForum,
         deleteForum: deleteForum,
         getForum: getForum,
+        joinForum: joinForum,
         createForumComment: createForumComment,
         getforumComments: getforumComments
     };
@@ -37,6 +38,48 @@ ForurmModule.factory('ForumFactory', ['$http', '$q', function ($http, $q) {
     function createForum(forum) {
         var deferred = $q.defer();
         $http.post(url + 'create', forum).
+            then(function (response) {
+                console.log(response.data);
+                deferred.resolve(response.data);
+            }, function (errResponse) {
+                console.error('error creating forums');
+                deferred.reject(errResponse);
+            });
+        return deferred.promise;
+    }
+
+    //send forum request
+    function joinForum(forum) {
+        var deferred = $q.defer();
+        $http.post(url + 'request', forum).
+            then(function (response) {
+                console.log(response.data);
+                deferred.resolve(response.data);
+            }, function (errResponse) {
+                console.error('error creating forums');
+                deferred.reject(errResponse);
+            });
+        return deferred.promise;
+    }
+
+    //get forum request
+    function getForumRequest(forumId) {
+        var deferred = $q.defer();
+        $http.get(url + '/pendingRequest/'+forumId).
+            then(function (response) {
+                console.log(response.data);
+                deferred.resolve(response.data);
+            }, function (errResponse) {
+                console.error('error creating forums');
+                deferred.reject(errResponse);
+            });
+        return deferred.promise;
+    }
+
+    //get forum members
+    function getForumMember(forumId) {
+        var deferred = $q.defer();
+        $http.get(url + '/approvedRequest/'+forumId).
             then(function (response) {
                 console.log(response.data);
                 deferred.resolve(response.data);

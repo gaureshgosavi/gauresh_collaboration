@@ -24,6 +24,7 @@ AuthenticationModule.controller('AuthenticationController', ['AuthenticationFact
                     $rootScope.emailId = user.emailId;
                     $rootScope.gender = user.gender;
                     $rootScope.userId = user.userId;
+                    AuthenticationFactory.saveUser(user);
 
                     switch (user.role) {
                         case 'ADMIN':

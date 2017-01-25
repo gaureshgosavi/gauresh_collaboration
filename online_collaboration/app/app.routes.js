@@ -89,6 +89,14 @@ window.routes =
             roles: ['ADMIN']
         },
 
+        "/forum/members/:forumId": {
+            templateUrl: 'app/components/user/viewMember.html',
+            controller: 'ForumCommentController',
+            controllerAs: 'forumCommentCtrl',
+            requireLogin: true,
+            roles: ['USER', 'ADMIN']
+        },
+
         "/login": {
             templateUrl: 'app/components/authentication/login.html',
             controller: 'AuthenticationController',
@@ -148,7 +156,10 @@ myApp.run(function ($rootScope, $location, AuthenticationFactory) {
             // if routes is present make sure the user is authenticated 
             // before login using the authentication service            
             if (next.indexOf(i) != -1) {
-                // if trying to access page which requires login and is not logged in                                
+                // if trying to access page which requires login and is not logged in 
+                $rootScope.user = AuthenticationFactory.loadUserFromCookie();
+                $rootScope.authenticated = AuthenticationFactory.getUserIsAuthenticated();
+
                 if (window.routes[i].requireLogin && !AuthenticationFactory.getUserIsAuthenticated()) {
                     $location.path('/login');
                 }

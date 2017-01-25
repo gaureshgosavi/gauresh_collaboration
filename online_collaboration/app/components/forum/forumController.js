@@ -4,11 +4,13 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '
 	var self = this;
 	self.forums = [];
 	self.forum = { forumId: undefined, userId: '', name: '' };
+	self.request = {};
 
 	self.submit = submit;
 	self.edit = edit;
 	self.remove = remove;
 	self.reset = reset;
+	self.sendForumRequest = sendForumRequest;
 	self.getForum = getForum;
 	self.createForum = createForum;
 	self.updateForum = updateForum;
@@ -52,6 +54,19 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '
 			);
 	}
 
+	function joinForum(forum) {
+		ForumFactory.joinForum(forum)
+			.then(
+			function (d) {
+				self.forum = d;
+				console.log(self.forum)
+			},
+			function (errResponse) {
+				console.error('Error while creating forum');
+			}
+			);
+	}
+
 	function updateForum(forum, forumId) {
 		ForumFactory.updateForum(forum, forumId)
 			.then(
@@ -74,6 +89,14 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '
 				console.error('Error while deleting forum');
 			}
 			);
+	}
+
+	function sendForumRequest(forumId) {
+		console.log(forumId);
+		self.request.forumId = forumId;
+		console.log($rootScope.userId);
+		self.request.userId = $rootScope.userId;
+		joinForum(self.request);
 	}
 
 	function submit() {

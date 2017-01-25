@@ -1,0 +1,12 @@
+<div class="container">
+    <div class="row" ng-repeat="forum in forumCommentCtrl.singleForum |orderBy : 'createdDate'">
+        <div class="col s6 m4">
+            <a href="#!user"><img class="circle" src="assets/img/male.png" width="170px" height="170px"></a>
+        </div>
+        <div class="col s6 m8">
+            <span class="blue-text text-darken-3">{{forum.singleForum.user.username}}</span><br>
+            <span class="blue-text text-darken-3">{{forum.singleForum.user.firstName}} {{forum.singleForum.user.lastName}}</span><br>
+            <span class="blue-text text-darken-3">{{forum.singleForum.user.role}}</span><hr>
+        </div>
+    </div>
+</div>

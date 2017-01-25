@@ -1,6 +1,6 @@
-var AuthenticationModule = angular.module('AuthenticationModule', []);
+var AuthenticationModule = angular.module('AuthenticationModule', ['ngCookies']);
 
-AuthenticationModule.factory('AuthenticationFactory', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
+AuthenticationModule.factory('AuthenticationFactory', ['$http', '$q', '$rootScope', '$cookies', function ($http, $q, $rootScope, $cookies) {
     var url = 'http://localhost:8090/collaboration_backend/';
     var userIsAuthenticated = false;
     var role = 'GUEST';
@@ -8,6 +8,8 @@ AuthenticationModule.factory('AuthenticationFactory', ['$http', '$q', '$rootScop
     return {
         setUserIsAuthenticated: setUserIsAuthenticated,
         getUserIsAuthenticated: getUserIsAuthenticated,
+        loadUserFromCookie: loadUserFromCookie,
+        saveUser: saveUser,
         setRole: setRole,
         getRole: getRole,
         login: login,
@@ -72,8 +74,11 @@ AuthenticationModule.factory('AuthenticationFactory', ['$http', '$q', '$rootScop
     function logout(userId) {
         debugger;
         var deferred = $q.defer();
-        $http.put(url+'/logout/' + userId)
+        $http.put(url + '/logout/' + userId)
             .then(function (response) {
+                $cookies.putObject('user', undefined);
+                userIsAuthenticated = false;
+                role = 'GUEST';
                 deferred.resolve(response);
                 console.log(response);
             },
@@ -82,6 +87,34 @@ AuthenticationModule.factory('AuthenticationFactory', ['$http', '$q', '$rootScop
                 console.log(errResponse);
             });
         return deferred.promise;
+    }
+
+    function loadUserFromCookie() {
+        user = $cookies.getObject('user');
+        if (user) {
+            userIsAuthenticated = true;
+            $rootScope.authenticated = true;
+            $rootScope.message = 'Welcome ' + user.firstName;
+            $rootScope.firstName = user.firstName;
+            $rootScope.lastName = user.lastName;
+            $rootScope.emailId = user.emailId;
+            $rootScope.gender = user.gender;
+            $rootScope.userId = user.userId;
+            role = user.role;
+        }
+        else {
+            userIsAuthenticated = false;
+            role = 'GUEST';
+        }
+        return user;
+    }
+
+    function saveUser(user) {
+        // save the user inside the cookie
+        $cookies.putObject('user', user);
+        role = user.role;
+        userIsAuthenticated = true;
+
     }
 
 }]);

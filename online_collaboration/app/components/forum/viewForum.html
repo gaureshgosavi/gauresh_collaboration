@@ -1,15 +1,18 @@
 <div class="row" ng-repeat="forum in forumCtrl.forums |orderBy : 'createdDate': reverse">
     <div class="col s7 m6 offset-m3 offset-s3">
-        <div class="card blue lighten-2">
-            <div class="card-content orange-text text-accent-2">
-                <div class="col s12 m8">
-                    <p><span class="card-title orange-text text-accent-2">{{forum.forum.name}}</span><br>
-                    <span class="orange-text text-accent-2">Created By:</span> <b>{{forum.firstName}} {{forum.lastname}}</b>
-                    <span class="orange-text text-accent-2">Created At:</span> {{forum.forum.createdDate | date : 'h:mm a, MMM d, y '}}</p>
+        <div class="card blue lighten-2 hoverable">
+            <div class="card-content blue-text text-lighten-2">
+                <div class="row">
+                    <div class="col s12 m8">
+                        <span class="card-title blue-text text-darken-3">{{forum.forum.name}}</span><br>
+                        <span class="blue-text text-darken-3">Created By: <b>{{forum.firstName}} {{forum.lastname}}</b></span>
+                        <span class="blue-text text-darken-3">Created At: {{forum.forum.createdDate | date : 'h:mm a, MMM d, y '}}</span>
+                    </div>
+                    <div class="col s12 m4">
+                        <button class="waves-effect blue darken-3 waves-light pull-right hoverable" ng-click="forumCtrl.sendForumRequest(forum.forum.forumId)"><i class="material-icons">touch_app</i> Join</button>
+                    </div>
                 </div>
-                <div class="col s12 m4">
-                    <button class="waves-effect blue darken-3 waves-light pull-right" ng-click="forumCtrl."><i class="material-icons">touch_app</i> Join</button>
-                </div>
+                <div class="row"><a ng-href="#!/forum/members/{{forum.forum.forumId}}" class="blue-text text-darken-3">Members</a></div>
             </div>
         </div>
     </div>

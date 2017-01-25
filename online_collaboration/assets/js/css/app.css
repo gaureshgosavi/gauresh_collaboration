@@ -1,0 +1,16 @@
+.help-block{
+	padding-left: 3rem;
+	color: red-text text-accent-4;
+}
+
+.coll{
+	font-family: 'Freckle Face', cursive;
+}
+
+.menu{
+	color: cyan darken-4;
+}
+
+.body {
+    background-image: url("collaboration3.png");
+}
