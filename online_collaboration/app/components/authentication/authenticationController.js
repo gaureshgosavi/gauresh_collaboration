@@ -1,9 +1,14 @@
-AuthenticationModule.controller('AuthenticationController', ['AuthenticationFactory', '$rootScope', '$location', function (AuthenticationFactory, $rootScope, $location) {
+AuthenticationModule.controller('AuthenticationController', ['AuthenticationFactory', '$rootScope', '$location', '$timeout',function (AuthenticationFactory, $rootScope, $location, $timeout) {
     var self = this;
     self.credentials = {};
     self.error = false;
     self.authError = false;
     self.client = { id: undefined, firstName: '', lastName: '', username: '', emailId: '', password: '', confirmPassword: '', role: '', gender: '' };
+
+    // once the controller loads call the jQuery
+    $timeout(function () {
+        load();
+    }, 100);
 
     self.login = function () {
         AuthenticationFactory.login(self.credentials)
@@ -19,11 +24,6 @@ AuthenticationModule.controller('AuthenticationController', ['AuthenticationFact
                     AuthenticationFactory.setRole(user.role);
                     $rootScope.authenticated = true;
                     $rootScope.message = 'Welcome ' + user.firstName;
-                    $rootScope.firstName = user.firstName;
-                    $rootScope.lastName = user.lastName;
-                    $rootScope.emailId = user.emailId;
-                    $rootScope.gender = user.gender;
-                    $rootScope.userId = user.userId;
                     AuthenticationFactory.saveUser(user);
 
                     switch (user.role) {

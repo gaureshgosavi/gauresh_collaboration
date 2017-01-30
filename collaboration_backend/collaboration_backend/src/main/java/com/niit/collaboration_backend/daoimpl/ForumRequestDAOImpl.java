@@ -38,15 +38,29 @@ public class ForumRequestDAOImpl implements ForumRequestDAO{
 	@Override
 	@Transactional
 	public List<ForumRequest> getByStatus(String status, int forumId) {
-		String hql = "from ForumRequest where forumId = '"+forumId+"' status = '"+status+"'";
+		String hql = "from ForumRequest where forumId = '"+forumId+"' and status = '"+status+"'";
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
 
 	@Override
+	@Transactional
 	public ForumRequest getByUserId(int userId) {
 		String hql="FROM ForumRequest WHERE userId = :userId";
 		Query query =(Query) sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameter("userId", userId);
+		try {
+			return (ForumRequest) query.getSingleResult();	
+		}
+		catch(Exception ex) {
+			return null;
+		}
+	}
+
+	@Override
+	@Transactional
+	public ForumRequest get(int userId, int forumId) {
+		String hql = "from ForumRequest where forumId = '"+forumId+"' and userId = '"+userId+"'";
+		Query query =(Query) sessionFactory.getCurrentSession().createQuery(hql);
 		try {
 			return (ForumRequest) query.getSingleResult();	
 		}

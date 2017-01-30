@@ -42,6 +42,7 @@ public class ForumController {
 			forumModel.setForum(f);
 			forumModel.setFirstName(userDAO.getById(f.getUserId()).getFirstName());
 			forumModel.setLastname(userDAO.getById(f.getUserId()).getLastName());
+			forumModel.setLastname(userDAO.getById(f.getUserId()).getUsername());
 			forumlist.add(forumModel);
 
 		}
@@ -56,15 +57,21 @@ public class ForumController {
 	}
 
 	@RequestMapping(value = "/forum/get/{forumId}", method = RequestMethod.GET)
-	public ResponseEntity<Forum> getforum(@PathVariable("forumId") int forumId) {
+	public ResponseEntity<ForumListModel> getforum(@PathVariable("forumId") int forumId) {
 		System.out.println("Fetching forum");
+		ForumListModel forumListModel = new ForumListModel();
 		Forum forum = forumDAO.get(forumId);
+		forumListModel.setForum(forum);
+		forumListModel.setFirstName(userDAO.getById(forum.getUserId()).getFirstName());
+		forumListModel.setLastname(userDAO.getById(forum.getUserId()).getLastName());
+		forumListModel.setLastname(userDAO.getById(forum.getUserId()).getUsername());
+		
 		if (forum == null) {
 			forum = new Forum();
 			forum.setErrorCode("404");
 			forum.setErrorMessage("forum does not exist.");
 		}
-		return new ResponseEntity<Forum>(forum, HttpStatus.OK);
+		return new ResponseEntity<ForumListModel>(forumListModel, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/forum/create", method = RequestMethod.POST)

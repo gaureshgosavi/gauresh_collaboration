@@ -1,5 +1,5 @@
 
-ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '$rootScope', function (ForumFactory, $http, $scope, $rootScope) {
+ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '$rootScope', '$routeParams', function (ForumFactory, $http, $scope, $rootScope, $routeParams) {
 
 	var self = this;
 	self.forums = [];
@@ -10,6 +10,7 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '
 	self.edit = edit;
 	self.remove = remove;
 	self.reset = reset;
+	self.getForumMember = getForumMember;
 	self.sendForumRequest = sendForumRequest;
 	self.getForum = getForum;
 	self.createForum = createForum;
@@ -39,6 +40,22 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '
 			}
 			);
 
+	}
+
+	function getForumMember(forumId) {
+		var getForumId=$routeParams.forumId;
+		console.log(forumId);
+
+		ForumFactory.getForum(forumId)
+			.then(
+			function (d) {
+				self.singleForum = d;
+				console.log(self.singleForum);
+			},
+			function (errResponse) {
+				console.error('error while fetching blog.')
+			}
+			);
 	}
 
 	function createForum(forum) {

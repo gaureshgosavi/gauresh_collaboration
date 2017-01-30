@@ -9,14 +9,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.collaboration_backend.dao.ForumCommentDAO;
 import com.niit.collaboration_backend.dao.ForumDAO;
+import com.niit.collaboration_backend.dao.UserDAO;
+import com.niit.collaboration_backend.model.BlogComment;
 import com.niit.collaboration_backend.model.Forum;
 import com.niit.collaboration_backend.model.ForumComment;
+import com.niit.collaboration_backend.model.User;
 
-
-
+@RestController
 public class ForumCommentController {
 
 	
@@ -31,6 +34,12 @@ public class ForumCommentController {
 	
 	@Autowired
 	ForumDAO forumDAO;
+	
+	@Autowired
+	User user;
+	
+	@Autowired
+	UserDAO userDAO;
 
 	@RequestMapping(value = "/forumComment/get/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ForumComment> getforumComment(@PathVariable("id") int id) {
@@ -44,26 +53,31 @@ public class ForumCommentController {
 		return new ResponseEntity<ForumComment>(forumComment, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/forumComment/create", method = RequestMethod.POST)
-	public ResponseEntity<ForumComment> createforumComment(@RequestBody ForumComment currentforumComment) {
+	@RequestMapping(value = "/forumComment/create/{forumId}", method = RequestMethod.POST)
+	public ResponseEntity<ForumComment> createforumComment(@PathVariable("forumId") int forumId, @RequestBody ForumComment currentforumComment) {
 
+		forumComment = new ForumComment();
+		//DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss a");
+		Date date = new Date();
+		
+		user = userDAO.getById(currentforumComment.getUserId());
+		currentforumComment.setUsername(user.getUsername());
+		
+		forum = forumDAO.get(forumId);
+		
+		currentforumComment.setForum(forum);
+		currentforumComment.setCommentDate(date);
+		if(forumCommentDAO.saveOrUpdate(currentforumComment) == false){
 			forumComment = new ForumComment();
-			//DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss a");
-			Date date = new Date();
-			forum = forumDAO.get(4);
-			currentforumComment.setForum(forum);
-			currentforumComment.setCommentDate(date);
-			if(forumCommentDAO.saveOrUpdate(currentforumComment) == false){
-				forumComment = new ForumComment();
-				forumComment.setErrorCode("404");
-				forumComment.setErrorMessage("Failed to create forumComment. Please try again.");
-			}
-			else{
-				forumComment.setErrorCode("200");
-				forumComment.setErrorMessage("forumComment created successfully.");
-			}
-				
-		return new ResponseEntity<ForumComment>(forumComment, HttpStatus.OK);
+			forumComment.setErrorCode("404");
+			forumComment.setErrorMessage("Failed to create blogComment. Please try again.");
+		}
+		else{
+			forumComment.setErrorCode("200");
+			forumComment.setErrorMessage("blogComment created successfully.");
+		}
+			
+	return new ResponseEntity<ForumComment>(forumComment, HttpStatus.OK);
 	}
 
 	

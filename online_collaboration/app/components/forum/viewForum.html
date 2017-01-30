@@ -12,7 +12,9 @@
                         <button class="waves-effect blue darken-3 waves-light pull-right hoverable" ng-click="forumCtrl.sendForumRequest(forum.forum.forumId)"><i class="material-icons">touch_app</i> Join</button>
                     </div>
                 </div>
-                <div class="row"><a ng-href="#!/forum/members/{{forum.forum.forumId}}" class="blue-text text-darken-3">Members</a></div>
+                <div class="row"><a ng-href="#!/forum/members/{{forum.forum.forumId}}" class="blue-text text-darken-3" ng-click="forumCtrl.getForumMember(forum.forum.forumId)">Members</a>
+                <a ng-href="#!/viewForum/{{forum.forum.forumId}}" class="waves-effect waves-light btn blue darken-3 pull-right">Visit Forum</a>
+                </div>
             </div>
         </div>
     </div>

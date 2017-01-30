@@ -1,6 +1,6 @@
 package com.niit.collaboration_backend.model;
 
-public class ForumRequestModel {
+public class ForumRequestModel extends BaseDomain{
 	
 	Forum forum;
 	

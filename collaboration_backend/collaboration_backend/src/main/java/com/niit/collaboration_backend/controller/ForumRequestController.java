@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.niit.collaboration_backend.dao.ForumDAO;
 import com.niit.collaboration_backend.dao.ForumRequestDAO;
 import com.niit.collaboration_backend.dao.UserDAO;
+import com.niit.collaboration_backend.model.Blog;
+import com.niit.collaboration_backend.model.Forum;
 import com.niit.collaboration_backend.model.ForumRequest;
 import com.niit.collaboration_backend.model.ForumRequestModel;
 import com.niit.collaboration_backend.model.User;
@@ -34,6 +36,9 @@ public class ForumRequestController {
 	
 	@Autowired
 	UserDAO userDAO;
+	
+	@Autowired
+	User user;
 
 	@RequestMapping(value = "/forum/request", method = RequestMethod.POST)
 	public ResponseEntity<ForumRequest> createRequest(@RequestBody ForumRequest request) {
@@ -66,49 +71,66 @@ public class ForumRequestController {
 	@RequestMapping(value = "/forum/pendingRequest/{forumId}", method = RequestMethod.GET)
 	public ResponseEntity<List<ForumRequestModel>> listPendingRequest(@PathVariable("forumId") int forumId) {
 		List<ForumRequest> requests = forumRequestDAO.getByStatus("PENDING", forumId);
-		List<ForumRequestModel> requestlist = new ArrayList<>();
+		List<ForumRequestModel> forumRequestList = new ArrayList<>();
 
-		ForumRequestModel requestModel = null;
+		ForumRequestModel forumRequestModel = null;
 		
 		for (ForumRequest f : requests) {
-			requestModel = new ForumRequestModel();
-			requestModel.setForum(forumDAO.get(f.getForumId()));
-			requestModel.setUser(userDAO.getById(f.getUserId()));
-			requestlist.add(requestModel);
+			forumRequestModel = new ForumRequestModel();
+			forumRequestModel.setUser(userDAO.getById(f.getUserId()));
+			forumRequestModel.setForum(forumDAO.get(f.getUserId()));
+			forumRequestList.add(forumRequestModel);
 
 		}
 		
 		
-		if (requestlist.isEmpty()) {
-			forumRequest = new ForumRequest();
-			forumRequest.setErrorCode("404");
-			forumRequest.setErrorMessage("No blogs present.");
-			requests.add(forumRequest);
+		if (forumRequestList.isEmpty()) {
+			forumRequestModel = new ForumRequestModel();
+			forumRequestModel.setErrorCode("404");
+			forumRequestModel.setErrorMessage("No blogs present.");
+			forumRequestList.add(forumRequestModel);
 		}
-		return new ResponseEntity<List<ForumRequestModel>>(requestlist, HttpStatus.OK);
+		return new ResponseEntity<List<ForumRequestModel>>(forumRequestList, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/forum/approvedRequest/{forumId}", method = RequestMethod.GET)
-	public ResponseEntity<List<ForumRequestModel>> listApprovedRequest(@PathVariable("forumId") int forumId) {
+	public ResponseEntity<List<User>> listForumMembers(@PathVariable("forumId") int forumId) {
 		List<ForumRequest> requests = forumRequestDAO.getByStatus("APPROVE", forumId);
-		List<ForumRequestModel> requestlist = new ArrayList<>();
+		List<User> userlist = new ArrayList<>();
 
-		ForumRequestModel requestModel = null;
+		User user = null;
 		
 		for (ForumRequest f : requests) {
-			requestModel = new ForumRequestModel();
-			requestModel.setForum(forumDAO.get(f.getForumId()));
-			requestModel.setUser(userDAO.getById(f.getUserId()));
-			requestlist.add(requestModel);
+			user = new User();
+			user = userDAO.getById(f.getUserId());
+			userlist.add(user);
 
 		}
 		
-		if (requestlist.isEmpty()) {
-			forumRequest = new ForumRequest();
-			forumRequest.setErrorCode("404");
-			forumRequest.setErrorMessage("No blogs present.");
-			requests.add(forumRequest);
+		
+		if (userlist.isEmpty()) {
+			user = new User();
+			user.setErrorCode("404");
+			user.setErrorMessage("No blogs present.");
+			userlist.add(user);
 		}
-		return new ResponseEntity<List<ForumRequestModel>>(requestlist, HttpStatus.OK);
+		return new ResponseEntity<List<User>>(userlist, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/forum/approveMember/{forumId}", method = RequestMethod.PUT)
+	public ResponseEntity<User> approveBlog(@PathVariable("forumId") int forumId, @RequestBody User userRequest) {
+		forumRequest = forumRequestDAO.get(userRequest.getUserId(), forumId);
+		forumRequest.setStatus("APPROVE");
+			if(forumRequestDAO.saveOrUpdate(forumRequest) == false){
+				user = new User();
+				user.setErrorCode("404");
+				user.setErrorMessage("Failed to approve blog.");
+			}else{
+				user = userDAO.getById(userRequest.getUserId());
+				user.setErrorCode("200");
+				user.setErrorMessage("user approved successfully.");
+			}
+			
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }

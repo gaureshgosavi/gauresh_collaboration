@@ -6,6 +6,7 @@ var myApp = angular.module('myApp',
         'AdminModule',
         'BlogModule',
         'ForurmModule',
-        'BlogCommentModule'
+        'BlogCommentModule',
+        'ForumCommentModule'
     ]
 );

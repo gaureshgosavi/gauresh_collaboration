@@ -97,6 +97,22 @@ window.routes =
             roles: ['USER', 'ADMIN']
         },
 
+        "/viewForum/:forumId": {
+            templateUrl: 'app/components/forum/singleForum.html',
+            controller: 'ForumCommentController',
+            controllerAs: 'forumCommentCtrl',
+            requireLogin: true,
+            roles: ['USER', 'ADMIN']
+        },
+
+        "/forum/requests/:forumId": {
+            templateUrl: 'app/components/user/viewForumRequest.html',
+            controller: 'ForumCommentController',
+            controllerAs: 'forumCommentCtrl',
+            requireLogin: true,
+            roles: ['USER', 'ADMIN']
+        },
+
         "/login": {
             templateUrl: 'app/components/authentication/login.html',
             controller: 'AuthenticationController',

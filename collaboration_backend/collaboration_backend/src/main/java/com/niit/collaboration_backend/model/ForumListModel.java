@@ -7,6 +7,16 @@ public class ForumListModel {
 	String firstName;
 	
 	String lastname;
+	
+	String username;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	public Forum getForum() {
 		return forum;

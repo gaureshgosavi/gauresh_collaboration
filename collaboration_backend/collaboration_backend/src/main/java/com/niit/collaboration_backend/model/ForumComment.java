@@ -41,6 +41,8 @@ public class ForumComment extends BaseDomain implements Serializable{
 	
 	@Temporal(TemporalType.DATE)
 	private Date commentDate;
+	
+	private String username;
 
 	/*public int getForumId() {
 		return forumId;
@@ -49,6 +51,14 @@ public class ForumComment extends BaseDomain implements Serializable{
 	public void setForumId(int forumId) {
 		this.forumId = forumId;
 	}*/
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	public int getId() {
 		return id;

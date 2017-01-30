@@ -6,8 +6,7 @@ ForumCommentModule.factory('ForumCommentFactory', ['$http', '$q', function ($htt
 
     var factory = {
         getforumComments: getforumComments,
-        createforumComment: createforumComment,
-        deleteforumComment: deleteforumComment
+        createforumComment: createforumComment
     };
 
     return factory;
@@ -23,12 +22,13 @@ ForumCommentModule.factory('ForumCommentFactory', ['$http', '$q', function ($htt
                 deferred.reject(errResponse);
                 console.error('error fetching forumcomments');
             });
+        return deferred.promise;
     }
 
     //create forum comment
-    function createforumComment(forumId) {
+    function createforumComment(forumComment, forumId) {
         var deferred = $q.defer();
-        $http.post(url + 'create' + forumId).
+        $http.post(url + 'create/'+forumId, forumComment).
             then(function (response) {
                 deferred.resolve(response.data);
                 console.log('created forum comment');
@@ -36,6 +36,7 @@ ForumCommentModule.factory('ForumCommentFactory', ['$http', '$q', function ($htt
                 deferred.reject(errResponse);
                 console.error('error creating forumcomments');
             });
+        return deferred.promise;
     }
 
 }]);

@@ -1,17 +1,17 @@
-ForumCommentModule.controller('ForumCommentController', ['ForumCommentFactory', '$http', '$scope', '$routeParams', function (ForumCommentFactory, $http, $scope, $routeParams) {
+ForumCommentModule.controller('ForumCommentController', ['$rootScope', '$scope', '$http', '$routeParams', 'ForumFactory', 'ForumCommentFactory', function ($rootScope, $scope, $http, $routeParams, ForumFactory, ForumCommentFactory) {
 
     var self = this;
-    self.forumComments = [];
+    self.singleForum = {};
+	self.user = [];
+	self.forumRequest = [];
     self.forumComment = {id: null, userId: '', forumComment: ''};
 
     self.submit = submit;
-    self.singleForum = singleForum;
-    self.getForumRequest = getForumRequest;
-    self.getForumMember = self.getForumMember;
     self.reset = reset;
 
-
-    getForum();
+	getForum();
+	getForumRequest();
+	getForumMember();
   
 	function getForum(forumId) {
 		var getForumId=$routeParams.forumId;
@@ -37,8 +37,9 @@ ForumCommentModule.controller('ForumCommentController', ['ForumCommentFactory', 
 		ForumFactory.getForum(getForumId)
 			.then(
 			function (d) {
-				self.singleForum = d;
-				console.log(self.singleForum);
+				self.forumRequest = d;
+				console.log('Request'+self.forumRequest);
+				getForum();
 			},
 			function (errResponse) {
 				console.error('error while fetching blog.')
@@ -53,8 +54,8 @@ ForumCommentModule.controller('ForumCommentController', ['ForumCommentFactory', 
 		ForumFactory.getForum(getForumId)
 			.then(
 			function (d) {
-				self.singleForum = d;
-				console.log(self.singleForum);
+				self.user = d;
+				console.log('member'+self.user);
 			},
 			function (errResponse) {
 				console.error('error while fetching blog.')
@@ -63,12 +64,13 @@ ForumCommentModule.controller('ForumCommentController', ['ForumCommentFactory', 
 	}
 
     
-    function createforumComment(forumComment) {
-        forumCommentFactory.createforumComment(forumComment)
+    function createforumComment(forumComment, forumId) {
+        ForumCommentFactory.createforumComment(forumComment, forumId)
             .then(
-            getforumComments,
             function (d) {
                 self.forumComment = d;
+				getForum();
+				console.log(d);
             },
             function (errResponse) {
                 console.error('Error while creating forumComment');
@@ -79,9 +81,11 @@ ForumCommentModule.controller('ForumCommentController', ['ForumCommentFactory', 
     function submit() {
         if (self.forumComment.id == '' || self.forumComment.id == undefined) {
             console.log('Saving New forumComment', self.forumComment);
-            createforumComment(self.forumComment);
+			self.forumComment.userId = $rootScope.userId;
+			console.log($rootScope.userId);
+            console.log(self.singleForum.forum.forumId);
+			createforumComment(self.forumComment, self.singleForum.forum.forumId);
         }
-        reset();
     }
 
 

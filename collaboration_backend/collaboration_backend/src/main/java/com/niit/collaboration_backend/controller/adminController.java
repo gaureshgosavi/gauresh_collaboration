@@ -16,6 +16,7 @@ import com.niit.collaboration_backend.dao.UserDAO;
 import com.niit.collaboration_backend.model.Blog;
 import com.niit.collaboration_backend.model.User;
 import com.niit.collaboration_backend.model.blogListModel;
+import com.niit.collaboration_backend.service.EmailService;
 
 @RestController
 public class adminController {
@@ -31,6 +32,9 @@ public class adminController {
 	
 	@Autowired
 	UserDAO userDAO;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@RequestMapping(value = "/admin/blogs", method = RequestMethod.GET)
 	public ResponseEntity<List<blogListModel>> listAllblogs() {
@@ -185,6 +189,7 @@ public class adminController {
 			}else{
 				user.setErrorCode("200");
 				user.setErrorMessage("user updated successfully.");
+				emailService.approvedUserMessage(user);
 			}
 			
 		}
