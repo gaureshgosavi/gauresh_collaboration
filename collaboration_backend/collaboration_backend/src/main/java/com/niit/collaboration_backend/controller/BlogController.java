@@ -59,6 +59,32 @@ public class BlogController {
 		}
 		return new ResponseEntity<List<blogListModel>>(bloglist, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/blog/myBlogs/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<List<blogListModel>> listMyblogs(@PathVariable("userId") int userId) {
+		List<Blog> blogs = blogDAO.getByUserId(userId);
+		List<blogListModel> bloglist = new ArrayList<>();
+
+		blogListModel blogModel = null;
+		
+		for (Blog b : blogs) {
+			blogModel = new blogListModel();
+			blogModel.setBlog(b);
+			blogModel.setFirstName(userDAO.getById(b.getUserId()).getFirstName());
+			blogModel.setLastname(userDAO.getById(b.getUserId()).getLastName());
+			blogModel.setNoOfComments(b.getBlogComment().size());
+			bloglist.add(blogModel);
+
+		}
+		
+		if (bloglist.isEmpty()) {
+			blog = new Blog();
+			blog.setErrorCode("404");
+			blog.setErrorMessage("No blogs present.");
+			blogs.add(blog);
+		}
+		return new ResponseEntity<List<blogListModel>>(bloglist, HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/blog/get/{blogId}", method = RequestMethod.GET)
 	public ResponseEntity<blogListModel> getblog(@PathVariable("blogId") int blogId) {

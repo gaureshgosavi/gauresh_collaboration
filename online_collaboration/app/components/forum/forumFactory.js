@@ -7,6 +7,7 @@ ForurmModule.factory('ForumFactory', ['$http', '$q', function ($http, $q) {
 
     var factory = {
         fetchAllForums: fetchAllForums,
+        getForumMember: getForumMember,
         createForum: createForum,
         updateForum: updateForum,
         deleteForum: deleteForum,

@@ -2,6 +2,7 @@ BlogModule.controller('BlogController', ['BlogFactory', '$http', '$scope','$root
 
 	var self = this;
 	self.blogs = [];
+	self.myBlogs = [];
 	self.blog = { blogId: undefined, title: '', description: '', userId: '' };
 	self.singleBlog = {};
 
@@ -18,6 +19,19 @@ BlogModule.controller('BlogController', ['BlogFactory', '$http', '$scope','$root
 			.fetchAllBlogs()
 			.then(function (d) {
 				self.blogs = d;
+			}, function (errResponse) {
+				console.error('Error while fetching the blogs');
+			})
+	}
+
+	getMyBlogs($rootScope.userId);
+
+
+	function getMyBlogs(userId) {
+		BlogFactory
+			.getMyBlogs(userId)
+			.then(function (d) {
+				self.myBlogs = d;
 			}, function (errResponse) {
 				console.error('Error while fetching the blogs');
 			})

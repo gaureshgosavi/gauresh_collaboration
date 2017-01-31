@@ -11,6 +11,8 @@ public interface BlogDAO {
 	boolean delete(Blog blog);
 
 	Blog get(int blogId);
+	
+	List<Blog> getByUserId(int userId);
 
 	List<Blog> list();
 	

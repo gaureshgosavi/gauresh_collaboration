@@ -18,8 +18,8 @@ var load = function () {
     // // Destroy sideNav
     // $('#userNav').sideNav('destroy');
 
-    $('#userNav').sideNav({
-        menuWidth: 300, // Default is 240
+    $('.button-collapse').sideNav({
+        menuWidth: 220, // Default is 240
         edge: 'right', // Choose the horizontal origin
         closeOnClick: false, // Closes side-nav on <a> clicks, useful for Angular/Meteor
         draggable: true // Choose whether you can drag to open on touch screens
@@ -33,8 +33,8 @@ var load = function () {
     // // Destroy sideNav
     // $('#menuNav').sideNav('destroy');
 
-    $('#menuNav').sideNav({
-        menuWidth: 300, // Default is 240
+    $('.side-collapse').sideNav({
+        menuWidth: 220, // Default is 240
         edge: 'left', // Choose the horizontal origin
         closeOnClick: false, // Closes side-nav on <a> clicks, useful for Angular/Meteor
         draggable: true // Choose whether you can drag to open on touch screens

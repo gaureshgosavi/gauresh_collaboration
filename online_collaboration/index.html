@@ -9,7 +9,6 @@
     <title>Collaboration</title>
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="./assets/css/bootstrap-theme.min.css" rel="stylesheet" />
-    <link href="./assets/css/app.css" rel="stylesheet" />
 
     <link href="https://fonts.googleapis.com/css?family=Freckle+Face" rel="stylesheet">
 
@@ -22,10 +21,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="./assets/css/app.css" rel="stylesheet" />
 
     <style>i.icon-blue {
     color:  teal darken-4;
-}</style>
+}
+
+.left-padding{
+     min-height: 600px; 
+}
+
+.image{
+    width: 100%;
+    height: 200px;
+}
+
+.left-padding, footer {
+    padding-left: 220px;
+}
+
+.blog-title a:hover {
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+/*
+Min-Width: Refers to everything greater than or equal to the amount given. 
+Max-Width: Refers to everything less than or equal to the amount given.
+*/
+@media only screen and (max-width : 992px) {
+    .left-padding, footer {
+        padding-left: 0;
+    }
+}
+
+.side-nav{
+	margin-top: 64px;
+}
+
+</style>
 
 
 <script type="text/javascript" src="assets/libs/jquery/jquery.js"></script>
@@ -68,70 +102,59 @@
 <script type="text/javascript" src="app/components/user/userController.js"></script>
 <script type="text/javascript" src="assets/js/app.js"></script>
 
+
 </head>
 
 <body ng-app="myApp" class="body">
-    <header>
+    <!-- navbar will be visible only after the authentication is successful-->
+    <div ng-if="authenticated">
+
         <div class="navbar-fixed">
-            <nav>
+            <nav class="menubar">
                 <div class="nav-wrapper teal darken-4">
-                    <a href="#!" class="brand-logo coll"> <i class="material-icons">business</i>Communex</a>
-                    <a data-href="#" href="javascript:void(0)" data-activates="mobile-demo" class="button-collapse" id="menuNav" ng-if="authenticated"><i class="material-icons">menu</i></a>
-                    <div class="row">
-                        <ul class="right hide-on-med-and-down">
-                            <li>
-                                <a href="#!/admin/pendingUsers" ng-if="authenticated"> <i class="material-icons">supervisor_account</i></a>
-                            </li>
-                            <li>
-                                <a href="sass.html" ng-if="authenticated"> <i class="material-icons">work</i></a>
-                            </li>
-                            <li><a href="badges.html" ng-if="authenticated"><i class="material-icons">speaker_notes</i></a></li>
-                            <li><a href="collapsible.html" ng-if="authenticated"><i class="material-icons">add_alert</i></a></li>
-                            <li><a href="mobile.html" ng-if="authenticated"><i class="material-icons">settings</i></a></li>
-                        </ul>
-                        <ul class="right"><a data-href="#" href="javascript:void(0)" data-activates="slide-out" class="button-collapse" id="userNav"
-                                ng-if="authenticated"><i class="material-icons">low_priority</i></a></ul>
-                        <ul class="side-nav cyan darken-4" id="mobile-demo">
-                            <li>
-                                <a href="sass.html"> <i class="material-icons">store</i>Home</a>
-                            </li>
-                            <li><a href="badges.html"><i class="material-icons">speaker_notes</i>Forums</a></li>
-                            <li><a href="collapsible.html"><i class="material-icons">add_alert</i>Notification</a></li>
-                            <li><a href="mobile.html"><i class="material-icons">settings</i>Settings</a></li>
-                        </ul>
-                    </div>
+                    <a href="javascript:void(0)" class="brand-logo right hide-on-med-and-down coll">coMmunEX</a>
+                    <a href="javascript:void(0)" class="brand-logo hide-on-large-only coll">coMmunEX</a>
+                    <a data-href="#" href="javascript:void(0)" data-activates="mobile-demo" class="button-collapse right"><i class="material-icons">menu</i></a>
+                    <a data-href="#" href="javascript:void(0)" data-activates="slide-out" class="side-collapse left hide-on-large-only"><i class="material-icons">low_priority</i></a>
+                    <ul class="left hide-on-med-and-down">
+                        <li><a href="#!/blogs">Blogs</a></li>
+                        <li><a href="#!/forums">Forums</a></li>
+                        <li><a href="#!/jobs">Jobs</a></li>
+                        <li><a href="#!/events">Events</a></li>
+                        <li><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
+                    </ul>
+                    <ul class="side-nav pull-right" id="mobile-demo">
+                        <li><a href="#!/blogs">Blogs</a></li>
+                        <li><a href="#!/forums">Forums</a></li>
+                        <li><a href="#!/jobs">Jobs</a></li>
+                        <li><a href="#!/events">Events</a></li>
+                        <li><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
+                    </ul>
                 </div>
             </nav>
         </div>
-    
-    <!-- navbar ends here-->
-
-
-    <!-- will be visible when the user authenticates -->
-    <div class="pull-right">
-        <a data-href="#" href="javascript:void(0)" data-activates="slide-out" class="button-collapse hide-on-med-and-down menu" id="userNav"
-            ng-if="authenticated"><i class="material-icons">menu</i></a>
     </div>
+    <!-- end of navbar -->
 
-    </header>
 
 
-    <ul id="slide-out" class="side-nav cyan darken-4">
+    <!-- User entire profile will be visible in the sidebar once the user authenticates -->
+    <ul id="slide-out" class="side-nav fixed yellow darken-1" ng-if="authenticated">
         <li>
             <div class="userView">
                 <div class="background">
-                    <img src="assets/img/navback4.jpg">
+                    <img ng-src="assets/img/navback4.jpg">
                 </div>
-                <a href="#!user"><img class="circle" src="assets/img/male.png"></a>
-                <a href="#!name"><span class="white-text name">{{firstName}} {{lastName}}</span><i class="mdi-navigation-arrow-drop-down right"></i></a>
-                <a href="#!email"><span class="white-text email">{{emailId}}</span></a>
+                <a href="#!user"><img class="circle" ng-src="assets/img/male.png"></a>
+                <a href="#!name"><span class="white-text name">{{user.firstName}} {{user.lastName}}</span></a>
+                <a href="#!email"><span class="white-text email">{{user.emailId}}</span></a>
             </div>
         </li>
         <li>
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
-                    <div class="collapsible-header cyan darken-4"><i class="material-icons">perm_identity</i>Profile</div>
-                    <div class="collapsible-body cyan darken-4">
+                    <div class="collapsible-header yellow darken-1"><i class="material-icons">perm_identity</i>Profile</div>
+                    <div class="collapsible-body yellow darken-1">
                         <ul>
                             <li><a href="#!"><i class="material-icons">send</i>View Profile</a></li>
                             <li><a href="#!"><i class="material-icons">send</i>Update Profile</a></li>
@@ -140,35 +163,37 @@
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header cyan darken-4"><i class="material-icons">subject</i>Blog</div>
-                    <div class="collapsible-body cyan darken-4">
+                    <div class="collapsible-header yellow darken-1"><i class="material-icons">subject</i>Blog</div>
+                    <div class="collapsible-body yellow darken-1">
                         <ul>
                             <li><a href="#!/admin/pendingBlogs" ng-if="user.role == 'ADMIN'"><i class="material-icons">send</i>Pending Blogs</a></li>
                             <li><a href="#!" ng-if="user.role == 'ADMIN'"><i class="material-icons">send</i>Approved Blogs</a></li>
                             <li><a href="#!" ng-if="user.role == 'ADMIN'"><i class="material-icons">send</i>Rejected Blogs</a></li>
                             <li><a href="#!/user/viewBlog" ng-if="user.role == 'USER'"><i class="material-icons">send</i>View Blogs</a></li>
-                            <li><a href="#!" ng-if="user.role == 'USER'"><i class="material-icons">send</i>My Blogs</a></li>
+                            <li><a href="#!/user/myBlogs" ng-if="user.role == 'USER'"><i class="material-icons">send</i>My Blogs</a></li>
                             <li><a href="#!/user/createBlog" ng-if="user.role == 'USER'"><i class="material-icons">send</i>Create Blog</a></li>
                         </ul>
                     </div>
-                    <li>
-                        <div class="collapsible-header cyan darken-4"><i class="material-icons">forum</i>Forum</div>
-                        <div class="collapsible-body cyan darken-4">
-                            <ul>
-                                <li><a href="#!/viewForums"><i class="material-icons">send</i>View Forums</a></li>
-                                <li><a href="#!/admin/createForum" ng-if="user.role == 'ADMIN'"><i class="material-icons">send</i>Create Forum</a></li>
-                                <li><a href="#!"><i class="material-icons">send</i>My Forums</a></li>
-                            </ul>
-                        </div>
-                        <li>
-                            <a href="#!"><i class="material-icons">redeem</i>Events</a></li>
-                        <li><a href="#!"><i class="material-icons">work</i>Jobs</a></li>
-                        <li><a href="#!"><i class="material-icons">chat</i>Chat</a></li>
-                        <li><a href="#!" ng-if="authenticated" ng-click="logout()"><i class="material-icons">power_settings_new</i>Logout</a></li>
+                </li>
+                <li>
+                    <div class="collapsible-header yellow darken-1"><i class="material-icons">forum</i>Forum</div>
+                    <div class="collapsible-body yellow darken-1">
+                        <ul>
+                            <li><a href="#!/viewForums"><i class="material-icons">send</i>View Forums</a></li>
+                            <li><a href="#!/admin/createForum" ng-if="user.role == 'ADMIN'"><i class="material-icons">send</i>Create Forum</a></li>
+                            <li><a href="#!"><i class="material-icons">send</i>My Forums</a></li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
-            </li>
+        </li>
+        <li>
+            <a href="#!"><i class="material-icons">redeem</i>Events</a></li>
+        <li><a href="#!"><i class="material-icons">work</i>Jobs</a></li>
+        <li><a href="#!"><i class="material-icons">chat</i>Chat</a></li>
+        <li><a href="#!" ng-if="authenticated" ng-click="logout()"><i class="material-icons">power_settings_new</i>Logout</a></li>
     </ul>
-    <!-- sidebar  ends here -->
+    <!-- end of sidebar -->
 
     <div id="main">
         <div ng-view></div>

@@ -8,6 +8,7 @@ BlogModule.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 
 	var factory = {
 		fetchAllBlogs: fetchAllBlogs,
+		getMyBlogs: getMyBlogs,
 		createBlog: createBlog,
 		updateBlog: updateBlog,
 		deleteBlog: deleteBlog,
@@ -36,6 +37,22 @@ BlogModule.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 		return deferred.promise;
 	}
 
+	//get my blogs
+	function getMyBlogs(userId) {
+		var deferred = $q.defer();
+
+		$http.get(blogUrl + 'myBlogs/' + userId)
+			.then(function (response) {
+				console.log(response);
+				deferred.resolve(response.data);
+			}, function (errResponse) {
+				console.error('Error while fetching blogs!');
+				deferred.reject(errResponse);
+			});
+
+		return deferred.promise;
+	}
+
 	// get blog by blog id
 	function getBlog(blogId) {
 
@@ -48,7 +65,7 @@ BlogModule.factory('BlogFactory', ['$http', '$q', function ($http, $q) {
 				deferred.resolve(response.data);
 			},
 			function (errResponse) {
-				console.error('Error getting blog');
+				console.error('Error getting blogs');
 				deferred.reject(errResponse);
 			});
 		return deferred.promise;

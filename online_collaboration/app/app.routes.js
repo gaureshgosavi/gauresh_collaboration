@@ -65,6 +65,14 @@ window.routes =
             roles: ['USER']
         },
 
+        "/user/myBlogs": {
+            templateUrl: 'app/components/blog/myBlogs.html',
+            controller: 'BlogController',
+            controllerAs: 'blogCtrl',
+            requireLogin: true,
+            roles: ['USER']
+        },
+
         "/user/viewBlog/:blogId": {
             templateUrl: 'app/components/blog/singleBlog.html',
             controller: 'BlogCommentController',

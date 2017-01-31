@@ -101,7 +101,6 @@ public class ForumRequestController {
 		User user = null;
 		
 		for (ForumRequest f : requests) {
-			user = new User();
 			user = userDAO.getById(f.getUserId());
 			userlist.add(user);
 
