@@ -1,14 +1,25 @@
-<div class="container">
-    <div class="row" ng-repeat="u in forumCommentCtrl.forumRequest.user |orderBy : 'userId'">
-        <div class="col s6 m4">
-            <a href="#!user"><img class="circle" src="assets/img/male.png" width="170px" height="170px"></a>
-        </div>
-        <div class="col s6 m8">
-            <P><span class="blue-text text-darken-3">{{u.username}}</span><button class="waves-effect waves-light blue-grey darken-1 orange-text text-accent-2 pull-right hoverable" ng-click=""><i class="material-icons">accessibility</i>Add Friend</button>
-            </P>
-            <P><span class="blue-text text-darken-3">{{u.firstName}} {{u.lastName}}</span></P>
-            <P><span class="blue-text text-darken-3">{{u.role}}</span></P>
-            <hr>
+<div class="left-padding">
+    <div class="row"> <img src="assets/img/forum.png" class="img-square image" alt="Cinque Terre" width="100" height="100">
+    </div>
+    <div class="row" ng-repeat="request in forumCommentCtrl.forumRequests">
+        <div class="col s10 m10 offset-m1 offset-s1">
+            <div class="card-panel blue lighten-2 hoverable">
+                <div class="row valign-wrapper">
+                    <div class="col s1">
+                        <img src="assets/img/male.png" alt="Profile image" class="circle responsive-img">
+                        <!-- notice the "circle" class -->
+                    </div>
+                    <div class="col s5">
+                        <span class="blue-text text-darken-3"><b>{{request.username}}</b></span><br>
+                        <span class="blue-text text-darken-3">Name: {{request.firstName}} {{request.lastName}}</span>
+                        <span class="blue-text text-darken-3">Role: {{request.role}}</span>
+                    </div>
+                    <div class="col s5">
+                        <a class="waves-effect waves-light col green darken-4 hoverable r-btn" ng-click="forumCommentCtrl.approveForumRequest()"><i class="material-icons r-icon">done</i></a>
+                        <a class="waves-effect waves-light col red accent-4 hoverable r-btn" ng-click="forumCommentCtrl.disapproveForumRequest()"><i class="material-icons r-icon">clear</i></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

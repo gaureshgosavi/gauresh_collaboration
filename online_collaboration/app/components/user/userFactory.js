@@ -8,7 +8,6 @@ myApp.factory('userFactory', ['$http', '$q', function ($http, $q) {
     };
 
     function fetchAllUsers() {
-        debugger;
         var deferred = $q.defer();
         $http.get(url + 'list').
             then(function (response) {

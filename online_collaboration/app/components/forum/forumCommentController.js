@@ -2,18 +2,19 @@ ForumCommentModule.controller('ForumCommentController', ['$rootScope', '$scope',
 
 	var self = this;
 	self.singleForum = {};
+	self.request = {userId: '', forumId: ''};
 	self.members = [];
-	self.forumRequest = [];
+	self.forumRequests = [];
 	self.forumComment = { id: null, userId: '', forumComment: '' };
 
 	self.submit = submit;
 	self.reset = reset;
 
-	//getForum();
-	//getForumRequest();
+	getForum();
+	getForumRequest();
 	getForumMember();
 
-	function getForum(forumId) {
+	function getForum() {
 		var getForumId = $routeParams.forumId;
 		console.log(getForumId);
 
@@ -30,15 +31,14 @@ ForumCommentModule.controller('ForumCommentController', ['$rootScope', '$scope',
 	}
 
 
-	function getForumRequest(forumId) {
+	function getForumRequest() {
 		var getForumId = $routeParams.forumId;
 		console.log(getForumId);
-
-		ForumFactory.getForum(getForumId)
+		ForumFactory.getForumRequest(getForumId)
 			.then(
 			function (d) {
-				self.forumRequest = d;
-				console.log('Request' + self.forumRequest);
+				self.forumRequests = d;
+				console.log('Request' + self.forumRequests);
 				getForum();
 			},
 			function (errResponse) {
@@ -50,7 +50,6 @@ ForumCommentModule.controller('ForumCommentController', ['$rootScope', '$scope',
 	function getForumMember() {
 		var getForumId = $routeParams.forumId;
 		console.log(getForumId);
-		debugger;
 		ForumFactory.getForumMember(getForumId)
 			.then(
 			function (d) {
@@ -66,6 +65,43 @@ ForumCommentModule.controller('ForumCommentController', ['$rootScope', '$scope',
 
 	function createforumComment(forumComment, forumId) {
 		ForumCommentFactory.createforumComment(forumComment, forumId)
+			.then(
+			function (d) {
+				self.forumComment = d;
+				getForumRequest();
+				console.log(d);
+			},
+			function (errResponse) {
+				console.error('Error while creating forumComment');
+			}
+			);
+	}
+
+	self.approveForumRequest = function(){
+		debugger;
+		self.request.userId = $rootScope.userId;
+		console.log(self.request.userId);
+		self.request.forumId = self.singleForum.forum.forumId;
+		console.log(self.request.forumId);
+		ForumCommentFactory.approveForumRequest(self.request)
+			.then(
+			function (d) {
+				self.forumComment = d;
+				getForumRequest();
+				console.log(d);
+			},
+			function (errResponse) {
+				console.error('Error while creating forumComment');
+			}
+			);
+	}
+
+	self.disapproveForumRequest = function(){
+		self.request.userId = $rootScope.userId;
+		console.log(self.request.userId);
+		self.request.forumId = self.singleForum.forum.forumId;
+		console.log(self.request.forumId);
+		ForumCommentFactory.disapproveForumRequest(self.request)
 			.then(
 			function (d) {
 				self.forumComment = d;

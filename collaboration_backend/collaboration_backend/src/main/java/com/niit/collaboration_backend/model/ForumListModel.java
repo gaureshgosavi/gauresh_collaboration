@@ -9,6 +9,26 @@ public class ForumListModel {
 	String lastname;
 	
 	String username;
+	
+	ForumRequest forumRequest;
+	
+	int noOfMembers;
+
+	public int getNoOfMembers() {
+		return noOfMembers;
+	}
+
+	public void setNoOfMembers(int noOfMembers) {
+		this.noOfMembers = noOfMembers;
+	}
+
+	public ForumRequest getForumRequest() {
+		return forumRequest;
+	}
+
+	public void setForumRequest(ForumRequest forumRequest) {
+		this.forumRequest = forumRequest;
+	}
 
 	public String getUsername() {
 		return username;

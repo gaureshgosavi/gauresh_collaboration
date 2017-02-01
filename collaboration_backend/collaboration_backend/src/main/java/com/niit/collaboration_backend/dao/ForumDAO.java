@@ -11,9 +11,13 @@ public interface ForumDAO {
 	boolean delete(Forum forumId);
 
 	Forum get(int id);
+	
+	Forum getByName(String name);
 
 	List<Forum> list();
 	
 	List<Forum> getForumsByStatus(String status);
+	
+	List<Forum> getForumsByUserId(int userId);
 
 }

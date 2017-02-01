@@ -8,6 +8,9 @@ ForurmModule.factory('ForumFactory', ['$http', '$q', function ($http, $q) {
     var factory = {
         fetchAllForums: fetchAllForums,
         getForumMember: getForumMember,
+        fetchAdminForums: fetchAdminForums,
+        fetchUserForums: fetchUserForums,
+        getForumRequest: getForumRequest,
         createForum: createForum,
         updateForum: updateForum,
         deleteForum: deleteForum,
@@ -20,11 +23,43 @@ ForurmModule.factory('ForumFactory', ['$http', '$q', function ($http, $q) {
     return factory;
 
     //getting all forums
-    function fetchAllForums() {
+    function fetchAllForums(userId) {
 
         var deferred = $q.defer();
 
-        $http.get(url + 'list').
+        $http.get(url + 'list/' + userId).
+            then(function (response) {
+                console.log(response.data);
+                deferred.resolve(response.data);
+            }, function (errResponse) {
+                console.error('error fetching forums');
+                deferred.reject(errResponse);
+            });
+        return deferred.promise;
+    }
+
+    //getting my forums
+    function fetchAdminForums(userId) {
+
+        var deferred = $q.defer();
+
+        $http.get(url + 'myForums/' + userId).
+            then(function (response) {
+                console.log(response.data);
+                deferred.resolve(response.data);
+            }, function (errResponse) {
+                console.error('error fetching forums');
+                deferred.reject(errResponse);
+            });
+        return deferred.promise;
+    }
+
+    //getting user forums
+    function fetchUserForums(userId) {
+
+        var deferred = $q.defer();
+
+        $http.get(url + 'myForumlist/' + userId).
             then(function (response) {
                 console.log(response.data);
                 deferred.resolve(response.data);

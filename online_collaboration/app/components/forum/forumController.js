@@ -3,6 +3,8 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '
 
 	var self = this;
 	self.forums = [];
+	self.adminForum = [];
+	self.userForum = [];
 	self.forum = { forumId: undefined, userId: '', name: '' };
 	self.request = {};
 
@@ -17,8 +19,8 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '
 	self.updateForum = updateForum;
 	self.deleteForum = deleteForum;
 
-	function FetchAllForums() {
-		ForumFactory.fetchAllForums()
+	function FetchAllForums(userId) {
+		ForumFactory.fetchAllForums(userId)
 			.then(function (d) {
 				self.forums = d;
 				console.log(self.forums)
@@ -27,7 +29,31 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '
 			});
 	}
 
-	FetchAllForums();
+	FetchAllForums($rootScope.userId);
+
+	function fetchAdminForums(userId) {
+		ForumFactory.fetchAdminForums(userId)
+			.then(function (d) {
+				self.adminForum = d;
+				console.log(self.forums)
+			}, function (errResponse) {
+				console.error('Error while fetching the forums');
+			});
+	}
+
+	fetchAdminForums($rootScope.userId);
+
+	function fetchUserForums(userId) {
+		ForumFactory.fetchUserForums(userId)
+			.then(function (d) {
+				self.userForum = d;
+				console.log(self.forums)
+			}, function (errResponse) {
+				console.error('Error while fetching the forums');
+			});
+	}
+
+	fetchUserForums($rootScope.userId);
 
 	function getForum(forumId) {
 		ForumFactory.getForum(forumId)
@@ -76,7 +102,8 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '
 			.then(
 			function (d) {
 				self.forum = d;
-				console.log(self.forum)
+				console.log(self.forum);
+				FetchAllForums($rootScope.userId);
 			},
 			function (errResponse) {
 				console.error('Error while creating forum');

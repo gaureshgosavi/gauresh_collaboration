@@ -97,6 +97,22 @@ window.routes =
             roles: ['ADMIN']
         },
 
+        "/admin/myForums": {
+            templateUrl: 'app/components/forum/adminForum.html',
+            controller: 'ForumController',
+            controllerAs: 'forumCtrl',
+            requireLogin: true,
+            roles: ['ADMIN']
+        },
+
+        "/user/myForums": {
+            templateUrl: 'app/components/forum/userForum.html',
+            controller: 'ForumController',
+            controllerAs: 'forumCtrl',
+            requireLogin: true,
+            roles: ['USER']
+        },
+
         "/forum/members/:forumId": {
             templateUrl: 'app/components/user/viewMember.html',
             controller: 'ForumCommentController',
@@ -118,7 +134,7 @@ window.routes =
             controller: 'ForumCommentController',
             controllerAs: 'forumCommentCtrl',
             requireLogin: true,
-            roles: ['USER', 'ADMIN']
+            roles: ['ADMIN']
         },
 
         "/login": {

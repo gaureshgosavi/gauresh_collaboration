@@ -2,11 +2,15 @@ var ForumCommentModule = angular.module('ForumCommentModule', []);
 
 ForumCommentModule.factory('ForumCommentFactory', ['$http', '$q', function ($http, $q) {
 
+    var forumurl = 'http://localhost:8090/collaboration_backend//forum/';
+
     var url = "http://localhost:8090/collaboration_backend//forumComment/"
 
     var factory = {
         getforumComments: getforumComments,
-        createforumComment: createforumComment
+        createforumComment: createforumComment,
+        approveForumRequest: approveForumRequest,
+        disapproveForumRequest: disapproveForumRequest
     };
 
     return factory;
@@ -35,6 +39,34 @@ ForumCommentModule.factory('ForumCommentFactory', ['$http', '$q', function ($htt
             }, function (errResponse) {
                 deferred.reject(errResponse);
                 console.error('error creating forumcomments');
+            });
+        return deferred.promise;
+    }
+
+        //approve forum request
+    function approveForumRequest(request) {
+        var deferred = $q.defer();
+        $http.put(forumurl + 'approveMember', request).
+            then(function (response) {
+                deferred.resolve(response.data);
+                console.log('approved forum request');
+            }, function (errResponse) {
+                deferred.reject(errResponse);
+                console.error('error approve forum request');
+            });
+        return deferred.promise;
+    }
+
+    //disapprove forum request
+    function disapproveForumRequest(request) {
+        var deferred = $q.defer();
+        $http.put(forumurl + 'disapproveMember', request).
+            then(function (response) {
+                deferred.resolve(response.data);
+                console.log('disapproved forum request');
+            }, function (errResponse) {
+                deferred.reject(errResponse);
+                console.error('error disapprove forum request');
             });
         return deferred.promise;
     }

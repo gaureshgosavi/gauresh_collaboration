@@ -69,4 +69,11 @@ public class ForumRequestDAOImpl implements ForumRequestDAO{
 		}
 	}
 
+	@Override
+	@Transactional
+	public List<ForumRequest> getByUserStatus(int userId) {
+		String hql = "from ForumRequest where userId = '"+userId+"' and status = 'APPROVE'";
+		return sessionFactory.getCurrentSession().createQuery(hql).list();
+	}
+
 }

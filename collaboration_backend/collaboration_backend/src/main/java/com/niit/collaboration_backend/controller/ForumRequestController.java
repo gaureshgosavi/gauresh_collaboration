@@ -55,7 +55,7 @@ public class ForumRequestController {
 				forumRequest.setErrorMessage("Failed to make a request. Please try again.");
 			}
 			else{
-				forumRequest = forumRequestDAO.getByUserId(request.getUserId());
+				forumRequest = new ForumRequest();
 				forumRequest.setErrorCode("200");
 				forumRequest.setErrorMessage("request created successfully.");
 			}
@@ -69,28 +69,26 @@ public class ForumRequestController {
 	}
 	
 	@RequestMapping(value = "/forum/pendingRequest/{forumId}", method = RequestMethod.GET)
-	public ResponseEntity<List<ForumRequestModel>> listPendingRequest(@PathVariable("forumId") int forumId) {
+	public ResponseEntity<List<User>> listPendingRequest(@PathVariable("forumId") int forumId) {
 		List<ForumRequest> requests = forumRequestDAO.getByStatus("PENDING", forumId);
-		List<ForumRequestModel> forumRequestList = new ArrayList<>();
+		List<User> userlist = new ArrayList<>();
 
-		ForumRequestModel forumRequestModel = null;
+		User user = null;
 		
 		for (ForumRequest f : requests) {
-			forumRequestModel = new ForumRequestModel();
-			forumRequestModel.setUser(userDAO.getById(f.getUserId()));
-			forumRequestModel.setForum(forumDAO.get(f.getUserId()));
-			forumRequestList.add(forumRequestModel);
+			user = userDAO.getById(f.getUserId());
+			userlist.add(user);
 
 		}
 		
 		
-		if (forumRequestList.isEmpty()) {
-			forumRequestModel = new ForumRequestModel();
-			forumRequestModel.setErrorCode("404");
-			forumRequestModel.setErrorMessage("No blogs present.");
-			forumRequestList.add(forumRequestModel);
+		if (userlist.isEmpty()) {
+			user = new User();
+			user.setErrorCode("404");
+			user.setErrorMessage("No user present.");
+			userlist.add(user);
 		}
-		return new ResponseEntity<List<ForumRequestModel>>(forumRequestList, HttpStatus.OK);
+		return new ResponseEntity<List<User>>(userlist, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/forum/approvedRequest/{forumId}", method = RequestMethod.GET)
@@ -110,16 +108,33 @@ public class ForumRequestController {
 		if (userlist.isEmpty()) {
 			user = new User();
 			user.setErrorCode("404");
-			user.setErrorMessage("No blogs present.");
+			user.setErrorMessage("No user present.");
 			userlist.add(user);
 		}
 		return new ResponseEntity<List<User>>(userlist, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/forum/approveMember/{forumId}", method = RequestMethod.PUT)
-	public ResponseEntity<User> approveBlog(@PathVariable("forumId") int forumId, @RequestBody User userRequest) {
-		forumRequest = forumRequestDAO.get(userRequest.getUserId(), forumId);
+	@RequestMapping(value = "/forum/approveMember", method = RequestMethod.PUT)
+	public ResponseEntity<User> approveBlog(@RequestBody ForumRequest userRequest) {
+		forumRequest = forumRequestDAO.get(userRequest.getUserId(), userRequest.getForumId());
 		forumRequest.setStatus("APPROVE");
+			if(forumRequestDAO.saveOrUpdate(forumRequest) == false){
+				user = new User();
+				user.setErrorCode("404");
+				user.setErrorMessage("Failed to approve blog.");
+			}else{
+				user = userDAO.getById(userRequest.getUserId());
+				user.setErrorCode("200");
+				user.setErrorMessage("user approved successfully.");
+			}
+			
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/forum/disapproveMember", method = RequestMethod.PUT)
+	public ResponseEntity<User> disapproveBlog(@RequestBody ForumRequest userRequest) {
+		forumRequest = forumRequestDAO.get(userRequest.getUserId(), userRequest.getForumId());
+		forumRequest.setStatus("REJECT");
 			if(forumRequestDAO.saveOrUpdate(forumRequest) == false){
 				user = new User();
 				user.setErrorCode("404");

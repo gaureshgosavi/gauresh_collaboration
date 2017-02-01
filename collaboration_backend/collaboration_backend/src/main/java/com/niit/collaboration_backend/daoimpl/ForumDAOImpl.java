@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.niit.collaboration_backend.dao.ForumDAO;
 import com.niit.collaboration_backend.model.Blog;
 import com.niit.collaboration_backend.model.Forum;
+import com.niit.collaboration_backend.model.ForumRequest;
 import com.niit.collaboration_backend.model.User;
 
 @Repository("ForumDAO")
@@ -64,5 +65,25 @@ public class ForumDAOImpl implements ForumDAO{
 	public List<Forum> getForumsByStatus(String status) {
 		String hql = "from Forum where status = '"+status+"'";
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
+	}
+
+	@Override
+	@Transactional
+	public List<Forum> getForumsByUserId(int userId) {
+		String hql = "from Forum where userId = '"+userId+"'";
+		return sessionFactory.getCurrentSession().createQuery(hql).list();
+	}
+
+	@Override
+	@Transactional
+	public Forum getByName(String name) {
+		String hql = "from Forum where name = '"+name+"'";
+		Query query =(Query) sessionFactory.getCurrentSession().createQuery(hql);
+		try {
+			return (Forum) query.getSingleResult();	
+		}
+		catch(Exception ex) {
+			return null;
+		}
 	}
 }

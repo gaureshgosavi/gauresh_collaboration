@@ -72,7 +72,6 @@ AuthenticationModule.factory('AuthenticationFactory', ['$http', '$q', '$rootScop
     }
 
     function logout(userId) {
-        debugger;
         var deferred = $q.defer();
         $http.put(url + '/logout/' + userId)
             .then(function (response) {
