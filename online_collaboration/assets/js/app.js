@@ -65,6 +65,7 @@ var load = function () {
         $(this).is(':checked') ? $(this).siblings('.checkbox').prop('disabled', true) : "";
     });
 
+    Materialize.updateTextFields();
 
     $('.collapsible').collapsible();
 }

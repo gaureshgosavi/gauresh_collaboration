@@ -89,7 +89,9 @@ AuthenticationModule.factory('AuthenticationFactory', ['$http', '$q', '$rootScop
     }
 
     function loadUserFromCookie() {
+        debugger;
         user = $cookies.getObject('user');
+        console.log(user)
         if (user) {
             userIsAuthenticated = true;
             $rootScope.authenticated = true;

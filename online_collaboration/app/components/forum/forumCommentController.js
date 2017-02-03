@@ -69,6 +69,7 @@ ForumCommentModule.controller('ForumCommentController', ['$rootScope', '$scope',
 			function (d) {
 				self.forumComment = d;
 				getForumRequest();
+				getForum();
 				console.log(d);
 			},
 			function (errResponse) {
@@ -77,9 +78,8 @@ ForumCommentModule.controller('ForumCommentController', ['$rootScope', '$scope',
 			);
 	}
 
-	self.approveForumRequest = function(){
-		debugger;
-		self.request.userId = $rootScope.userId;
+	self.approveForumRequest = function(userId){
+		self.request.userId = userId;
 		console.log(self.request.userId);
 		self.request.forumId = self.singleForum.forum.forumId;
 		console.log(self.request.forumId);
@@ -96,8 +96,8 @@ ForumCommentModule.controller('ForumCommentController', ['$rootScope', '$scope',
 			);
 	}
 
-	self.disapproveForumRequest = function(){
-		self.request.userId = $rootScope.userId;
+	self.disapproveForumRequest = function(userId){
+		self.request.userId = userId;
 		console.log(self.request.userId);
 		self.request.forumId = self.singleForum.forum.forumId;
 		console.log(self.request.forumId);

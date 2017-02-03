@@ -17,5 +17,7 @@ public interface UserDAO {
 	
 	public List<User> getUsersByStatus(String status);
 	
+	boolean updateUserProfileId(String fileName, int userId);
+	
 	public User validate(User user);
 }

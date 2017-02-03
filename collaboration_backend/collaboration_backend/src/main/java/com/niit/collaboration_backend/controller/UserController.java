@@ -56,6 +56,7 @@ public class UserController {
 			currentUser.setStatus("PENDING");
 			currentUser.setEnabled("TRUE");
 			currentUser.setIsOnline("NO");
+			currentUser.setProfileId("USER_"+currentUser.getGender()+".png");
 			if (userDAO.saveOrUpdate(currentUser) == false) {
 				user = new User();
 				user.setErrorCode("404");

@@ -1,51 +1,42 @@
-myApp.factory('userFactory', ['$http', '$q', function ($http, $q) {
-    var url = 'http://localhost:8090/collaboration_backend/user/';
+var UserModule = angular.module('UserModule', []);
+
+UserModule.factory('UserFactory', ['$http', '$q', function ($http, $q) {
+    var url = 'http://localhost:8090/collaboration_backend/';
 
     return {
-         fetchAllUsers: fetchAllUsers,
-        createUser: createUser,
+        getUser: getUser,
         updateUser: updateUser
     };
 
-    function fetchAllUsers() {
+    function updateUser(user, userId) {
         var deferred = $q.defer();
-        $http.get(url + 'list').
-            then(function (response) {
-                deferred.resolve(response.data);
-            }, function (errResponse) {
-                deferred.reject(errResponse);
-            });
-        return deferred.promise;
-    }
-
-       function createUser(user) {
-        var deferred = $q.defer();
-        $http.post(url+'register', user)
+        $http.put(url + '/user/get/' + userId, user)
             .then(
             function (response) {
                 deferred.resolve(response.data);
+                console.log(response.data);
             },
-            function(errResponse){
-                console.error('Error while creating User');
-                deferred.reject(errResponse);
-            }
-        );
-        return deferred.promise;
-    }
- 
- 
-    function updateUser(user, id) {
-        var deferred = $q.defer();
-        $http.put(url+'user/get'+id, user)
-            .then(
-            function (response) {
-                deferred.resolve(response.data);
-            },
-            function(errResponse){
+            function (errResponse) {
                 console.error('Error while updating User');
                 deferred.reject(errResponse);
             }
-        );
+            );
+        return deferred.promise;
+    }
+
+    function getUser(userId) {
+        var deferred = $q.defer();
+        $http.get(url + '/user/get/' + userId)
+            .then(
+            function (response) {
+                deferred.resolve(response.data);
+                console.log(response.data);
+            },
+            function (errResponse) {
+                console.error('Error while updating User');
+                deferred.reject(errResponse);
+            }
+            );
         return deferred.promise;
     }
 }]);

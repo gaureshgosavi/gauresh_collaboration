@@ -96,6 +96,10 @@ Max-Width: Refers to everything less than or equal to the amount given.
 <script src="app/components/admin/adminFactory.js"></script>
 <script src="app/components/admin/AdminController.js"></script>
 
+<!-- Loading the user module -->
+<script src="app/components/user/UserFactory.js"></script>
+<script src="app/components/user/UserController.js"></script>
+
 <!-- Loading the blog module -->
 <script src="app/components/blog/BlogFactory.js"></script>
 <script src="app/components/blog/BlogController.js"></script>
@@ -173,7 +177,7 @@ Max-Width: Refers to everything less than or equal to the amount given.
                     <div class="collapsible-body yellow darken-1">
                         <ul>
                             <li><a href="#!"><i class="material-icons">send</i>View Profile</a></li>
-                            <li><a href="#!"><i class="material-icons">send</i>Update Profile</a></li>
+                            <li><a href="#!/editProfile/{{user.userId}}"><i class="material-icons">send</i>Update Profile</a></li>
                             <li><a href="#!" ng-click="logout()"><i class="material-icons">send</i>Logout</a></li>
                         </ul>
                     </div>

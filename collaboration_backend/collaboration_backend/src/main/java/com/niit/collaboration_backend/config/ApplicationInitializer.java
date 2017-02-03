@@ -1,10 +1,16 @@
 package com.niit.collaboration_backend.config;
 
+import java.io.File;
+
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+	
+	private int maxUploadSizeInMb = 5 * 1024 * 1024; // 5 MB
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
@@ -25,6 +31,21 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
 	protected Filter[] getServletFilters() {
 		Filter[] singleton = { new CORSFilter() };
 		return singleton;
+	}
+	
+	@Override
+	protected void customizeRegistration(Dynamic registration) {
+		 // upload temp file will put here
+        File uploadDirectory = new File(System.getProperty("java.io.tmpdir"));
+
+        // register a MultipartConfigElement
+        MultipartConfigElement multipartConfigElement =
+                new MultipartConfigElement(uploadDirectory.getAbsolutePath(),
+                        maxUploadSizeInMb, maxUploadSizeInMb * 2, maxUploadSizeInMb / 2);
+				
+		registration.setInitParameter("dispatchOptionsRequest", "true");
+		registration.setMultipartConfig(multipartConfigElement);
+		super.customizeRegistration(registration);
 	}
 
 }

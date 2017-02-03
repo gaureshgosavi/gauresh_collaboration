@@ -1,4 +1,4 @@
-AuthenticationModule.controller('AuthenticationController', ['AuthenticationFactory', '$rootScope', '$location', '$timeout',function (AuthenticationFactory, $rootScope, $location, $timeout) {
+AuthenticationModule.controller('AuthenticationController', ['AuthenticationFactory', '$rootScope', '$location', '$timeout', function (AuthenticationFactory, $rootScope, $location, $timeout) {
     var self = this;
     self.credentials = {};
     self.error = false;
@@ -14,11 +14,16 @@ AuthenticationModule.controller('AuthenticationController', ['AuthenticationFact
         AuthenticationFactory.login(self.credentials)
             .then(
             function (user) {
-
-
-                if (user.status === 'PENDING') {
+                debugger;
+                if (user.enabled === 'FALSE') {
+                    self.authError = true;
+                    $rootScope.message = "Your account has been blocked."
+                } else if (user.status === 'PENDING') {
                     self.authError = true;
                     $rootScope.message = "Sorry! You are not been approved yet!.";
+                } else if (user.userId == '' || user.userId == undefined || user.username == null) {
+                    self.authError = true;
+                    $rootScope.message = "Incorrect username or password."
                 } else {
                     AuthenticationFactory.setUserIsAuthenticated(true);
                     AuthenticationFactory.setRole(user.role);
