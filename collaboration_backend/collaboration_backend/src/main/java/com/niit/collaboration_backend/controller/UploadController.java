@@ -19,7 +19,6 @@ import com.niit.collaboration_backend.dao.UserDAO;
 import com.niit.collaboration_backend.model.Response;
 
 @RestController
-@RequestMapping("/upload")
 @PropertySource("classpath:config.properties")
 public class UploadController {
 

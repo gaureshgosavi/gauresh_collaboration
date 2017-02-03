@@ -10,7 +10,7 @@
                     </div>
                     <div class="row">
                         <div align="center">
-                            <img src="assets/img/male.png" class="img-circle" alt="Cinque Terre" width="200" height="200">
+                            <img src="assets/img/{{userCtrl.user.pictureId}}" class="img-circle materialboxed" alt="Cinque Terre" width="200" height="200">
                         </div>
                     </div>
                     <form action="#">
@@ -18,13 +18,14 @@
                             <div class="file-field input-field col s8 m8 offset-m2 offset-s2">
                                 <div class="waves-effect waves-light btn blue-grey lighten-4 blue-grey-text text-darken-2 hoverable">
                                     <span>Upload</span>
-                                    <input type="file" multiple>
+                                    <input type="file" file-model="userCtrl.picture">
                                 </div>
                                 <div class="file-path-wrapper">
                                     <input class="file-path validate" type="text" placeholder="Upload Profile Picture">
                                 </div>
                             </div>
                         </div>
+                        <button class="btn grey waves-effect waves-light" ng-click = "userCtrl.uploadFile()">Change Picture</button>
                     </form>
                     <form name="userForm" ng-submit="userCtrl.submit()" novalidate>
                         <div class="row">

@@ -1,4 +1,4 @@
-var UserModule = angular.module('UserModule', []);
+var UserModule = angular.module('UserModule', ['UploadModule']);
 
 UserModule.factory('UserFactory', ['$http', '$q', function ($http, $q) {
     var url = 'http://localhost:8090/collaboration_backend/';

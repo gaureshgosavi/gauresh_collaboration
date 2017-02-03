@@ -16,6 +16,7 @@ window.routes =
             requireLogin: false,
             roles: ['GUEST']
         },
+        
 
         "/user/home": {
             templateUrl: 'app/components/user/home.html',
