@@ -101,7 +101,9 @@ AuthenticationModule.factory('AuthenticationFactory', ['$http', '$q', '$rootScop
             $rootScope.emailId = user.emailId;
             $rootScope.gender = user.gender;
             $rootScope.userId = user.userId;
+            console.log($rootScope.user);
             role = user.role;
+            console.log(role);
         }
         else {
             userIsAuthenticated = false;

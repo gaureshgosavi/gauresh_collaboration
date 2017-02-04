@@ -219,4 +219,43 @@ public class adminController {
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/admin/approvedusers", method = RequestMethod.GET)
+	public ResponseEntity<List<User>> listApprovedusers() {
+		List<User> users = userDAO.getUsersByStatus("APPROVE");
+		
+		if (users.isEmpty()) {
+			user = new User();
+			user.setErrorCode("404");
+			user.setErrorMessage("No users present.");
+			users.add(user);
+		}
+		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/admin/blockUser/{userId}", method = RequestMethod.PUT)
+	public ResponseEntity<User> blockUser(@PathVariable("userId") int userId) {
+		user = userDAO.getById(userId);
+		if(user == null){
+			user = new User();
+			user.setErrorCode("404");
+			user.setErrorMessage("Invalid user");
+		}
+		else{
+			
+			user.setStatus("REJECT");
+			user.setEnabled("FALSE");
+			if(userDAO.saveOrUpdate(user) == false){
+				user = new User();
+				user.setErrorCode("404");
+				user.setErrorMessage("Failed to update user.");
+			}else{
+				user.setErrorCode("200");
+				user.setErrorMessage("user updated successfully.");
+				emailService.approvedUserMessage(user);
+			}
+			
+		}
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
 }

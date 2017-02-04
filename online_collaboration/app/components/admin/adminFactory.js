@@ -9,7 +9,9 @@ AdminModule.factory('adminFactory', ['$http', '$q', function ($http, $q) {
         disapproveBlog: disapproveBlog,
         getUnapprovedUsers: getUnapprovedUsers,
         approveUser: approveUser,
-        disapproveUser: disapproveUser
+        disapproveUser: disapproveUser,
+        getApprovedUsers: getApprovedUsers,
+        blockUser: blockUser
     };
 
     function getUnapprovedBlogs() {
@@ -52,6 +54,16 @@ AdminModule.factory('adminFactory', ['$http', '$q', function ($http, $q) {
         return deferred.promise;
     }
 
+    function getApprovedUsers() {
+        var deferred = $q.defer();
+        $http.get(url + 'approvedusers').then(function (response) {
+            deferred.resolve(response.data);
+        }, function (errResponse) {
+            deferred.reject(errResponse);
+        });
+        return deferred.promise;
+    }
+
     function approveUser(userId) {
         var deferred = $q.defer();
         $http.put(url + 'approveUser/' + userId).then(function (response) {
@@ -70,6 +82,16 @@ AdminModule.factory('adminFactory', ['$http', '$q', function ($http, $q) {
             deferred.reject(errResponse);
         });
         return deferred.promise;
-    } 	
+    } 
+
+    function blockUser(userId) {
+        var deferred = $q.defer();
+        $http.put(url + 'blockUser/' + userId).then(function (response) {
+            deferred.resolve(response.data);
+        }, function (errResponse) {
+            deferred.reject(errResponse);
+        });
+        return deferred.promise;
+    }	
 
 }]);

@@ -50,6 +50,22 @@ window.routes =
             roles: ['ADMIN']
         },
 
+        "/approvedUsers": {
+            templateUrl: 'app/components/user/approvedUser.html',
+            controller: 'AdminController',
+            controllerAs: 'adminCtrl',
+            requireLogin: true,
+            roles: ['ADMIN']
+        },
+
+        "/admin/blockUsers": {
+            templateUrl: 'app/components/user/blockUser.html',
+            controller: 'AdminController',
+            controllerAs: 'adminCtrl',
+            requireLogin: true,
+            roles: ['ADMIN']
+        },
+
         "/user/createBlog": {
             templateUrl: 'app/components/blog/createBlog.html',
             controller: 'BlogController',
@@ -207,7 +223,9 @@ myApp.run(function ($rootScope, $location, AuthenticationFactory) {
             if (next.indexOf(i) != -1) {
                 // if trying to access page which requires login and is not logged in 
                 $rootScope.user = AuthenticationFactory.loadUserFromCookie();
+                console.log($rootScope.user);
                 $rootScope.authenticated = AuthenticationFactory.getUserIsAuthenticated();
+                console.log($rootScope.authenticated);
 
                 if (window.routes[i].requireLogin && !AuthenticationFactory.getUserIsAuthenticated()) {
                     $location.path('/login');

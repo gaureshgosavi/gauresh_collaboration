@@ -45,11 +45,11 @@ UserModule.controller('UserController', ['$scope', '$rootScope','UserFactory', '
     }
 
     self.picture = undefined;
-
+    debugger;
     self.customer = AuthenticationFactory.loadUserFromCookie();
-
+    console.log(self.customer);
     // the decached technique is used to see the updated image immediately with out page refresh
-    self.customer.pictureId = self.customer.pictureId + '?decached=' + Math.random();
+    self.customer.profileId = self.customer.profileId + '?decached=' + Math.random();
 
     // once the controller loads call the jQuery
     $timeout(function () {
@@ -58,7 +58,6 @@ UserModule.controller('UserController', ['$scope', '$rootScope','UserFactory', '
 
     // to upload the file    
     self.uploadFile = function () {
-        debugger;
         if (self.picture == undefined) {
             return;
         }
@@ -68,13 +67,14 @@ UserModule.controller('UserController', ['$scope', '$rootScope','UserFactory', '
             .then(
             function (response) {
                 $rootScope.message = 'Profile picture updated successfully!';
-                //message contains the pictureId updated in the backend too
-                self.customer.pictureId = response.message + '?decached=' + Math.random();
+                //message contains the profileId updated in the backend too
+                self.customer.profileId = response.message + '?decached=' + Math.random();
                 // update the controller user too
-                $rootScope.user.pictureId = response.message + '?decached=' + Math.random();
+                $rootScope.user.profileId = response.message + '?decached=' + Math.random();
                 // need to update the cookie value too
                 AuthenticationFactory.saveUser($rootScope.user);
-
+                debugger;
+                console.log($rootScope.user);
                 // hide the card panel by setting the rootScope.message as undefined
                 $timeout(function () {
                     $rootScope.message = undefined;

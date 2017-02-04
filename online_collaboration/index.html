@@ -27,11 +27,29 @@
     color:  orange accent-2;
 }
 
-r-icon{
+.r-icon{
     padding-top: 6px;
 }
 
-r-btn{
+.u-img{
+    padding-top: 38px;
+    padding-left: 40px;
+    margin-bottom: 35px;
+}
+
+.u-image{
+    margin-top: 16px;
+}
+
+.u-btn{
+    margin-bottom: 17px;
+}
+
+.u-info{
+    margin-left: 50px;
+}
+
+.r-btn{
     padding-top: 5px;
     padding-left: 5px;
     padding-right: 5px;
@@ -169,7 +187,7 @@ Max-Width: Refers to everything less than or equal to the amount given.
                 <div class="background">
                     <img ng-src="assets/img/navback4.jpg">
                 </div>
-                <a href="#!user"><img class="circle" ng-src="assets/img/male.png"></a>
+                <a href="#!user"><img class="circle materialboxed" ng-src="assets/img/{{user.profileId}}"></a>
                 <a href="#!name"><span class="white-text name">{{user.firstName}} {{user.lastName}}</span></a>
                 <a href="#!email"><span class="white-text email">{{user.emailId}}</span></a>
             </div>
@@ -183,6 +201,16 @@ Max-Width: Refers to everything less than or equal to the amount given.
                             <li><a href="#!"><i class="material-icons">send</i>View Profile</a></li>
                             <li><a href="#!/editProfile/{{user.userId}}"><i class="material-icons">send</i>Update Profile</a></li>
                             <li><a href="#!" ng-click="logout()"><i class="material-icons">send</i>Logout</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header yellow darken-1"><i class="material-icons">supervisor_account</i>Users</div>
+                    <div class="collapsible-body yellow darken-1">
+                        <ul>
+                            <li><a href="#!/approvedUsers"><i class="material-icons">send</i>View Users</a></li>
+                            <li><a href="#!/admin/pendingUsers" ng-if="user.role == 'ADMIN'"><i class="material-icons">send</i>Approve Users</a></li>
+                            <li><a href="#!/admin/blockUsers" ng-if="user.role == 'ADMIN'"><i class="material-icons">send</i>Block Users</a></li>
                         </ul>
                     </div>
                 </li>

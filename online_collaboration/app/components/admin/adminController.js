@@ -4,6 +4,7 @@ AdminModule.controller('AdminController', ['adminFactory', '$rootScope', functio
     self.blogs = [];
     self.blog = {};
     self.users = [];
+    self.clients = [];
     self.user = {};
     self.none = false;
 
@@ -75,10 +76,29 @@ AdminModule.controller('AdminController', ['adminFactory', '$rootScope', functio
 
     getUnapprovedUsers();
 
+    function getApprovedUsers() {
+        adminFactory.getApprovedUsers().
+            then(function (data) {
+                console.log(data);
+                self.clients = data;
+                if (self.clients.length <= 0) {
+                    self.none = true;
+                }
+                self.failed = false;
+            }, function (errResponse) {
+                console.error(errResponse);
+                self.failed = true;
+            });
+
+    }
+
+    getApprovedUsers();
+
 
     self.approveUser = function (userId) {
         console.log(userId);
         adminFactory.approveUser(userId)
+
             .then(function (data) {
                 self.user = data;
                 self.failed = false;
@@ -105,6 +125,23 @@ AdminModule.controller('AdminController', ['adminFactory', '$rootScope', functio
                 self.failed = true;
                 getUnapprovedUsers();
             });
+    }
+
+    self.blockUser = function (userId) {
+        console.log(userId);
+        adminFactory.blockUser(userId)
+
+            .then(function (data) {
+                self.user = data;
+                self.failed = false;
+                console.log('approval successful');
+                getApprovedUsers();
+            }, function (errResponse) {
+                console.error(errResponse);
+                self.failed = true;
+                getApprovedUsers();
+            });
+
     }
 
 }]);

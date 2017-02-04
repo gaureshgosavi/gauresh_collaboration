@@ -18,6 +18,9 @@ AuthenticationModule.controller('AuthenticationController', ['AuthenticationFact
                 if (user.enabled === 'FALSE') {
                     self.authError = true;
                     $rootScope.message = "Your account has been blocked."
+                }else if(user.status === 'REJECT'){
+                    self.authError = true;
+                    $rootScope.message = "Your account has not been approved."
                 } else if (user.status === 'PENDING') {
                     self.authError = true;
                     $rootScope.message = "Sorry! You are not been approved yet!.";
