@@ -1,10 +1,12 @@
-AdminModule.controller('AdminController', ['adminFactory', '$rootScope', function (adminFactory, $rootScope) {
+AdminModule.controller('AdminController', ['adminFactory', 'UserFactory', '$rootScope', function (adminFactory, UserFactory, $rootScope) {
 
     var self = this;
+    self.friendId = {};
     self.blogs = [];
     self.blog = {};
     self.users = [];
     self.clients = [];
+    self.request = {};
     self.user = {};
     self.none = false;
 
@@ -142,6 +144,25 @@ AdminModule.controller('AdminController', ['adminFactory', '$rootScope', functio
                 getApprovedUsers();
             });
 
+    }
+
+    self.addFriend = function(userId) {
+        debugger;
+        self.request.friendId = userId;
+        console.log($rootScope.user.userId);
+        console.log(self.request.friendId);
+        self.request.userId = $rootScope.userId;
+        console.log(self.request.userId);
+        UserFactory.addFriend(self.request)
+            .then(
+            function (d) {
+                self.request = d;
+                console.log(self.user);
+            },
+            function (errResponse) {
+                console.error('Error sending request User');
+            }
+            );
     }
 
 }]);

@@ -20,8 +20,6 @@ import com.niit.collaboration_backend.model.User;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("com.niit.collaboration_backend")
-@EnableWebMvc
 public class ApplicationConfig {
 
 	@Bean(name = "datasource")

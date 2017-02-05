@@ -1,32 +1,110 @@
 package com.niit.collaboration_backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.collaboration_backend.dao.FriendDAO;
-import com.niit.collaboration_backend.model.Forum;
+import com.niit.collaboration_backend.dao.UserDAO;
 import com.niit.collaboration_backend.model.Friend;
-
-
+import com.niit.collaboration_backend.model.User;
 
 @RestController
 public class FriendController {
 
 	@Autowired
 	Friend friend;
-	
+
 	@Autowired
 	FriendDAO friendDAO;
 	
-	/*@RequestMapping(value = "/friend/list", method = RequestMethod.GET)
-	public ResponseEntity<List<Friend>> listAllfriends() {
+	@Autowired
+	User user;
+	
+	@Autowired
+	UserDAO userDAO;
+
+	@RequestMapping(value = "/addFriend", method = RequestMethod.POST)
+	public ResponseEntity<Friend> addFriend(@RequestBody Friend request) {
+
+		friend = friendDAO.get(request.getUserId(), request.getFriendId());
+		if(friend == null){
+			friend = friendDAO.get(request.getFriendId(), request.getUserId());
+			if(friend == null){
+				friend = new Friend();
+				friend.setUserId(request.getUserId());
+				friend.setFriendId(request.getFriendId());
+				friend.setStatus("PENDING");
+				if (friendDAO.saveOrUpdate(friend) == false) {
+					friend = new Friend();
+					friend.setErrorCode("404");
+					friend.setErrorMessage("Failed to send a request. Please try again.");
+				} else {
+					friend.setErrorCode("200");
+					friend.setErrorMessage("request sent successfully.");
+				}
+			}else{
+				friend = new Friend();
+				friend.setErrorCode("404");
+				friend.setErrorMessage("request already present.");
+			}
+		}else{
+			friend = new Friend();
+			friend.setErrorCode("404");
+			friend.setErrorMessage("request already present.");
+		}
 		
-		return new ResponseEntity<List<Friend>>(friend, HttpStatus.OK);
-	}*/
+		
+
+		return new ResponseEntity<Friend>(friend, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/friendList/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<List<User>> getFriends(@PathVariable("userId") int userId){
+		List<Friend> friendlist1 = friendDAO.getFriends(userId);
+		List<Friend> friendlist2 = friendDAO.myFriends(userId);	
+		List<Friend> friends = new ArrayList<>();
+		List<User> users = new ArrayList<>();
+		
+		for(Friend f : friendlist1){
+			friends.add(f);
+		}
+		
+		for(Friend f : friendlist2){
+			friends.add(f);
+		}
+		
+		for(Friend f : friends){
+			if (f.getUserId() != userId){
+				user = userDAO.getById(f.getUserId());
+				users.add(user);
+			}
+			if (f.getFriendId() != userId){
+				user = userDAO.getById(f.getFriendId());
+				users.add(user);
+			}
+		}
+		
+		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/friendList/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<List<User>> getRequests(@PathVariable("userId") int userId){
+		List<Friend> friends = friendDAO.getRequest(userId);
+		List<User> users = new ArrayList<>();
+		
+		for(Friend f : friends){
+			user = userDAO.getById(f.getUserId());
+			users.add(user);
+		}
+		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+	}
 }

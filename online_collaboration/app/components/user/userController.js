@@ -3,6 +3,7 @@ UserModule.controller('UserController', ['$scope', '$rootScope','UserFactory', '
     self.user = {};
     self.users = [];
     self.client = {};
+    self.request = {};
     self.submit = submit;
 
     getUser = function () {
@@ -86,6 +87,21 @@ UserModule.controller('UserController', ['$scope', '$rootScope','UserFactory', '
             }
             )
     };
+
+    function addFriend(friendId) {
+        self.request.friendId = friendId;
+        self.request.userId = $rootScope.user.userId;
+        UserFactory.addFriend(self.request)
+            .then(
+            function (d) {
+                self.request = d;
+                console.log(self.user);
+            },
+            function (errResponse) {
+                console.error('Error sending request User');
+            }
+            );
+    }
 
 }]);
 

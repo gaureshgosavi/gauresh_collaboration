@@ -13,7 +13,7 @@
                             <img src="assets/img/{{userCtrl.customer.profileId}}" class="img-circle materialboxed" alt="Cinque Terre" width="200" height="200">
                         </div>
                     </div>
-                    <div>
+                    <form action="#">
                         <div class="row">
                             <div class="file-field input-field col s8 m8 offset-m2 offset-s2">
                                 <div class="waves-effect waves-light btn blue-grey lighten-4 blue-grey-text text-darken-2 hoverable">
@@ -25,8 +25,8 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn grey waves-effect waves-light" ng-click="userCtrl.uploadFile()">Change Picture</button>
-                    </div>
+                        <button class="btn grey waves-effect waves-light" ng-click = "userCtrl.uploadFile()">Change Picture</button>
+                    </form>
                     <form name="userForm" ng-submit="userCtrl.submit()" novalidate>
                         <div class="row">
                             <div class="input-field col m6 s6 offset-m3 offset-s3">

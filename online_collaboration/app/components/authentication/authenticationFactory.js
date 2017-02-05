@@ -101,7 +101,7 @@ AuthenticationModule.factory('AuthenticationFactory', ['$http', '$q', '$rootScop
             $rootScope.emailId = user.emailId;
             $rootScope.gender = user.gender;
             $rootScope.userId = user.userId;
-            console.log($rootScope.user);
+            console.log($rootScope.userId);
             role = user.role;
             console.log(role);
         }

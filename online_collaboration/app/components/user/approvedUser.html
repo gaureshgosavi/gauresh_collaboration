@@ -16,7 +16,7 @@
                         <span class="blue-grey-text text-darken-4">Role: {{client.role}}</span>
                     </div>
                     <div class="col s4">
-                        <button class="waves-effect blue-grey lighten-2 waves-light pull-right hoverable" ng-if="client.username != user.username"><i class="material-icons">touch_app</i> Add Friend</button>
+                        <button class="waves-effect blue-grey lighten-2 waves-light pull-right hoverable" ng-if="client.username != user.username" ng-click="adminCtrl.addFriend(client.userId)"><i class="material-icons">touch_app</i> Add Friend</button>
                     </div>
                 </div>
             </div>

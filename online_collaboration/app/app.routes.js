@@ -55,7 +55,7 @@ window.routes =
             controller: 'AdminController',
             controllerAs: 'adminCtrl',
             requireLogin: true,
-            roles: ['ADMIN']
+            roles: ['ADMIN', 'USER']
         },
 
         "/admin/blockUsers": {

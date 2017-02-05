@@ -5,7 +5,8 @@ UserModule.factory('UserFactory', ['$http', '$q', function ($http, $q) {
 
     return {
         getUser: getUser,
-        updateUser: updateUser
+        updateUser: updateUser,
+        addFriend: addFriend
     };
 
     function updateUser(user, userId) {
@@ -38,5 +39,23 @@ UserModule.factory('UserFactory', ['$http', '$q', function ($http, $q) {
             }
             );
         return deferred.promise;
+    }
+
+    function addFriend(request) {
+        console.log(request);
+
+        var deferred = $q.defer();
+        $http.post(url + '/addFriend', request)
+            .then(
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function (errResponse) {
+                console.error('Error while sending request');
+                deferred.reject(errResponse);
+            }
+            );
+        return deferred.promise;
+
     }
 }]);
