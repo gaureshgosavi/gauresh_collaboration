@@ -64,21 +64,21 @@ public class FriendDAOImpl implements FriendDAO{
 	@Override
 	@Transactional
 	public List<Friend> getFriends(int userId) { 
-		String hql = "from Friend where userId = "+userId+" and status = ACCEPT";
+		String hql = "from Friend where userId = "+userId+" and status = 'ACCEPT'";
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
 	
 	@Override
 	@Transactional
 	public List<Friend> myFriends(int userId) {
-		String hql = "from Friend where friendId = "+userId+" and status = ACCEPT";
+		String hql = "from Friend where friendId = "+userId+" and status = 'ACCEPT'";
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
 	
 	@Override
 	@Transactional
 	public List<Friend> getRequest(int userId) {
-		String hql = "from Friend where friendId = "+userId+" and status = PENDING";
+		String hql = "from Friend where friendId = "+userId+" and status = 'PENDING'";
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
 

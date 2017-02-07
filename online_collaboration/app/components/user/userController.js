@@ -1,7 +1,9 @@
-UserModule.controller('UserController', ['$scope', '$rootScope','UserFactory', 'AuthenticationFactory', 'UploadFactory','$routeParams', '$timeout', function ($scope, $rootScope,UserFactory, AuthenticationFactory, UploadFactory, $routeParams, $timeout) {
+UserModule.controller('UserController', ['$scope', '$rootScope', 'UserFactory', 'AuthenticationFactory', 'UploadFactory', '$routeParams', '$timeout', function ($scope, $rootScope, UserFactory, AuthenticationFactory, UploadFactory, $routeParams, $timeout) {
     var self = this;
     self.user = {};
     self.users = [];
+    self.friendRequest = [];
+    self.myFriends = [];
     self.client = {};
     self.request = {};
     self.submit = submit;
@@ -99,6 +101,76 @@ UserModule.controller('UserController', ['$scope', '$rootScope','UserFactory', '
             },
             function (errResponse) {
                 console.error('Error sending request User');
+            }
+            );
+    }
+
+    function getMyFriends() {
+        UserFactory.getMyFriends($rootScope.user.userId)
+            .then(
+            function (d) {
+                self.myFriends = d;
+                console.log(self.user);
+            },
+            function (errResponse) {
+                console.error('Error getting friends');
+            }
+            );
+    }
+
+    getMyFriends();
+
+    function getRequests() {
+        UserFactory.getRequests($rootScope.user.userId)
+            .then(
+            function (d) {
+                self.friendRequest = d;
+                console.log(self.user);
+            },
+            function (errResponse) {
+                console.error('Error getting request');
+            }
+            );
+    }
+
+    getRequests();
+
+    self.acceptFriendRequest = function (friendId) {
+        debugger;
+        self.request.friendId = $rootScope.user.userId;
+        console.log(self.request.friendId);
+        self.request.userId = friendId;
+        console.log(self.request.userId);
+        UserFactory.acceptFriendRequest(self.request)
+            .then(
+            function (d) {
+                self.request = d;
+                console.log(self.request);
+                getRequests();
+            },
+            function (errResponse) {
+                console.error('Error accepting request');
+                console.log(errResponse);
+            }
+            );
+    }
+
+    self.rejectFriendRequest = function (friendId) {
+        debugger;
+        self.request.friendId = $rootScope.user.userId;
+        console.log(self.request.friendId);
+        self.request.userId = friendId;
+        console.log(self.request.userId);
+        UserFactory.rejectFriendRequest(self.request)
+            .then(
+            function (d) {
+                self.request = d;
+                console.log(self.request);
+                getRequests();
+            },
+            function (errResponse) {
+                console.error('Error rejecting request');
+                console.log(errResponse);
             }
             );
     }

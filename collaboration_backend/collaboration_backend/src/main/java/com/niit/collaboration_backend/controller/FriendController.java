@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.collaboration_backend.dao.FriendDAO;
 import com.niit.collaboration_backend.dao.UserDAO;
+import com.niit.collaboration_backend.model.Blog;
 import com.niit.collaboration_backend.model.Friend;
 import com.niit.collaboration_backend.model.User;
 
@@ -96,7 +98,7 @@ public class FriendController {
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/friendList/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/friendRequests/{userId}", method = RequestMethod.GET)
 	public ResponseEntity<List<User>> getRequests(@PathVariable("userId") int userId){
 		List<Friend> friends = friendDAO.getRequest(userId);
 		List<User> users = new ArrayList<>();
@@ -106,5 +108,53 @@ public class FriendController {
 			users.add(user);
 		}
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/acceptRequest", method = RequestMethod.PUT)
+	public ResponseEntity<Friend> acceptFriendRequests(@RequestBody Friend request) {
+		friend = friendDAO.get(request.getUserId(), request.getFriendId());
+		if(friend == null){
+			friend = new Friend();
+			friend.setErrorCode("404");
+			friend.setErrorMessage("Invalid request");
+		}
+		else{
+			
+			friend.setStatus("ACCEPT");
+			if(friendDAO.saveOrUpdate(friend) == false){
+				friend = new Friend();
+				friend.setErrorCode("404");
+				friend.setErrorMessage("Failed to accept request.");
+			}else{
+				friend = friendDAO.get(request.getUserId(), request.getFriendId());
+				friend.setErrorCode("200");
+				friend.setErrorMessage("request accepted successfully.");
+			}
+			
+		}
+		return new ResponseEntity<Friend>(friend, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/rejectRequest", method = RequestMethod.PUT)
+	public ResponseEntity<Friend> rejectFriendRequests(@RequestBody Friend request) {
+		friend = friendDAO.get(request.getUserId(), request.getFriendId());
+		if(friend == null){
+			friend = new Friend();
+			friend.setErrorCode("404");
+			friend.setErrorMessage("Invalid request");
+		}
+		else{
+			if(friendDAO.delete(friend) == false){
+				friend = new Friend();
+				friend.setErrorCode("404");
+				friend.setErrorMessage("Failed to reject request.");
+			}else{
+				friend = new Friend();
+				friend.setErrorCode("200");
+				friend.setErrorMessage("request rejected successfully.");
+			}
+			
+		}
+		return new ResponseEntity<Friend>(friend, HttpStatus.OK);
 	}
 }

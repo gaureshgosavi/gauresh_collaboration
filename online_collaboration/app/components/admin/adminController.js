@@ -147,7 +147,6 @@ AdminModule.controller('AdminController', ['adminFactory', 'UserFactory', '$root
     }
 
     self.addFriend = function(userId) {
-        debugger;
         self.request.friendId = userId;
         console.log($rootScope.user.userId);
         console.log(self.request.friendId);
@@ -158,6 +157,7 @@ AdminModule.controller('AdminController', ['adminFactory', 'UserFactory', '$root
             function (d) {
                 self.request = d;
                 console.log(self.user);
+                getApprovedUsers();
             },
             function (errResponse) {
                 console.error('Error sending request User');

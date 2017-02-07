@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.niit.collaboration_backend.dao.BlogDAO;
+import com.niit.collaboration_backend.dao.FriendDAO;
 import com.niit.collaboration_backend.dao.UserDAO;
 import com.niit.collaboration_backend.model.Blog;
+import com.niit.collaboration_backend.model.Friend;
 import com.niit.collaboration_backend.model.User;
+import com.niit.collaboration_backend.model.UserListModel;
 import com.niit.collaboration_backend.model.blogListModel;
 import com.niit.collaboration_backend.service.EmailService;
 
@@ -32,6 +35,12 @@ public class adminController {
 	
 	@Autowired
 	UserDAO userDAO;
+	
+	@Autowired
+	Friend friend;
+	
+	@Autowired
+	FriendDAO friendDAO;
 	
 	@Autowired
 	private EmailService emailService;

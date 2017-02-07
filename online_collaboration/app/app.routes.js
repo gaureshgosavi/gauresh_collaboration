@@ -50,6 +50,22 @@ window.routes =
             roles: ['ADMIN']
         },
 
+        "/myFriends": {
+            templateUrl: 'app/components/user/myFriends.html',
+            controller: 'UserController',
+            controllerAs: 'userCtrl',
+            requireLogin: true,
+            roles: ['ADMIN', 'USER']
+        },
+
+        "/friendRequests": {
+            templateUrl: 'app/components/user/friendRequests.html',
+            controller: 'UserController',
+            controllerAs: 'userCtrl',
+            requireLogin: true,
+            roles: ['ADMIN', 'USER']
+        },
+
         "/approvedUsers": {
             templateUrl: 'app/components/user/approvedUser.html',
             controller: 'AdminController',
