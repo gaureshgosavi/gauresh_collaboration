@@ -14,7 +14,7 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { ApplicationConfig.class, CollaborationConfig.class, EmailConfig.class };
+		return new Class[] { ApplicationConfig.class, CollaborationConfig.class, EmailConfig.class, WebSocketConfig.class };
 	}
 
 	@Override
@@ -44,6 +44,7 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
                         maxUploadSizeInMb, maxUploadSizeInMb * 2, maxUploadSizeInMb / 2);
 				
 		registration.setInitParameter("dispatchOptionsRequest", "true");
+		registration.setAsyncSupported(true);
 		registration.setMultipartConfig(multipartConfigElement);
 		super.customizeRegistration(registration);
 	}

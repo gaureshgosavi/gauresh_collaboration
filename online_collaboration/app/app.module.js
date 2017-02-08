@@ -9,6 +9,7 @@ var myApp = angular.module('myApp',
         'ForurmModule',
         'BlogCommentModule',
         'ForumCommentModule',
-        'UploadModule'
+        'UploadModule',
+        'ChatModule'
     ]
 );

@@ -178,6 +178,14 @@ window.routes =
             roles: ['USER', 'ADMIN']
         },
 
+        "/chat": {
+            templateUrl: 'app/components/chat/chat.html',
+            controller: 'ChatController',
+            controllerAs: 'ChatCtrl',
+            requireLogin: true,
+            roles: ['USER', 'ADMIN']
+        },
+
         "/login": {
             templateUrl: 'app/components/authentication/login.html',
             controller: 'AuthenticationController',
