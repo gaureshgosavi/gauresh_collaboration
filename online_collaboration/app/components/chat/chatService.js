@@ -1,6 +1,6 @@
 var ChatModule = angular.module("ChatModule", []);
 
-ChatModule.service("ChatService", ['$q', '$timeout', function ($q, $timeout) {
+ChatModule.service("ChatService", ['$q', '$rootScope', '$timeout', function ($q, $rootScope, $timeout) {
     var service = {}, listener = $q.defer(), socket = {
         client: null,
         stomp: null
@@ -23,6 +23,7 @@ ChatModule.service("ChatService", ['$q', '$timeout', function ($q, $timeout) {
         socket.stomp.send(service.CHAT_BROKER, {
             priority: 9
         }, JSON.stringify({
+            username: $rootScope.user.username,
             message: message,
             id: id
         }));
@@ -40,6 +41,7 @@ ChatModule.service("ChatService", ['$q', '$timeout', function ($q, $timeout) {
     var getMessage = function (data) {
         //will translate the Websocket data body to the model required by the controller.
         var message = JSON.parse(data), out = {};
+        out.username = message.username;
         out.message = message.message;
         out.time = new Date(message.time);
         //parse the JSON string to an object, and it will set the time as a Date object.

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.niit.collaboration_backend.dao.UserDAO;
 import com.niit.collaboration_backend.model.BlogComment;
+import com.niit.collaboration_backend.model.Forum;
 import com.niit.collaboration_backend.model.User;
 
 @Repository("userDAO")
@@ -111,5 +112,15 @@ public class UserDAOImpl implements UserDAO{
 			System.out.println(ex.getMessage());
 		}	
 		return false;
+	}
+	
+	@Override
+	@Transactional
+	public List<User> getTopUsers(int n) {
+		String hql = "FROM User WHERE status = 'APPROVE' ORDER BY userId DESC";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setFirstResult(1);
+		query.setMaxResults(n);
+		return query.getResultList();
 	}
 }

@@ -7,18 +7,18 @@
                 <div class="card-content white-text">
                     <p>
                         <div class="blog-title">
-                        <a ng-href="#!/user/viewBlog/{{blog.blog.blogId}}"><span class="card-title white-text hoverable">{{blog.blog.title}}</span></a><br>
+                        <a ng-href="#!/user/viewBlog/{{blog.blog.blogId}}"><span class="card-title white-text">{{blog.blog.title}}</span></a><br>
                         </div>
                         <span class="orange-text text-accent-2">Posted By:</span> <b>{{blog.firstName}} {{blog.lastname}}</b>
                         <span class="orange-text text-accent-2">On:</span> {{blog.blog.postDate | date : 'h:mm a, MMM d, y '}}
-                        <span class="pull-right">({{blogCommentCtrl.singleBlog.blog.likes}} Likes, {{blogCommentCtrl.singleBlog.noOfComments}} Comments)</span>
+                        <span class="pull-right">(<span class="orange-text text-accent-2">{{blog.blog.likes}}</span> Likes, <span class="orange-text text-accent-2">{{blog.noOfComments}}</span> Comments)</span>
                     </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</div>
+
 
 
 <!-- ng-click="blogCtrl.getBlog(blog.blog.blogId)" -->

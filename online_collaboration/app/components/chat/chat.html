@@ -1,4 +1,6 @@
 <div class="container left-padding">
+    <div class="row"> <img src="assets/img/chat.jpg" class="img-square image" alt="Cinque Terre" width="100" height="100">
+    </div>
     <form ng-submit="ChatCtrl.addMessage()" name="messageForm">
         <input type="text" placeholder="Compose a new message..." ng-model="message" />
         <div class="info">
@@ -7,8 +9,8 @@
         </div>
     </form>
     <hr />
-    <p ng-repeat="message in messages | orderBy:'time':true" class="message">
-        {{message.username}} @ <time> {{ message.time | date:'HH:mm'}}</time>
-        <span ng-class="{self: message.self}">{{message.message}}</span>
-    </p>
+    <div class="row" ng-repeat="message in messages | orderBy:'time':true" class="message">
+        <p><span class="u-chat">{{message.username}}</span></p>
+        <p><span class="black-text">{{message.message}}</span> <span class="pull-right">{{ message.time | date:'HH:mm'}}</span></p>
+    </div>
 </div>

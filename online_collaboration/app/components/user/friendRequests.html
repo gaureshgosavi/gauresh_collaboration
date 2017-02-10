@@ -10,13 +10,13 @@
                         <!-- notice the "circle" class -->
                     </div>
                     <div class="col s5">
-                        <span class="blue-text text-darken-3"><b>{{request.username}}</b></span><br>
-                        <span class="blue-text text-darken-3">Name: {{request.firstName}} {{request.lastName}}</span>,
-                        <span class="blue-text text-darken-3">Role: {{request.role}}</span>
+                        <span class="grey-text text-darken-1"><b>{{request.username}}</b></span><br>
+                        <span class="grey-text text-darken-1">Name: {{request.firstName}} {{request.lastName}}</span>,
+                        <span class="grey-text text-darken-1">Role: {{request.role}}</span>
                     </div>
                     <div class="col s5">
-                        <a class="waves-effect waves-light col green darken-4 hoverable r-btn" ng-click="userCtrl.acceptFriendRequest(request.userId)"><i class="material-icons r-icon">done</i></a>
-                        <a class="waves-effect waves-light col red accent-4 hoverable r-btn" ng-click="userCtrl.rejectFriendRequest(request.userId)"><i class="material-icons r-icon">clear</i></a>
+                        <a class="waves-effect waves-light col green darken-4 hoverable g-btn frn-btn" ng-click="userCtrl.acceptFriendRequest(request.userId)"><i class="material-icons r-icon">done</i></a>
+                        <a class="waves-effect waves-light col red accent-4 hoverable r-btn frn-btn" ng-click="userCtrl.rejectFriendRequest(request.userId)"><i class="material-icons r-icon">clear</i></a>
                     </div>
                 </div>
             </div>

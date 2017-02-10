@@ -75,5 +75,14 @@ public class BlogDAOImpl implements BlogDAO {
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
 	
+	@Override
+	@Transactional
+	public List<Blog> getTopBlogs(int n) {
+		String hql = "FROM Blog WHERE status = 'APPROVE' ORDER BY postDate DESC";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setFirstResult(1);
+		query.setMaxResults(n);
+		return query.getResultList();
+	}
 
 }

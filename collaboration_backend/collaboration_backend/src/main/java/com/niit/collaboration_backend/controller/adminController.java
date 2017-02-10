@@ -242,6 +242,19 @@ public class adminController {
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/latestusers", method = RequestMethod.GET)
+	public ResponseEntity<List<User>> listLatestusers() {
+		List<User> users = userDAO.getTopUsers(3);
+		
+		if (users.isEmpty()) {
+			user = new User();
+			user.setErrorCode("404");
+			user.setErrorMessage("No users present.");
+			users.add(user);
+		}
+		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/admin/blockUser/{userId}", method = RequestMethod.PUT)
 	public ResponseEntity<User> blockUser(@PathVariable("userId") int userId) {
 		user = userDAO.getById(userId);

@@ -43,7 +43,7 @@ public class ForumRequestController {
 	@RequestMapping(value = "/forum/request", method = RequestMethod.POST)
 	public ResponseEntity<ForumRequest> createRequest(@RequestBody ForumRequest request) {
 		
-		forumRequest = forumRequestDAO.getByUserId(request.getUserId());
+		forumRequest = forumRequestDAO.get(request.getUserId(), request.getForumId());
 		
 		if(forumRequest == null){
 			//DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss a");

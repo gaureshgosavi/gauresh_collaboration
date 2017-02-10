@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.niit.collaboration_backend.dao.ForumDAO;
 import com.niit.collaboration_backend.dao.ForumRequestDAO;
 import com.niit.collaboration_backend.dao.UserDAO;
+import com.niit.collaboration_backend.model.Blog;
 import com.niit.collaboration_backend.model.Forum;
 import com.niit.collaboration_backend.model.ForumListModel;
 import com.niit.collaboration_backend.model.ForumRequest;
+import com.niit.collaboration_backend.model.blogListModel;
 
 @RestController
 public class ForumController {
@@ -216,5 +218,34 @@ public class ForumController {
 			}
 		}
 		return new ResponseEntity<Forum>(forum, HttpStatus.OK);
+	}
+	
+
+	@RequestMapping(value = "/latestForums/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<List<ForumListModel>> listLatestForums(@PathVariable("userId") int userId) {
+		List<Forum> forums = forumDAO.getTopForums(3);
+		List<ForumListModel> forumlist = new ArrayList<>();
+
+		ForumListModel forumModel = null;
+
+		for (Forum f : forums) {
+			forumModel = new ForumListModel();
+			forumModel.setForum(f);
+			forumModel.setFirstName(userDAO.getById(f.getUserId()).getFirstName());
+			forumModel.setLastname(userDAO.getById(f.getUserId()).getLastName());
+			forumModel.setUsername(userDAO.getById(f.getUserId()).getUsername());
+			forumModel.setForumRequest(forumRequestDAO.get(userId, f.getForumId()));
+			forumModel.setNoOfMembers(forumRequestDAO.getByStatus("APPROVE", f.getForumId()).size());
+			forumlist.add(forumModel);
+
+		}
+
+		if (forumlist.isEmpty()) {
+			forum = new Forum();
+			forum.setErrorCode("404");
+			forum.setErrorMessage("No blogs present.");
+			forums.add(forum);
+		}
+		return new ResponseEntity<List<ForumListModel>>(forumlist, HttpStatus.OK);
 	}
 }

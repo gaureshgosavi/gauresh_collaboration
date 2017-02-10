@@ -196,4 +196,31 @@ public class BlogController {
 			}
 			return new ResponseEntity<Blog>(blog, HttpStatus.OK);
 	    }
+	 
+	 @RequestMapping(value = "/latestBlogs", method = RequestMethod.GET)
+		public ResponseEntity<List<blogListModel>> listLatestblogs() {
+			List<Blog> blogs = blogDAO.getTopBlogs(3);
+			List<blogListModel> bloglist = new ArrayList<>();
+
+			blogListModel blogModel = null;
+			
+			for (Blog b : blogs) {
+				blogModel = new blogListModel();
+				blogModel.setBlog(b);
+				blogModel.setFirstName(userDAO.getById(b.getUserId()).getFirstName());
+				blogModel.setLastname(userDAO.getById(b.getUserId()).getLastName());
+				blogModel.setNoOfComments(b.getBlogComment().size());
+				bloglist.add(blogModel);
+
+			}
+			
+			if (bloglist.isEmpty()) {
+				blog = new Blog();
+				blog.setErrorCode("404");
+				blog.setErrorMessage("No blogs present.");
+				blogs.add(blog);
+			}
+			return new ResponseEntity<List<blogListModel>>(bloglist, HttpStatus.OK);
+		}
+	 
 }

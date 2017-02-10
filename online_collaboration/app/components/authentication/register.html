@@ -1,4 +1,4 @@
-<div class="row" ng-controller="UserController">
+<div class="row" style="background-image: url(assets/img/collaboration3.png);">
     <div class="col s12 m6 offset-m3">
         <div class="card grey lighten-3 hoverable">
             <div class="card-content grey-text text-darken-1">
@@ -20,13 +20,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s4">
-                            <!--<input class="checkbox" type="checkbox" id="staff" />
-                            <label for="staff">Staff</label>-->
-                            <input class="with-gap" name="role" type="radio" id="staff" value="USER" ng-model="authCtrl.client.role" />
-                            <label for="staff">Staff</label>
-                        </div>
-                        <div class="input-field col s4">
+                        <div class="input-field col s4 offset-m3">
                             <!--<input class="checkbox" type="checkbox" id="student" />
                             <label for="student">Student</label>-->
                             <input class="with-gap" name="role" type="radio" id="student" value="USER" ng-model="authCtrl.client.role" />
@@ -59,35 +53,34 @@
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">account_circle</i>
-                            <input id="firstName" name="firstName" type="text" class="validate" ng-minlength="2" ng-maxlength="8" ng-model="authCtrl.client.firstName"
-                                required>
-                            <p ng-show="userForm.firstName.$error.minlength" class="help-block red-text text-accent-4">*First name is too short.</p>
-                            <p ng-show="userForm.firstName.$error.maxlength" class="help-block red-text text-accent-4">*First name is too long.</p>
-                            <p ng-show="!userForm.firstName.$pristine" class="help-block red-text text-accent-4">*Name is required.</p>
+                            <input id="first" name="first" type="text" class="validate" ng-minlength="2" ng-maxlength="8" ng-model="authCtrl.client.firstName" required>
+                            <p ng-if="userForm.first.$error.minlength" class="help-block red-text text-accent-4">*First name is too short.</p>
+                            <p ng-if="userForm.first.$error.maxlength" class="help-block red-text text-accent-4">*First name is too long.</p>
+                            <p ng-if="userForm.first.$invalid && !userForm.first.$pristine" class="help-block red-text text-accent-4">*Name is required.</p>
                             <label for="firstName">First Name</label>
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">assignment_ind</i>
-                            <input id="lastName" name="lastName" type="text" class="validate" ng-minlength="2" ng-maxlength="8" ng-model="authCtrl.client.lastName"
+                            <input id="last" name="last" type="text" class="validate" ng-minlength="2" ng-maxlength="8" ng-model="authCtrl.client.lastName"
                                 required>
-                            <p ng-show="userForm.lastName.$error.minlength" class="help-block red-text text-accent-4">*Last name is too short.</p>
-                            <p ng-show="userForm.lastName.$error.maxlength" class="help-block red-text text-accent-4">*Last name is too long.</p>
-                            <p ng-show="!userForm.lastName.$pristine" class="help-block red-text text-accent-4">*Name is required.</p>
+                            <p ng-if="userForm.last.$error.minlength" class="help-block red-text text-accent-4">*Last name is too short.</p>
+                            <p ng-if="userForm.last.$error.maxlength" class="help-block red-text text-accent-4">*Last name is too long.</p>
+                            <p ng-if="userForm.last.$invalid && !userForm.last.$pristine" class="help-block red-text text-accent-4">*Name is required.</p>
                             <label for="lastName">Last Name</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="material-icons prefix">perm_identity</i>
-                            <input id="username" name="username" type="text" class="validate" ng-minlength="3" ng-model="authCtrl.client.username" required>
-                            <p ng-show="userForm.username.$error.minlength" class="help-block red-text text-accent-4">*Username is too short.</p>
-                            <p ng-show="!userForm.username.$pristine" class="help-block red-text text-accent-4">*Username is required.</p>
+                            <input id="usern" name="usern" type="text" class="validate" ng-minlength="3" ng-model="authCtrl.client.username" required>
+                            <p ng-if="userForm.usern.$error.minlength" class="help-block red-text text-accent-4">*Username is too short.</p>
+                            <p ng-if="userForm.usern.$invalid && !userForm.usern.$pristine" class="help-block red-text text-accent-4">*Username is required.</p>
                             <label for="username">Username</label>
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">email</i>
                             <input id="email" name="email" type="email" class="validate" name="email" ng-model="authCtrl.client.emailId">
-                            <p ng-show="!userForm.email.$pristine" class="help-block red-text text-accent-4">*Enter a valid email.</p>
+                            <p ng-if="userForm.email.$invalid && !userForm.email.$pristine" class="help-block red-text text-accent-4">*Enter a valid email.</p>
                             <label for="email">Email</label>
                         </div>
                     </div>
@@ -109,16 +102,16 @@
                             <i class="material-icons prefix">lock_outline</i>
                             <input id="password" type="password" class="validate" ng-minlength="3" ng-maxlength="8" ng-required name="password" ng-model="authCtrl.client.password"
                             />
-                            <p ng-show="userForm.password.$error.minlength" class="help-block red-text text-accent-4">*Password is too short.</p>
-                            <p ng-show="userForm.password.$error.maxlength" class="help-block red-text text-accent-4">*Password is too long.</p>
-                            <p ng-show="!userForm.password.$pristine" class="help-block red-text text-accent-4">*Password is required.</p>
+                            <p ng-if="userForm.password.$error.minlength" class="help-block red-text text-accent-4">*Password is too short.</p>
+                            <p ng-if="userForm.password.$error.maxlength" class="help-block red-text text-accent-4">*Password is too long.</p>
+                            <p ng-if="userForm.password.$invalid && !userForm.password.$pristine" class="help-block red-text text-accent-4">*Password is required.</p>
                             <label for="password">Password</label>
                         </div>
                         <div class="input-field col s6">
                             <i class="material-icons prefix">lock_outline</i>
                             <input id="confirmPassword" type="password" class="validate" name="confirmPassword" ng-model="authCtrl.client.confirmPassword"
                                 ng-required>
-                            <p ng-show="!userForm.confirmPassword.$pristine" class="help-block red-text text-accent-4">*Re-Password is required.</p>
+                            <p ng-if="userForm.confirmPassword.$invalid && !userForm.confirmPassword.$pristine" class="help-block red-text text-accent-4">*Re-Password is required.</p>
                             <label for="confirmPassword">Re-Password</label>
                         </div>
                     </div>

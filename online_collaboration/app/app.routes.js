@@ -6,7 +6,7 @@ window.routes =
             controller: 'aboutController',
             controllerAs: 'aboutCtrl',
             requireLogin: false,
-            roles: ['GUEST']
+            roles: ['GUEST', 'USER', 'ADMIN']
         },
 
         "/contact": {
@@ -14,7 +14,7 @@ window.routes =
             controller: 'contactController',
             controllerAs: 'contactCtrl',
             requireLogin: false,
-            roles: ['GUEST']
+            roles: ['GUEST', 'USER', 'ADMIN']
         },
         
 
@@ -23,15 +23,7 @@ window.routes =
             controller: 'UserController',
             controllerAs: 'userCtrl',
             requireLogin: true,
-            roles: ['USER']
-        },
-
-        "/admin/home": {
-            templateUrl: 'app/components/admin/home.html',
-            controller: 'AdminController',
-            controllerAs: 'adminCtrl',
-            requireLogin: true,
-            roles: ['ADMIN']
+            roles: ['USER', 'ADMIN']
         },
 
         "/admin/pendingBlogs": {
@@ -95,7 +87,7 @@ window.routes =
             controller: 'BlogController',
             controllerAs: 'blogCtrl',
             requireLogin: true,
-            roles: ['USER']
+            roles: ['USER', 'ADMIN']
         },
 
         "/user/myBlogs": {
@@ -178,6 +170,7 @@ window.routes =
             roles: ['USER', 'ADMIN']
         },
 
+
         "/chat": {
             templateUrl: 'app/components/chat/chat.html',
             controller: 'ChatController',
@@ -193,6 +186,15 @@ window.routes =
             requireLogin: false,
             roles: ['GUEST']
         },
+
+        "/viewUser": {
+            templateUrl: 'app/components/user/userView.html',
+            controller: 'AuthenticationController',
+            controllerAs: 'authCtrl',
+            requireLogin: true,
+            roles: ['USER', 'ADMIN']
+        },
+
         "/register": {
             templateUrl: 'app/components/authentication/register.html',
             controller: 'AuthenticationController',
@@ -238,8 +240,17 @@ myApp.config(['$locationProvider', '$routeProvider', '$httpProvider', function (
 
 
 myApp.run(function ($rootScope, $location, AuthenticationFactory) {
-    $rootScope.$on('$locationChangeStart', function (event, next, current) {
 
+   // $rootScope.$on('LOAD', function(){
+     //   $rootScope.loading = true;
+    //});
+
+   // $rootScope.$on('UNLOAD', function(){
+     //   $rootScope.loading = false;
+    //});
+
+    $rootScope.$on('$locationChangeStart', function (event, next, current) {
+        //$scope.$emit('LOAD');
         // iterate through all the routes
         for (var i in window.routes) {
             // if routes is present make sure the user is authenticated 
@@ -261,6 +272,7 @@ myApp.run(function ($rootScope, $location, AuthenticationFactory) {
                 }
             }
         }
+        //$scope.$emit('UNLOAD');
     });
 
     $rootScope.logout = function () {
@@ -283,5 +295,22 @@ myApp.run(function ($rootScope, $location, AuthenticationFactory) {
             }
             )
     }
+
+     $rootScope.getSingleUser = function (userId) {
+         debugger;
+        console.log(userId);
+        UserFactory.getUser(userId)
+            .then(
+            function (d) {
+                $rootScope.customer = d;
+                console.log(self.customer);
+                $location.path('/viewUser');
+            },
+            function (errResponse) {
+                console.error('Error while updating User');
+            }
+            );
+    }
+
 
 });

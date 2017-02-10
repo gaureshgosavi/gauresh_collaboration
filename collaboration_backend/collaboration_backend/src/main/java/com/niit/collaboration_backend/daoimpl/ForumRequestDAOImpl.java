@@ -42,19 +42,6 @@ public class ForumRequestDAOImpl implements ForumRequestDAO{
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
 
-	@Override
-	@Transactional
-	public ForumRequest getByUserId(int userId) {
-		String hql="FROM ForumRequest WHERE userId = :userId";
-		Query query =(Query) sessionFactory.getCurrentSession().createQuery(hql);
-		query.setParameter("userId", userId);
-		try {
-			return (ForumRequest) query.getSingleResult();	
-		}
-		catch(Exception ex) {
-			return null;
-		}
-	}
 
 	@Override
 	@Transactional

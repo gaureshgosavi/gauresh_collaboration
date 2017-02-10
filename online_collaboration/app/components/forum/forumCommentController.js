@@ -106,6 +106,7 @@ ForumCommentModule.controller('ForumCommentController', ['$rootScope', '$scope',
 			function (d) {
 				self.forumComment = d;
 				getForum();
+				getForumRequest();
 				console.log(d);
 			},
 			function (errResponse) {

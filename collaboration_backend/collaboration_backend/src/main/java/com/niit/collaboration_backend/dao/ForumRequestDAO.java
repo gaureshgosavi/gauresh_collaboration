@@ -12,7 +12,5 @@ public interface ForumRequestDAO {
 	
 	public List<ForumRequest> getByUserStatus(int userId);
 	
-	ForumRequest getByUserId(int userId);
-	
 	ForumRequest get(int userId, int forumId);
 }

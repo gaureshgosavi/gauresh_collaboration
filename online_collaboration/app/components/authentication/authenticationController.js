@@ -14,7 +14,6 @@ AuthenticationModule.controller('AuthenticationController', ['AuthenticationFact
         AuthenticationFactory.login(self.credentials)
             .then(
             function (user) {
-                debugger;
                 if (user.enabled === 'FALSE') {
                     self.authError = true;
                     $rootScope.message = "Your account has been blocked."
@@ -36,7 +35,7 @@ AuthenticationModule.controller('AuthenticationController', ['AuthenticationFact
 
                     switch (user.role) {
                         case 'ADMIN':
-                            $location.path('/admin/home');
+                            $location.path('/user/home');
                             $rootScope.isAdmin = true;
                             break;
                         case 'USER':
@@ -66,7 +65,8 @@ AuthenticationModule.controller('AuthenticationController', ['AuthenticationFact
             function (user) {
                 AuthenticationFactory.setUserIsAuthenticated(false);
                 $rootScope.authenticated = false;
-                $rootScope.message = "Registration successful! You will get an email after approval.";
+                self.register = true;
+                $rootScope.msg = "Registration successful! You will get an email after approval.";
                 $location.path('/login');
             },
             function (errorResponse) {

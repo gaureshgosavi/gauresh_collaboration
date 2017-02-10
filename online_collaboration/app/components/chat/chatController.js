@@ -13,7 +13,6 @@ ChatModule.controller('ChatController', ['$scope','$rootScope', 'ChatService', f
 
     ChatService.receive().then(null, null, function (message) {
         console.log(message);
-        message.username = $rootScope.user.username;
         $scope.messages.push(message);
     });
 }])

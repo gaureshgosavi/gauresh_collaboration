@@ -9,11 +9,14 @@
                         <img src="assets/img/{{member.profileId}}" alt="Profile image" class="img-circle materialboxed u-image" height="50" width="50">
                         <!-- notice the "circle" class -->
                     </div>
-                    <div class="col s11">
-                        <span class="blue-text text-darken-3" ng-if="user.username == member.username"><b>YOU</b></span><br>
-                        <span class="blue-text text-darken-3" ng-if="user.username != member.username"><b>{{member.username}}</b></span><br>
-                        <span class="blue-text text-darken-3">Name: {{member.firstName}} {{member.lastName}}</span>
-                        <span class="blue-text text-darken-3">Role: {{member.role}}</span>
+                    <div class="col s7">
+                        <span class="blue-grey-text text-darken-4" ng-if="user.username == member.username"><b>YOU</b></span><br>
+                        <span class="blue-grey-text text-darken-4" ng-if="user.username != member.username"><b>{{member.username}}</b></span><br>
+                        <span class="blue-grey-text text-darken-4">Name: {{member.firstName}} {{member.lastName}}</span>
+                        <span class="blue-grey-text text-darken-4">Role: {{member.role}}</span>
+                    </div>
+                    <div class="col s4">
+                        <a href="#!/chat" class="btn waves-effect blue-grey lighten-2 waves-light pull-right hoverable"><i class="material-icons">chat</i> Chat</a>
                     </div>
                 </div>
             </div>

@@ -17,4 +17,6 @@ public interface BlogDAO {
 	List<Blog> list();
 	
 	public List<Blog> getblogsByStatus(String status);
+	
+	List<Blog> getTopBlogs(int n);
 }

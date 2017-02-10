@@ -10,7 +10,12 @@ UserModule.factory('UserFactory', ['$http', '$q', function ($http, $q) {
         getMyFriends: getMyFriends,
         getRequests: getRequests,
         acceptFriendRequest: acceptFriendRequest,
-        rejectFriendRequest: rejectFriendRequest
+        rejectFriendRequest: rejectFriendRequest,
+        getLatestUsers: getLatestUsers,
+        fetchLatestBlogs: fetchLatestBlogs,
+        fetchLatestForums: fetchLatestForums,
+        fetchLatestFriends: fetchLatestFriends,
+        getOnlineFriends: getOnlineFriends
     };
 
     function updateUser(user, userId) {
@@ -67,6 +72,24 @@ UserModule.factory('UserFactory', ['$http', '$q', function ($http, $q) {
 
         var deferred = $q.defer();
         $http.get(url + '/friendList/' + userId)
+            .then(
+            function (response) {
+                deferred.resolve(response.data);
+            },
+            function (errResponse) {
+                console.error('Error while fetching friends');
+                deferred.reject(errResponse);
+            }
+            );
+        return deferred.promise;
+
+    }
+
+    function getOnlineFriends(userId) {
+        console.log(userId);
+
+        var deferred = $q.defer();
+        $http.get(url + '/online/' + userId)
             .then(
             function (response) {
                 deferred.resolve(response.data);
@@ -137,4 +160,60 @@ UserModule.factory('UserFactory', ['$http', '$q', function ($http, $q) {
         return deferred.promise;
 
     }
+
+    function getLatestUsers() {
+        var deferred = $q.defer();
+        $http.get(url + '/latestusers').then(function (response) {
+            deferred.resolve(response.data);
+        }, function (errResponse) {
+            deferred.reject(errResponse);
+        });
+        return deferred.promise;
+    }
+
+    function fetchLatestBlogs() {
+		var deferred = $q.defer();
+
+		$http.get(url + '/latestBlogs')
+			.then(function (response) {
+				console.log(response);
+				deferred.resolve(response.data);
+			}, function (errResponse) {
+				console.error('Error while fetching blogs!');
+				deferred.reject(errResponse);
+			});
+
+		return deferred.promise;
+	}
+
+    function fetchLatestForums(userId) {
+
+        var deferred = $q.defer();
+
+        $http.get(url + '/latestForums/' + userId).
+            then(function (response) {
+                console.log(response.data);
+                deferred.resolve(response.data);
+            }, function (errResponse) {
+                console.error('error fetching forums');
+                deferred.reject(errResponse);
+            });
+        return deferred.promise;
+    }
+
+    function fetchLatestFriends() {
+		var deferred = $q.defer();
+
+		$http.get(url + '/latestFriends')
+			.then(function (response) {
+				console.log(response);
+				deferred.resolve(response.data);
+			}, function (errResponse) {
+				console.error('Error while fetching friends!');
+				deferred.reject(errResponse);
+			});
+
+		return deferred.promise;
+	}
+
 }]);

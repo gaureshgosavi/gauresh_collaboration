@@ -29,7 +29,7 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '
 			});
 	}
 
-	FetchAllForums($rootScope.userId);
+	FetchAllForums($rootScope.user.userId);
 
 	function fetchAdminForums(userId) {
 		ForumFactory.fetchAdminForums(userId)
@@ -41,7 +41,7 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '
 			});
 	}
 
-	fetchAdminForums($rootScope.userId);
+	fetchAdminForums($rootScope.user.userId);
 
 	function fetchUserForums(userId) {
 		ForumFactory.fetchUserForums(userId)
@@ -53,7 +53,7 @@ ForurmModule.controller('ForumController', ['ForumFactory', '$http', '$scope', '
 			});
 	}
 
-	fetchUserForums($rootScope.userId);
+	fetchUserForums($rootScope.user.userId);
 
 	function getForum(forumId) {
 		ForumFactory.getForum(forumId)

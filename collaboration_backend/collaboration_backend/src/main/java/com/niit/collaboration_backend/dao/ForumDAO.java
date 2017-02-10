@@ -19,5 +19,7 @@ public interface ForumDAO {
 	List<Forum> getForumsByStatus(String status);
 	
 	List<Forum> getForumsByUserId(int userId);
+	
+	List<Forum> getTopForums(int n);
 
 }

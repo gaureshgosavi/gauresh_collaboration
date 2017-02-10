@@ -17,7 +17,7 @@ import com.niit.collaboration_backend.model.ForumRequest;
 import com.niit.collaboration_backend.model.User;
 
 @Repository("ForumDAO")
-public class ForumDAOImpl implements ForumDAO{
+public class ForumDAOImpl implements ForumDAO {
 
 	@Autowired
 	SessionFactory sessionFactory;
@@ -53,7 +53,7 @@ public class ForumDAOImpl implements ForumDAO{
 	public Forum get(int forumId) {
 		return (Forum) sessionFactory.getCurrentSession().get(Forum.class, forumId);
 	}
-	
+
 	@Transactional
 	public List<Forum> list() {
 		String hql = "from Forum";
@@ -63,27 +63,36 @@ public class ForumDAOImpl implements ForumDAO{
 	@Override
 	@Transactional
 	public List<Forum> getForumsByStatus(String status) {
-		String hql = "from Forum where status = '"+status+"'";
+		String hql = "from Forum where status = '" + status + "'";
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
 
 	@Override
 	@Transactional
 	public List<Forum> getForumsByUserId(int userId) {
-		String hql = "from Forum where userId = '"+userId+"'";
+		String hql = "from Forum where userId = '" + userId + "'";
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
 
 	@Override
 	@Transactional
 	public Forum getByName(String name) {
-		String hql = "from Forum where name = '"+name+"'";
-		Query query =(Query) sessionFactory.getCurrentSession().createQuery(hql);
+		String hql = "from Forum where name = '" + name + "'";
+		Query query = (Query) sessionFactory.getCurrentSession().createQuery(hql);
 		try {
-			return (Forum) query.getSingleResult();	
-		}
-		catch(Exception ex) {
+			return (Forum) query.getSingleResult();
+		} catch (Exception ex) {
 			return null;
 		}
+	}
+
+	@Override
+	@Transactional
+	public List<Forum> getTopForums(int n) {
+		String hql = "FROM Forum WHERE status = 'APPROVE' ORDER BY createdDate DESC";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setFirstResult(1);
+		query.setMaxResults(n);
+		return query.getResultList();
 	}
 }

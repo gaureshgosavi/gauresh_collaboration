@@ -23,12 +23,48 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="./assets/css/app.css" rel="stylesheet" />
 
-    <style>.f-icon {
-    color:  orange accent-2;
-}
+    <style>
 
 .r-icon{
     padding-top: 6px;
+}
+
+.f-icon {
+    color:  #ffab40;
+}
+
+blockquote{
+    border-left: 7px solid #fdd835 ;
+}
+
+.g-btn{
+    margin-left: 185px;
+}
+
+.u-chat{
+    color: #459be7;
+}
+
+.s-msg{
+    margin-left: 81px;
+}
+
+.frn-btn{
+    color: gray;
+}
+
+.user-panel{
+  border-color: #004d40;
+}
+
+.panel-primary>.panel-heading{
+    border-color: #004d40;
+    background-color: #004d40;
+    background-image: linear-gradient(to bottom, #004d40 0, #004d40 100%);
+}
+
+.latest{
+    font-family: 'Caveat Brush', cursive;
 }
 
 .u-img{
@@ -50,7 +86,7 @@
 }
 
 .r-btn{
-    padding-top: 5px;
+    margin-left: 10px;
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -71,7 +107,7 @@
 }
 
 .left-padding, footer {
-    padding-left: 220px;
+    padding-left: 240px;
 }
 
 .blog-title a:hover {
@@ -91,6 +127,10 @@ Max-Width: Refers to everything less than or equal to the amount given.
 
 .side-nav{
 	margin-top: 64px;
+}
+
+.panel{
+    margin-top: 16px;
 }
 
 input[type=text] {
@@ -244,29 +284,74 @@ button:disabled {
 
 </head>
 
-<body ng-app="myApp" class="body">
+<body ng-app="myApp" class="body latest">
+    <!--
+    <div ng-show="loading">
+        <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-red">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-yellow">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-green">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+    </div>-->
+
     <!-- navbar will be visible only after the authentication is successful-->
     <div ng-if="authenticated">
 
         <div class="navbar-fixed">
             <nav class="menubar">
                 <div class="nav-wrapper teal darken-4">
-                    <a href="javascript:void(0)" class="brand-logo right hide-on-med-and-down coll">coMmunEX</a>
-                    <a href="javascript:void(0)" class="brand-logo hide-on-large-only coll">coMmunEX</a>
+                    <a href="#!/user/home" class="brand-logo right hide-on-med-and-down coll">coMmunEX</a>
+                    <a href="#!/user/home" class="brand-logo hide-on-large-only coll">coMmunEX</a>
                     <a data-href="#" href="javascript:void(0)" data-activates="mobile-demo" class="button-collapse right"><i class="material-icons">menu</i></a>
                     <a data-href="#" href="javascript:void(0)" data-activates="slide-out" class="side-collapse left hide-on-large-only"><i class="material-icons">low_priority</i></a>
                     <ul class="left hide-on-med-and-down">
-                        <li><a href="#!/blogs">Blogs</a></li>
-                        <li><a href="#!/forums">Forums</a></li>
-                        <li><a href="#!/jobs">Jobs</a></li>
-                        <li><a href="#!/events">Events</a></li>
+                        <li><a href="#!/user/viewBlog">Blogs</a></li>
+                        <li><a href="#!/viewForums">Forums</a></li>
+                        <li><a href="#!/approvedUsers">Users</a></li>
+                        <li><a href="#!/friendRequests">Friend Requests</a></li>
                         <li><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
                     </ul>
                     <ul class="side-nav pull-right" id="mobile-demo">
-                        <li><a href="#!/blogs">Blogs</a></li>
-                        <li><a href="#!/forums">Forums</a></li>
-                        <li><a href="#!/jobs">Jobs</a></li>
-                        <li><a href="#!/events">Events</a></li>
+                        <li><a href="#!/user/viewBlog">Blogs</a></li>
+                        <li><a href="#!/viewForums">Forums</a></li>
+                        <li><a href="#!/approvedUsers">Users</a></li>
+                        <li><a href="#!/friendRequests">Friend Requests</a></li>
                         <li><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
                     </ul>
                 </div>
@@ -284,9 +369,9 @@ button:disabled {
                 <div class="background">
                     <img ng-src="assets/img/navback4.jpg">
                 </div>
-                <a href="#!user"><img class="circle materialboxed" ng-src="assets/img/{{user.profileId}}"></a>
-                <a href="#!name"><span class="white-text name">{{user.firstName}} {{user.lastName}}</span></a>
-                <a href="#!email"><span class="white-text email">{{user.emailId}}</span></a>
+                <a href="#!/user/home"><img class="circle materialboxed" ng-src="assets/img/{{user.profileId}}"></a>
+                <a href="#!/user/home"><span class="white-text name">{{user.firstName}} {{user.lastName}}</span></a>
+                <a href="#!/user/home"><span class="white-text email">{{user.emailId}}</span></a>
             </div>
         </li>
         <li>
@@ -295,7 +380,7 @@ button:disabled {
                     <div class="collapsible-header yellow darken-1"><i class="material-icons">perm_identity</i>Profile</div>
                     <div class="collapsible-body yellow darken-1">
                         <ul>
-                            <li><a href="#!"><i class="material-icons">send</i>View Profile</a></li>
+                            <li><a href="#!" ng-click="getSingleUser(user.userId)"><i class="material-icons">send</i>View Profile</a></li>
                             <li><a href="#!/editProfile/{{user.userId}}"><i class="material-icons">send</i>Update Profile</a></li>
                             <li><a href="#!" ng-click="logout()"><i class="material-icons">send</i>Logout</a></li>
                         </ul>
@@ -318,9 +403,7 @@ button:disabled {
                     <div class="collapsible-body yellow darken-1">
                         <ul>
                             <li><a href="#!/admin/pendingBlogs" ng-if="user.role == 'ADMIN'"><i class="material-icons">send</i>Pending Blogs</a></li>
-                            <li><a href="#!" ng-if="user.role == 'ADMIN'"><i class="material-icons">send</i>Approved Blogs</a></li>
-                            <li><a href="#!" ng-if="user.role == 'ADMIN'"><i class="material-icons">send</i>Rejected Blogs</a></li>
-                            <li><a href="#!/user/viewBlog" ng-if="user.role == 'USER'"><i class="material-icons">send</i>View Blogs</a></li>
+                            <li><a href="#!/user/viewBlog"><i class="material-icons">send</i>View Blogs</a></li>
                             <li><a href="#!/user/myBlogs" ng-if="user.role == 'USER'"><i class="material-icons">send</i>My Blogs</a></li>
                             <li><a href="#!/user/createBlog" ng-if="user.role == 'USER'"><i class="material-icons">send</i>Create Blog</a></li>
                         </ul>
@@ -339,11 +422,11 @@ button:disabled {
                 </li>
             </ul>
         </li>
-        <li>
+        <!--<li>
             <a href="#!"><i class="material-icons">redeem</i>Events</a></li>
         <li><a href="#!"><i class="material-icons">work</i>Jobs</a></li>
-        <li><a href="#!"><i class="material-icons">chat</i>Chat</a></li>
-        <li><a href="#!" ng-if="authenticated" ng-click="logout()"><i class="material-icons">power_settings_new</i>Logout</a></li>
+        <li><a href="#!"><i class="material-icons">chat</i>Chat</a></li>-->
+        <!--<li><a href="#!" ng-if="authenticated" ng-click="logout()"><i class="material-icons">power_settings_new</i>Logout</a></li>-->
     </ul>
     <!-- end of sidebar -->
 
@@ -351,6 +434,7 @@ button:disabled {
         <div ng-view></div>
     </div>
 
+    <div ng-if="authenticated">
     <footer class="page-footer teal darken-4">
         <div class="container">
             <div class="row">
@@ -374,11 +458,11 @@ button:disabled {
         </div>
         <div class="footer-copyright">
             <div class="container">
-                © 2014 Copyright Text
-                <a class="grey-text text-lighten-4 right" href="#!">Move to top</a>
+                © 2014 Copyright Are Reserved.
             </div>
         </div>
     </footer>
+    <div>
 
 
 

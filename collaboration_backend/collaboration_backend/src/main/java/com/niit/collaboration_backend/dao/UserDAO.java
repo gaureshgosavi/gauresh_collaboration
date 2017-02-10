@@ -20,4 +20,6 @@ public interface UserDAO {
 	boolean updateUserProfileId(String fileName, int userId);
 	
 	public User validate(User user);
+	
+	List<User> getTopUsers(int n);
 }

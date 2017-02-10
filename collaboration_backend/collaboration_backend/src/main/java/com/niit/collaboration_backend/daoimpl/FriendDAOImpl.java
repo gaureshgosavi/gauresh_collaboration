@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.niit.collaboration_backend.dao.FriendDAO;
 import com.niit.collaboration_backend.model.Friend;
+import com.niit.collaboration_backend.model.User;
 
 @Repository("FriendDAO")
 public class FriendDAOImpl implements FriendDAO{
@@ -90,4 +91,14 @@ public class FriendDAOImpl implements FriendDAO{
 		friends.get(userId2);
 		
 	}*/
+	
+	@Override
+	@Transactional
+	public List<Friend> getTopFriends(int n) {
+		String hql = "FROM Friend WHERE status = 'ACCEPT' ORDER BY id DESC";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setFirstResult(1);
+		query.setMaxResults(n);
+		return query.getResultList();
+	}
 }

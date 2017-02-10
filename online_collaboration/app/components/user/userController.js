@@ -1,4 +1,4 @@
-UserModule.controller('UserController', ['$scope', '$rootScope', 'UserFactory', 'AuthenticationFactory', 'UploadFactory', '$routeParams', '$timeout', function ($scope, $rootScope, UserFactory, AuthenticationFactory, UploadFactory, $routeParams, $timeout) {
+UserModule.controller('UserController', ['$scope', '$rootScope', 'UserFactory', 'AuthenticationFactory', 'ForumFactory', 'UploadFactory', '$routeParams', '$timeout', function ($scope, $rootScope, UserFactory, AuthenticationFactory, ForumFactory, UploadFactory, $routeParams, $timeout) {
     var self = this;
     self.user = {};
     self.users = [];
@@ -7,9 +7,15 @@ UserModule.controller('UserController', ['$scope', '$rootScope', 'UserFactory', 
     self.client = {};
     self.request = {};
     self.submit = submit;
+    self.userList = [];
+    self.blogList = [];
+    self.forumList = [];
+    self.friendList = [];
+    self.onlineFriends = [];
+    self.forum = {};
 
     getUser = function () {
-        debugger;
+    
         getUserId = $rootScope.user.userId;
         console.log(getUserId);
         UserFactory.getUser(getUserId)
@@ -48,7 +54,7 @@ UserModule.controller('UserController', ['$scope', '$rootScope', 'UserFactory', 
     }
 
     self.picture = undefined;
-    debugger;
+
     self.customer = AuthenticationFactory.loadUserFromCookie();
     console.log(self.customer);
     // the decached technique is used to see the updated image immediately with out page refresh
@@ -76,7 +82,7 @@ UserModule.controller('UserController', ['$scope', '$rootScope', 'UserFactory', 
                 $rootScope.user.profileId = response.message + '?decached=' + Math.random();
                 // need to update the cookie value too
                 AuthenticationFactory.saveUser($rootScope.user);
-                debugger;
+        
                 console.log($rootScope.user);
                 // hide the card panel by setting the rootScope.message as undefined
                 $timeout(function () {
@@ -120,6 +126,21 @@ UserModule.controller('UserController', ['$scope', '$rootScope', 'UserFactory', 
 
     getMyFriends();
 
+    function getOnlineFriends() {
+        UserFactory.getOnlineFriends($rootScope.user.userId)
+            .then(
+            function (d) {
+                self.onlineFriends = d;
+                console.log(self.onlineFriends);
+            },
+            function (errResponse) {
+                console.error('Error getting friends');
+            }
+            );
+    }
+
+    getOnlineFriends();
+
     function getRequests() {
         UserFactory.getRequests($rootScope.user.userId)
             .then(
@@ -136,7 +157,7 @@ UserModule.controller('UserController', ['$scope', '$rootScope', 'UserFactory', 
     getRequests();
 
     self.acceptFriendRequest = function (friendId) {
-        debugger;
+        
         self.request.friendId = $rootScope.user.userId;
         console.log(self.request.friendId);
         self.request.userId = friendId;
@@ -156,7 +177,7 @@ UserModule.controller('UserController', ['$scope', '$rootScope', 'UserFactory', 
     }
 
     self.rejectFriendRequest = function (friendId) {
-        debugger;
+    
         self.request.friendId = $rootScope.user.userId;
         console.log(self.request.friendId);
         self.request.userId = friendId;
@@ -174,6 +195,88 @@ UserModule.controller('UserController', ['$scope', '$rootScope', 'UserFactory', 
             }
             );
     }
+
+    function getLatestUsers() {
+        UserFactory.getLatestUsers().
+            then(function (data) {
+                console.log(data);
+                self.userList = data;
+                if (self.userList.length <= 0) {
+                    self.none = true;
+                }
+                self.failed = false;
+            }, function (errResponse) {
+                console.error(errResponse);
+                self.failed = true;
+            });
+
+    }
+
+    getLatestUsers();
+
+    fetchLatestBlogs();
+
+
+    function fetchLatestBlogs() {
+        UserFactory
+            .fetchLatestBlogs()
+            .then(function (d) {
+                self.blogList = d;
+            }, function (errResponse) {
+                console.error('Error while fetching the blogs');
+            })
+    }
+
+    function fetchLatestForums(userId) {
+        UserFactory.fetchLatestForums(userId)
+            .then(function (d) {
+                self.forumList = d;
+                console.log(self.forumList)
+            }, function (errResponse) {
+                console.error('Error while fetching the forums');
+            });
+    }
+
+    fetchLatestForums($rootScope.userId);
+
+    function joinForum(forum) {
+		ForumFactory.joinForum(forum)
+			.then(
+			function (d) {
+				self.forum = d;
+				console.log(self.forum);
+			},
+			function (errResponse) {
+				console.error('Error while creating forum');
+			}
+			);
+	}
+
+    	self.sendForumRequest = function (forumId) {
+		console.log(forumId);
+		self.forum.forumId = forumId;
+		console.log($rootScope.userId);
+		self.forum.userId = $rootScope.userId;
+		joinForum(self.forum);
+	}
+
+    function fetchLatestFriends() {
+        UserFactory.fetchLatestFriends().
+            then(function (data) {
+                console.log(data);
+                self.friendList = data;
+                if (self.friendList.length <= 0) {
+                    self.none = true;
+                }
+                self.failed = false;
+            }, function (errResponse) {
+                console.error(errResponse);
+                self.failed = true;
+            });
+
+    }
+
+    fetchLatestFriends();
 
 }]);
 
